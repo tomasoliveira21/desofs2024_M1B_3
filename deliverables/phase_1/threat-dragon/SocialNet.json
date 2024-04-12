@@ -1,0 +1,417 @@
+{
+  "version": "2.2.0",
+  "summary": {
+    "title": "SocialNet",
+    "owner": "desofs2024_M1B_3",
+    "description": "SocialNet: a social network like Twitter",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [
+      {
+        "name": "Tomás Afonso Soares De Oliveira <1230213@isep.ipp.pt>"
+      },
+      {
+        "name": "Diogo Alexandre Pereira Ferreira <1230176@isep.ipp.pt>"
+      },
+      {
+        "name": "Luís Silva (1181031) <1181031@isep.ipp.pt>"
+      }
+    ],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "Infrastructure",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.2.0",
+        "cells": [
+          {
+            "position": {
+              "x": 285.5745265592773,
+              "y": 422.8480403982186
+            },
+            "size": {
+              "width": 620,
+              "height": 480
+            },
+            "shape": "trust-boundary-box",
+            "attrs": {
+              "headerText": {
+                "text": "Private"
+              }
+            },
+            "zIndex": -1,
+            "id": "7e6e0d0a-c98b-4a70-9b2f-271a6dafa36a",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Private",
+              "description": "Hosts services that are Private, not exposed directly.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 490.5745265592773,
+              "y": 180
+            },
+            "size": {
+              "width": 210,
+              "height": 140
+            },
+            "shape": "trust-boundary-box",
+            "attrs": {
+              "headerText": {
+                "text": "Public"
+              }
+            },
+            "zIndex": -1,
+            "id": "a6192d35-f816-49c8-9dea-89fa1ae1dc1e",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Public",
+              "description": "Exposed to the internet.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 516.25,
+              "y": 815
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Database"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 3,
+            "id": "0d569c51-dfd5-45e7-b1b5-c95cc184d9cc",
+            "data": {
+              "type": "tm.Store",
+              "name": "Database",
+              "description": "Database for user credentials and other necessary entities.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": true,
+              "storesInventory": true,
+              "threats": [
+                {
+                  "id": "e4721923-29c3-4f08-8e31-2ab28f867bb2",
+                  "title": "SQL Injection",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Injecting SQL commands onto the database.",
+                  "mitigation": "Parameterized Queries, DBMS provided by Supabase with well-known architecture.\nSegregation of permissions with read-only access whenever possible.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 5,
+                  "score": ""
+                },
+                {
+                  "id": "da640dcb-34e1-4c0e-ab02-04d413fbc19f",
+                  "title": "Data Leaks",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "After a successful attack one could disclose information not encrypted.",
+                  "mitigation": "Encrypt any and all sensitive information + protect database access.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 300,
+              "y": 637.8480403982186
+            },
+            "size": {
+              "width": 240,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Authentication\nAuthorization"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 4,
+            "id": "5723b458-e4a2-4b56-a801-b4fdf93ab12a",
+            "data": {
+              "type": "tm.Process",
+              "name": "Authentication\nAuthorization",
+              "description": "Using Supabase.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "9ab79a59-e537-4d39-99bf-ee6631a93ed2",
+                  "title": "Brute Force Attacks",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Accessing authentication using brute-force attacks.",
+                  "mitigation": "With the implementation of an WAF (Cloudflare, for example) + Rate limit by design",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                },
+                {
+                  "id": "d3b53c53-9059-4ba8-ac97-ad3ebe9149df",
+                  "title": "Escalation of Privileges",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Elevation of privilege",
+                  "description": "Trying to authenticate and getting authorization for higher levels than supposed.",
+                  "mitigation": "JWT validations on the components (API, Frontend) that call this + properly encrypted cookies.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 8,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "08955a87-b12f-48eb-9dfe-f1fce39c061b",
+            "source": {
+              "cell": "981ddc21-aff6-4f1a-85b2-cccf8b8d0dae"
+            },
+            "target": {
+              "cell": "7e6e0d0a-c98b-4a70-9b2f-271a6dafa36a"
+            }
+          },
+          {
+            "position": {
+              "x": 636.25,
+              "y": 632.8480403982186
+            },
+            "size": {
+              "width": 210,
+              "height": 140
+            },
+            "attrs": {
+              "text": {
+                "text": "API"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 11,
+            "id": "17e49745-92c8-471c-b127-da6a9597a1e7",
+            "data": {
+              "type": "tm.Process",
+              "name": "API",
+              "description": "Used to manage the endpoints used by the application",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": true,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "40bc03df-d6fd-4e2d-bdfe-25aae8b2efcd",
+                  "title": "DDOS",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Distributed Denial of Service by abusing multiple requests.",
+                  "mitigation": "FastAPI with rate limiting + not exposed to the public + behind WAF.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 7,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 486.25,
+              "y": 497.8480403982186
+            },
+            "size": {
+              "width": 180,
+              "height": 140
+            },
+            "attrs": {
+              "text": {
+                "text": "Frontend"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 12,
+            "id": "45463a3a-7f40-4193-8100-f409f874e47b",
+            "data": {
+              "type": "tm.Process",
+              "name": "Frontend",
+              "description": "ReactJS Engine",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": true,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "7ab80367-a1dd-460d-88f5-16a6513e993a",
+                  "title": "Distributed Denial of Service",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Distributed Denial of Service by abusing requests",
+                  "mitigation": "Rate Limiting provided by the technology + Behind the WAF + not exposed to the public.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 6,
+                  "score": ""
+                },
+                {
+                  "id": "fd4c68fe-cab7-4eea-add1-db5383de965d",
+                  "title": "Modifying Requests",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Trying to modify requests that are handled by this component.",
+                  "mitigation": "Properly parsing all requests, using parameters and validations.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 9,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 540.5745265592773,
+              "y": 221
+            },
+            "size": {
+              "width": 110,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Webserver"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 13,
+            "id": "981ddc21-aff6-4f1a-85b2-cccf8b8d0dae",
+            "data": {
+              "type": "tm.Process",
+              "name": "Webserver",
+              "description": "Cloudflared acting as a reverse-proxy.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "bc839951-9262-4cae-9f80-22f3322c2e11",
+                  "title": "DDOS",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Denial of service",
+                  "description": "Distributed Denial of Service by the abuse of multiple requests from multiple sources.",
+                  "mitigation": "Using Cloudflare ensures that DDOS is nearly impossible to achieve due to their protections.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 11,
+                  "score": ""
+                }
+              ]
+            }
+          }
+        ],
+        "description": "Infrastructure for SocialNet"
+      },
+      {
+        "id": 1,
+        "title": "Domain",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.2.0",
+        "cells": [],
+        "description": "Domain for SocialNet"
+      }
+    ],
+    "diagramTop": 2,
+    "reviewer": "Paulo Moreira <1180778@isep.ipp.pt>",
+    "threatTop": 11
+  }
+}
