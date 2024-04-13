@@ -19,6 +19,19 @@
 
 ### Application Requirements
 
+1. A Frontend
+2. A Backend
+3. A Database
+4. An Authentication System
+5. At least 3 aggregates in the domain model
+6. Follow the Secure Systems Development Lifecycle (SSDLC) process
+
+Here are the mockups for the frontend application:
+
+![Home Page](design/home_page.png)
+
+![Profile Page](design/profile_page.png)
+
 ### Domain Model
 
 We are using PlantUML to design our Domain Model, with the first iteration being the following:
@@ -37,7 +50,15 @@ The entity `MediaAttachment` is reusable by the various aggregates.
 
 ### Technological stack
 
+- [Python3 (3.12)](https://www.python.org/downloads/release/python-3120/) for the Backend
+- [ReactJS](https://react.dev/) for the Frontend
+- [Supabase](https://supabase.com/docs) (with the [Python Client](https://supabase.com/docs/reference/python/start)) for Authentication and Authorization
+- [Cloudflare Tunnels](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) to expose the application (custom domain to be defined)
+- [Postgres](https://www.postgresql.org/) as the database engine
+
 ### Infrastructure
+
+
 
 ## Security Analysis
 
