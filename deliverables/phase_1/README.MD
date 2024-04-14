@@ -13,6 +13,7 @@
     - [Infrastructure](#infrastructure)
   - [Security Analysis](#security-analysis)
     - [Threat Model](#threat-model)
+    - [ASVS Checklist](#asvs-checklist)
 
 
 ## Design
@@ -58,7 +59,7 @@ The entity `MediaAttachment` is reusable by the various aggregates.
 
 ### Infrastructure
 
-
+![Infrastructure](design/infrastructure.svg)
 
 ## Security Analysis
 
@@ -67,3 +68,13 @@ The entity `MediaAttachment` is reusable by the various aggregates.
 We have modeled our domain and infrastructure on Threat Dragon and the Model is present at the folder [`threat-dragon`](threat-dragon).
 
 The full report, with the security analysis for each infrastructure component, as well as the security analysis for the relationships between our domain entities is present at [`threat-analysis.pdf`](threat-dragon/threat-analysis.pdf).
+
+### ASVS Checklist
+
+Here are the results for the ASVS Checklist for this iteration.
+
+![ASVS Results](asvs/results)
+
+Please note that this is an ongoing process and certain entries marked as `Not Applicable` will be handled in Phase 2.
+
+Full checklist available at [`asvs`](asvs)
