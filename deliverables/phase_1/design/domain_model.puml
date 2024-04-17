@@ -1,72 +1,86 @@
 @startuml "SocialNet"
 
-' User Aggregate
+title Domain Model
 
-class User {
-    - userId: int
-    - username: string
-    - email: string
-    - password: string
-    - profilePicture: mediaAttachment
-    - bio: string
-    - followers: int
-    - following: int
-    - role: Role
+node "User Aggregate" {
+    class User {
+        - userId: int
+        - username: string
+        - email: string
+        - password: string
+        - profilePicture: mediaAttachment
+        - bio: string
+        - followers: int
+        - following: int
+        - role: Role
+        - status: Status
+        - type: Type
+    }
+
+    class Role {
+        - roleId: int
+        - roleName: string
+    }
+
+    enum MediaType {
+        - IMAGE
+    }
+
+    enum UserType {
+        - BASIC
+        - PREMIUM
+    }
+
+    enum Status {
+        - ACTIVE
+        - BANNED
+    }
+
+    class MediaAttachment {
+        - id: int
+        - url: string
+        - type: MediaType
+    }
 }
 
-class Role {
-    - roleId: int
-    - roleName: string
-}
+node "Tweet Aggregate" {
+    class Tweet {
+        - tweetId: int
+        - content: string
+        - timestamp: datetime
+        - likes: int
+        - retweets: int
+        - replies: int
+        - attachment: MediaAttachment
+    }
 
-enum MediaType {
-    - IMAGE
-}
-
-class MediaAttachment {
-    - id: int
-    - url: string
-    - type: MediaType
-}
-
-
-' Tweet Aggregate
-
-class Tweet {
-    - tweetId: int
-    - content: string
-    - timestamp: datetime
-    - likes: int
-    - retweets: int
-    - replies: int
-    - attachment: MediaAttachment
-}
-
-class Reply {
-    - originalTweetId: int
-    - replyTweetId: int
+    class Reply {
+        - originalTweetId: int
+        - replyTweetId: int
+    }
 }
 
 
-' Hashtag Aggregate
+node "Hashtag Aggregate" {
+    class Hashtag {
+        - hashtagId: int
+        - hashtagText: string
+    }
 
-class Hashtag {
-    - hashtagId: int
-    - hashtagText: string
+    class HashtagStatistic {
+        - hashtagId: int
+        - count: int
+        - relatedHashtags: List[int]
+    }
 }
-
-class HashtagStatistic {
-    - hashtagId: int
-    - count: int
-    - relatedHashtags: List[int]
-}
-
 
 User "1" -up- "0...*" Tweet : Posts
 
-User "1" -down- "0...*" User : Follows
+User "1" -up- "0...*" User : Follows
 User "1" -down- "0...*" User : IsFollowed
 
+User "0...*" -left- "1" Status : Is
+User "0...*" -left- "1" UserType : Has
 User "1" -left- "1" Role : Has
 User "1" -right- "1" MediaAttachment: Has
 
@@ -74,7 +88,7 @@ MediaAttachment "1" -right- "1" MediaType: Is
 
 Tweet "0..*" -left- "0...*" Hashtag : Contains
 Tweet "1" -right- "0...*" Reply: Contains
-User "0..*" -- "0...*" Hashtag : Follows
+User "0..*" -up- "0...*" Hashtag : Follows
 
 Hashtag "1" -left- "1" HashtagStatistic: Has
 

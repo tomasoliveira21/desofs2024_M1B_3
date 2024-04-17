@@ -9,6 +9,10 @@
     - [Application Requirements](#application-requirements)
     - [Domain Model](#domain-model)
     - [Use Cases](#use-cases)
+      - [User and Premium User](#user-and-premium-user)
+      - [Tweet Interaction](#tweet-interaction)
+      - [Banned Users](#banned-users)
+  - [Implementation](#implementation)
   - [Technological Decisions](#technological-decisions)
     - [Tech-Stack](#tech-stack)
     - [Infrastructure](#infrastructure)
@@ -32,15 +36,15 @@
 
 Here are the mockups for the frontend application:
 
-![Home Page](design/home_page.png)
+![Home Page](img/home_page.png)
 
-![Profile Page](design/profile_page.png)
+![Profile Page](img/profile_page.png)
 
 ### Domain Model
 
 We are using PlantUML to design our Domain Model, with the first iteration being the following:
 
-![SocialNet Domain Model](design/domain_model.svg)
+![SocialNet Domain Model](img/domain_model.svg)
 
 We have the following agregates with the following entities:
 
@@ -51,6 +55,49 @@ We have the following agregates with the following entities:
 The entity `MediaAttachment` is reusable by the various aggregates.
 
 ### Use Cases
+
+#### User and Premium User
+
+![User Use Cases](img/uc/user.png)
+
+![Premium User Use Cases](img/uc/premium_user.png)
+
+Abuse cases identified:
+ 
+1. Posting a tweet that is longer than allowed
+2. Trying to upload attachments that are bigger than allowed
+3. Tring to like too many posts in a given period of time
+4. Trying to follow too many users in a given period of time
+5. Commenting on a post with more caracters than allowed
+6. Performing searchs with SQL instructions or system paths
+7. Posting Hashtags with SQL instructions or system paths
+
+#### Tweet Interaction
+
+![Tweet Interaction Use Cases](img/uc/tweets.png)
+
+Abuse cases identified:
+
+1. Posting too many tweets in a given period of time
+
+#### Banned Users
+
+![Ban Use Case](img/uc/tweets.png)
+
+Abuse cases identified:
+
+1. Accessing the website too many times in a given period of time
+
+## Implementation
+
+![Deployment Diagram](img/deployment.svg)
+
+![Level 1 Data Flow Diagram](img/dfd.svg)
+
+Port description:
+
+- `HTTPS`: port `443`
+- `SQL`: port `5432` (Postgres)
 
 ## Technological Decisions
 
@@ -65,7 +112,7 @@ The entity `MediaAttachment` is reusable by the various aggregates.
 
 ### Infrastructure
 
-![Infrastructure](design/infrastructure.svg)
+![Infrastructure](img/infrastructure.svg)
 
 ## Security Analysis
 
@@ -89,7 +136,7 @@ Data that we consider sensitive within our domain model:
 
 This is the Risk Matrix used to classify the threats:
 
-![Risk Matrix](design/risk_matrix.png)
+![Risk Matrix](img/risk_matrix.png)
 
 We have modeled our domain and infrastructure on Threat Dragon and the Model is present at the folder [`threat-dragon`](threat-dragon).
 
