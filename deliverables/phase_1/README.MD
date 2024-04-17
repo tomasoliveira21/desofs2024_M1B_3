@@ -80,6 +80,11 @@ The entity `MediaAttachment` is reusable by the various aggregates.
 - Hashed and Salted passwords (provided by supabase)
 - Private network within Docker: no exposed ports
 
+Data that we consider sensitive within our domain model:
+
+- User passwords
+- User emails
+
 ### Threat Model
 
 This is the Risk Matrix used to classify the threats:
