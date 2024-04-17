@@ -2,18 +2,15 @@
 
 title Deployment Diagram
 
-node "Application Server" {
+node "Client" {
+  artifact "Web Browser" as browser
+}
+
+node "Private Network" {
   artifact "Frontend" as frontend
   artifact "Backend" as backend
   artifact "Auth" as auth
-}
-
-node "Database Server" {
   database "Database" as db
-}
-
-node "Client" {
-  artifact "Web Browser" as browser
 }
 
 browser --> frontend
