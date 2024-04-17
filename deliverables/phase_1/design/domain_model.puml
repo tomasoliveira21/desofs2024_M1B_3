@@ -1,8 +1,8 @@
-@startuml "SocialNet"
+@startuml "domain_model"
 
 title Domain Model
 
-node "User Aggregate" {
+rectangle "User Aggregate" {
     class User {
         - userId: int
         - username: string
@@ -43,7 +43,7 @@ node "User Aggregate" {
     }
 }
 
-node "Tweet Aggregate" {
+rectangle "Tweet Aggregate" {
     class Tweet {
         - tweetId: int
         - content: string
@@ -61,7 +61,7 @@ node "Tweet Aggregate" {
 }
 
 
-node "Hashtag Aggregate" {
+rectangle "Hashtag Aggregate" {
     class Hashtag {
         - hashtagId: int
         - hashtagText: string
