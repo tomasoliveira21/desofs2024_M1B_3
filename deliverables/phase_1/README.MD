@@ -15,7 +15,7 @@
   - [Implementation](#implementation)
   - [Technological Decisions](#technological-decisions)
     - [Tech-Stack](#tech-stack)
-    - [Infrastructure](#infrastructure)
+    - [Infrastructure - High-Level System Architecture Diagram](#infrastructure---high-level-system-architecture-diagram)
   - [Security Analysis](#security-analysis)
     - [Security Requirements](#security-requirements)
     - [Threat Model](#threat-model)
@@ -58,9 +58,11 @@ The entity `MediaAttachment` is reusable by the various aggregates.
 
 #### User and Premium User
 
-![User Use Cases](img/uc/user.png)
+![User Use Cases](img/uc/basic_user_uc.svg)
 
-![Premium User Use Cases](img/uc/premium_user.png)
+![Premium User Use Cases](img/uc/premium_user_uc.svg)
+
+![Administrator User Use Cases](img/uc/admin_user_uc.svg)
 
 Abuse cases identified:
  
@@ -74,7 +76,7 @@ Abuse cases identified:
 
 #### Tweet Interaction
 
-![Tweet Interaction Use Cases](img/uc/tweets.png)
+![Tweet Interaction Use Cases](img/uc/tweet_interaction.svg)
 
 Abuse cases identified:
 
@@ -82,7 +84,7 @@ Abuse cases identified:
 
 #### Banned Users
 
-![Ban Use Case](img/uc/tweets.png)
+![Ban Use Case](img/uc/ban_status.svg)
 
 Abuse cases identified:
 
@@ -92,7 +94,7 @@ Abuse cases identified:
 
 ![Deployment Diagram](img/deployment.svg)
 
-![Level 1 Data Flow Diagram](img/dfd.svg)
+![Data Flow Diagram](img/dfd.svg)
 
 Port description:
 
@@ -110,7 +112,7 @@ Port description:
 - [Cloudflare Tunnels](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) to expose the application (custom domain to be defined)
 - [Postgres](https://www.postgresql.org/) as the database engine
 
-### Infrastructure
+### Infrastructure - High-Level System Architecture Diagram
 
 ![Infrastructure](img/infrastructure.svg)
 

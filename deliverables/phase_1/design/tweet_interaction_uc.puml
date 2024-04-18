@@ -1,0 +1,16 @@
+@startuml "tweet_interaction_uc"
+
+title "Tweet Interaction - UC"
+
+usecase "Post a Tweet" as Post
+usecase "Attach Image\nto Tweet" as Attach
+usecase "Retweet" as Retweet
+usecase "Like a Tweet" as Like
+
+Author --> Post : Posts
+Post ..> Attach
+
+Follower --> Retweet : Can retweet
+Follower --> Like : Can like
+
+@enduml

@@ -1,6 +1,6 @@
 @startuml "dfd"
 
-title Level 1 Data Flow Diagram - SocialNet
+title Data Flow Diagram - SocialNet
 
 rectangle "SocialNet" {
 

@@ -1,0 +1,37 @@
+@startuml "admin_user_uc"
+
+title "User - Use Cases"
+
+left to right direction
+
+rectangle "Admin User" {
+
+    actor "Admin User" as admin
+
+    usecase "Post Tweets" as tweet
+    usecase "Comment on Posts" as comment
+    usecase "Like Posts" as like
+    usecase "Retweet Posts" as retweet
+    usecase "Follow Other Users" as follow
+    usecase "Edit Profile" as edit
+    usecase "Search for Posts" as search
+    usecase "Access Trends" as trends
+    usecase "Access Control Panel" as control_panel
+    usecase "Ban Users" as ban_user
+    usecase "Delete Tweets" as delete_tweet
+
+    admin --> tweet
+    admin --> comment
+    admin --> like
+    admin --> retweet
+    admin --> follow
+    admin --> edit
+    admin --> search
+    admin --> trends
+    admin --> control_panel
+    admin --> ban_user
+    admin --> delete_tweet
+
+}
+
+@enduml
