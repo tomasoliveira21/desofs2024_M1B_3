@@ -32,8 +32,8 @@
         "cells": [
           {
             "position": {
-              "x": 540,
-              "y": 10
+              "x": 543.75,
+              "y": -120
             },
             "size": {
               "width": 112.5,
@@ -93,8 +93,8 @@
           },
           {
             "position": {
-              "x": 536.25,
-              "y": 640
+              "x": 543.75,
+              "y": 610
             },
             "size": {
               "width": 120,
@@ -187,8 +187,8 @@
           },
           {
             "position": {
-              "x": 336.25,
-              "y": 410
+              "x": 286.25,
+              "y": 400
             },
             "size": {
               "width": 190,
@@ -264,8 +264,8 @@
           },
           {
             "position": {
-              "x": 526.25,
-              "y": 190
+              "x": 530,
+              "y": 110
             },
             "size": {
               "width": 140,
@@ -380,8 +380,8 @@
           },
           {
             "position": {
-              "x": 691.25,
-              "y": 410
+              "x": 740,
+              "y": 400
             },
             "size": {
               "width": 150,
@@ -480,6 +480,327 @@
                 }
               ]
             }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Public-Facing Application",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "5e975cfd-00ba-4ef6-b373-919ea935f5b7",
+            "source": {
+              "x": 350,
+              "y": 10
+            },
+            "target": {
+              "x": 860,
+              "y": 10
+            },
+            "vertices": [
+              {
+                "x": 470,
+                "y": -10
+              },
+              {
+                "x": 540,
+                "y": 10
+              },
+              {
+                "x": 680,
+                "y": -10
+              },
+              {
+                "x": 730,
+                "y": 10
+              }
+            ],
+            "labels": [
+              "Public-Facing Application"
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "User <-> SocialNet",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "HTTPS",
+              "threats": []
+            },
+            "id": "76bcaba8-c835-44fc-9e03-2820678a3ce2",
+            "source": {
+              "cell": "34fe03dc-ea9a-4f13-a725-52cdae71c368"
+            },
+            "target": {
+              "x": 600,
+              "y": -60
+            },
+            "labels": [
+              "User <-> SocialNet"
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Authentication and Authorization",
+              "description": "Requests authorization for users. Validates credentials of users.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "protocol": "HTTPS",
+              "threats": []
+            },
+            "id": "3af4ad9a-42df-4798-b8be-fee1923026d6",
+            "source": {
+              "cell": "9a6457f4-c8a3-4923-8b63-3dd595216f5f"
+            },
+            "target": {
+              "cell": "34fe03dc-ea9a-4f13-a725-52cdae71c368"
+            },
+            "labels": [
+              "Authentication and Authorization"
+            ],
+            "vertices": [
+              {
+                "x": 490,
+                "y": 290
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Backend Operations",
+              "description": "Perform backend operations and queries.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "protocol": "HTTPS",
+              "threats": []
+            },
+            "id": "ab56e7a8-a1f0-47fa-8930-84736dcb45b4",
+            "source": {
+              "cell": "e8dc7047-f1fb-47db-bf44-54c3e5792f29"
+            },
+            "target": {
+              "cell": "34fe03dc-ea9a-4f13-a725-52cdae71c368"
+            },
+            "labels": [
+              "Backend Operations"
+            ],
+            "vertices": [
+              {
+                "x": 720,
+                "y": 300
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Validate Authorization",
+              "description": "Prevent threats and re-validate authorization.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "protocol": "HTTPS",
+              "threats": []
+            },
+            "id": "cfb93c05-095e-4dc0-8c39-37c0b62960b8",
+            "source": {
+              "cell": "e8dc7047-f1fb-47db-bf44-54c3e5792f29"
+            },
+            "target": {
+              "cell": "9a6457f4-c8a3-4923-8b63-3dd595216f5f"
+            },
+            "vertices": [],
+            "labels": [
+              "Validate Authorization"
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Fetch User Credentials",
+              "description": "Validate stored credentials agains input credentials",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "SQL",
+              "threats": []
+            },
+            "id": "ec280b64-3d8a-4ba2-8330-c0e2381340c5",
+            "source": {
+              "cell": "9a6457f4-c8a3-4923-8b63-3dd595216f5f"
+            },
+            "target": {
+              "x": 550,
+              "y": 610
+            },
+            "labels": [
+              "Fetch User Credentials"
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "DBMS",
+              "description": "Query data from the database. Save data to the database.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "SQL",
+              "threats": []
+            },
+            "id": "24f7604f-f9ac-4807-a50e-d5693e4abfb7",
+            "source": {
+              "cell": "e8dc7047-f1fb-47db-bf44-54c3e5792f29"
+            },
+            "target": {
+              "cell": "87c7a48f-05ba-46d8-9302-8460eae7b9c4"
+            },
+            "vertices": [
+              {
+                "x": 710,
+                "y": 560
+              },
+              {
+                "x": 690,
+                "y": 580
+              }
+            ],
+            "labels": [
+              "DBMS"
+            ]
           }
         ],
         "description": "Threat Modeling"
@@ -487,6 +808,6 @@
     ],
     "diagramTop": 3,
     "reviewer": "Paulo Baltarejo Sousa <pbs@isep.ipp.pt>",
-    "threatTop": 41
+    "threatTop": 43
   }
 }
