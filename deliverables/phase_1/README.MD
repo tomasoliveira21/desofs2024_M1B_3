@@ -76,7 +76,7 @@ Abuse cases identified:
 
 #### Tweet Interaction
 
-![Tweet Interaction Use Cases](img/uc/tweet_interaction.svg)
+![Tweet Interaction Use Cases](img/uc/tweet_interaction_uc.svg)
 
 Abuse cases identified:
 
