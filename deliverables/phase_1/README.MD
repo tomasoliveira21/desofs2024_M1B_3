@@ -138,7 +138,7 @@ Data that we consider sensitive within our domain model:
 
 This is the Risk Matrix used to classify the threats:
 
-![Risk Matrix](img/risk_matrix.png)
+![Risk Matrix](img/risk_matrix.svg)
 
 We have modeled our domain and infrastructure on Threat Dragon and the Model is present at the folder [`threat-dragon`](threat-dragon).
 
