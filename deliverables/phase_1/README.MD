@@ -54,7 +54,28 @@ The login page serves as the entry point to the frontend application. It feature
 
 ![Home Page](img/home_page.webp)
 
+The homepage of the application presents a clean and structured layout for an engaging user experience. Here is a detailed description of the homepage components:
+
+- `Sidebar`:
+A vertical sidebar is present on the left side of the page, serving as the main navigation panel.
+- `Content Area`:
+  - Write a Post Section: At the top of the content area, there is a section labeled `Write a post`, allowing users to post tweets.
+  - List of Posts: Below the post creation section, the main body of the homepage displays a `List of posts`, showcasing the latest entries for users to read.
+- `Premium Content Area (Conditional)`:
+  - If the user is identified as a premium member or an admin, there are additional content slots labeled as #1, #2, #3, and #4, presumably for featured posts or administrative tools.
+- `Call-to-Action for Non-Premium Users`:
+  - For users without premium access, there is a highlighted call-to-action box with the text: `Don't have premium? Don't miss out on the opportunity to know the current trends around the world!` encouraging them to subscribe.
+  - A `Subscribe` button is prominently displayed within this call-to-action box.
+
 ![Profile Page](img/profile_page.webp)
+
+The profile page is designed to provide a personal space for users to express themselves and display their contributions to the platform. The page layout is straightforward and user-centric, comprising the following elements:
+
+- `Profile Header`:
+  - The top section of the profile page features a user's profile picture on the left, depicted as a circular frame labeled `Profile pic`.
+  - Adjacent to the profile picture, there is ample space dedicated to the user's bio, allowing for a brief introduction or personal statement.
+- `User Content Section`:
+  - Below the profile header, the majority of the page is reserved for a `List of posts by a specific user`. This area is where all the posts made by the profile owner are displayed, creating a curated feed of their contributions.
 
 ### Domain Model
 
