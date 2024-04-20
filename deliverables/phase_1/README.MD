@@ -21,6 +21,7 @@
   - [Security Analysis](#security-analysis)
     - [Security Requirements](#security-requirements)
     - [Threat Model](#threat-model)
+    - [Attack Tree](#attack-tree)
     - [ASVS Checklist](#asvs-checklist)
   - [Test Plan](#test-plan)
 
@@ -230,6 +231,12 @@ The approach we took: analyze the [Data Flow Diagram](#implementation) and apply
 The full report, with the security analysis for each infrastructure component, as well as the security analysis for the relationships between our domain entities is present at [`threat-analysis.pdf`](threat-dragon/threat-analysis.pdf).
 
 Please refer to the section [](#test-plan) for the tests we consider necessary at this stage upon implementation.
+
+### Attack Tree
+
+![Attack Tree](img/attack_tree.webp)
+
+This attack tree visualizes the potential security risks and exploitation strategies that could be employed to compromise the SocialNet platform. It provides a structured way of analyzing security for this social networking site. The tree is categorized into several attack vectors, each with a designated risk level of `Medium` and branching out into specific techniques that could be used by an attacker.
 
 ### ASVS Checklist
 
