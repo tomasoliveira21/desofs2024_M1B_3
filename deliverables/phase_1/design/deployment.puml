@@ -1,0 +1,28 @@
+@startuml "deployment"
+
+title Deployment Diagram
+
+node "Client" {
+  artifact "Web Browser" as browser
+}
+
+node "Private Network" {
+  artifact "Frontend" as frontend
+  artifact "Backend" as backend
+  artifact "Auth" as auth
+  database "Database" as db
+}
+
+browser --> frontend
+
+frontend --> auth : HTTPS
+auth --> frontend : HTTPS
+
+frontend --> backend : HTTPS
+backend --> frontend : HTTPS
+backend --> auth : HTTPS
+auth --> backend : HTTPS
+
+backend --> db : SQL
+
+@enduml

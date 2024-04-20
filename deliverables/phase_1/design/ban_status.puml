@@ -1,0 +1,14 @@
+@startuml "ban_status"
+
+left to right direction
+rectangle "Project: SocialNet" {
+
+actor User
+boundary "SocialNet System" as System
+
+User --> System : Attempt Login
+System --> (Verify Ban Status)
+(Verify Ban Status) .> (Redirect to Ban Page) : <<extends>>
+}
+
+@enduml

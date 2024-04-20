@@ -1,0 +1,31 @@
+@startuml "premium_user_uc"
+
+title "User - Use Cases"
+
+left to right direction
+
+rectangle "Premium User" {
+
+    actor "Premium User" as premium
+
+    usecase "Post Tweets" as tweet
+    usecase "Comment on Posts" as comment
+    usecase "Like Posts" as like
+    usecase "Retweet Posts" as retweet
+    usecase "Follow Other Users" as follow
+    usecase "Edit Profile" as edit
+    usecase "Search for Posts" as search
+    usecase "Access Trends" as trends
+
+    premium --> tweet
+    premium --> comment
+    premium --> like
+    premium --> retweet
+    premium --> follow
+    premium --> edit
+    premium --> search
+    premium --> trends
+
+}
+
+@enduml

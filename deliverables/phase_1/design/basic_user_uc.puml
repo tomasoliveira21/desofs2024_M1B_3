@@ -1,0 +1,29 @@
+@startuml "basic_user_uc"
+
+title "User - Use Cases"
+
+left to right direction
+
+rectangle "Basic User" {
+
+    actor "User" as user
+
+    usecase "Post Tweets" as tweet
+    usecase "Comment on Posts" as comment
+    usecase "Like Posts" as like
+    usecase "Retweet Posts" as retweet
+    usecase "Follow Other Users" as follow
+    usecase "Edit Profile" as edit
+    usecase "Search for Posts" as search
+
+    user --> tweet
+    user --> comment
+    user --> like
+    user --> retweet
+    user --> follow
+    user --> edit
+    user --> search
+
+}
+
+@enduml

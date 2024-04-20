@@ -1,0 +1,28 @@
+@startuml "dfd"
+
+title Data Flow Diagram - SocialNet
+
+rectangle "SocialNet" {
+
+	entity "User" as user
+
+	rectangle "Frontend" as frontend
+	rectangle "Backend" as backend
+	rectangle "Auth" as auth
+
+	database "User Database" as db
+
+	user --> frontend : HTTPS\nPost a Tweet
+	frontend --> backend : HTTP\nQueries the Backend
+
+	backend --> auth : HTTP\nValidates User Authorization
+	auth --> backend : HTTP\nReturns user Authorization\n(role-based)
+
+	backend --> db : SQL\nPerform a INSERT
+	db --> backend : SQL\nSuccessful Operation
+
+	backend --> frontend : HTTP\nHTTP_200
+	frontend --> user: HTTPS\nHTTP_200
+}
+
+@enduml

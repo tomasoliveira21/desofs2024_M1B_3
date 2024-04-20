@@ -1,0 +1,1080 @@
+{
+  "version": "2.2.0",
+  "summary": {
+    "title": "SocialNet",
+    "owner": "desofs2024_M1B_3",
+    "description": "SocialNet: a social network like Twitter",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [
+      {
+        "name": "Tomás Afonso Soares De Oliveira <1230213@isep.ipp.pt>"
+      },
+      {
+        "name": "Diogo Alexandre Pereira Ferreira <1230176@isep.ipp.pt>"
+      },
+      {
+        "name": "Luís Silva <1181031@isep.ipp.pt>"
+      },
+      {
+        "name": "Paulo Moreira <1180778@isep.ipp.pt>"
+      }
+    ],
+    "diagrams": [
+      {
+        "id": 2,
+        "title": "Deployment",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.2.0",
+        "cells": [
+          {
+            "position": {
+              "x": 543.75,
+              "y": -120
+            },
+            "size": {
+              "width": 112.5,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Web Browser"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "id": "da3ce770-e5dc-476a-9e65-06a4b1eaff0b",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Web Browser",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "cde44bd3-2c7a-4ffb-8063-d127a08fefa5",
+                  "title": "Spoofing",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Spoofing",
+                  "description": "Attackers may spoof the identity of the user or the browser to gain unauthorized access.",
+                  "mitigation": "Implement multi-factor authentication (MFA).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 12,
+                  "score": "4"
+                },
+                {
+                  "id": "ea2ec72b-8f65-49b0-8788-6a974c63d29c",
+                  "title": "Repudiation",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Users may deny their actions within the browser.",
+                  "mitigation": "Implement comprehensive logging of user actions and interactions within the application.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 18,
+                  "score": "4"
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 543.75,
+              "y": 610
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Database"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 2,
+            "id": "87c7a48f-05ba-46d8-9302-8460eae7b9c4",
+            "data": {
+              "type": "tm.Store",
+              "name": "Database",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isALog": true,
+              "isEncrypted": true,
+              "isSigned": false,
+              "storesCredentials": true,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "9c5d1b71-72a8-453d-a561-356ce168f29e",
+                  "title": "Tampering",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Unauthorized modification of data stored within the database could lead to security vulnerabilities or data corruption.",
+                  "mitigation": "Apply encryption of data at rest, access controls using permissions segregation and and input validation using parameterized queries.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 21,
+                  "score": "15"
+                },
+                {
+                  "id": "d5248761-0dff-45d2-b8ac-3eef73ffbb11",
+                  "title": "Repudiation",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "Without proper logging and auditing mechanisms, users may deny their actions within the application.",
+                  "mitigation": "Implement comprehensive logging and auditing of the database. Engine can be used to generate a binlog.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 23,
+                  "score": "9"
+                },
+                {
+                  "id": "0c292252-e737-40bb-9861-feac650b39e7",
+                  "title": "New STRIDE threat",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Inadequate configurations may result in information leaks.",
+                  "mitigation": "Implement air-tight configuration for the database to prevent access and mask sensitive information on logs.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 24,
+                  "score": "10"
+                },
+                {
+                  "id": "1053364c-0bb5-49ef-a0a4-2edc6b2415b7",
+                  "title": "New STRIDE threat",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Denial of service",
+                  "description": "Abuse cases may perform too many requests that result in too many database requests.",
+                  "mitigation": "Configure rate limiting, query optimization and monitor resources.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 25,
+                  "score": "25"
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 286.25,
+              "y": 400
+            },
+            "size": {
+              "width": 190,
+              "height": 140
+            },
+            "attrs": {
+              "text": {
+                "text": "Authentication"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 3,
+            "id": "9a6457f4-c8a3-4923-8b63-3dd595216f5f",
+            "data": {
+              "type": "tm.Process",
+              "name": "Authentication",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "628c04a8-1fae-4733-b2ca-277f4739c79a",
+                  "title": "New STRIDE threat",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "Attackers might find vulnerabilities in this component and perform authentication and get authorization for higher ranked useds",
+                  "mitigation": "Ensure validation of authorization by user type and not only by the information provided by the auth system",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 33,
+                  "score": "10"
+                },
+                {
+                  "id": "64772e31-b98c-4a48-9f65-a8c8bdae2247",
+                  "title": "New STRIDE threat",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Attackers might try to brute-force authentication and the system might stop responding to new requests",
+                  "mitigation": "Enable rate limiting and provide means to prevent brute-force attacks and DDOs on components that access the authentication system",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 34,
+                  "score": "10"
+                },
+                {
+                  "id": "8c39a459-acc2-459c-a08e-48de12c4e085",
+                  "title": "New STRIDE threat",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Authentication and authorization information, as well as sensitive information might leak due to design and implementation flaws",
+                  "mitigation": "Enable HTTPS communication to ensure encryption between components",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 35,
+                  "score": "10"
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 530,
+              "y": 110
+            },
+            "size": {
+              "width": 140,
+              "height": 150
+            },
+            "attrs": {
+              "text": {
+                "text": "Frontend"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 4,
+            "id": "34fe03dc-ea9a-4f13-a725-52cdae71c368",
+            "data": {
+              "type": "tm.Process",
+              "name": "Frontend",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": true,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "a2a30632-4557-4804-a1dd-de3a454f87de",
+                  "title": "Spoofing",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Spoofing",
+                  "description": "Attackers may spoof the identity of the user or the browser to gain unauthorized access.",
+                  "mitigation": "Implement multi-factor authentication (MFA).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 26,
+                  "score": "6"
+                },
+                {
+                  "id": "47874085-ed8e-4216-b9f6-bb67e6931107",
+                  "title": "Tampering",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Attackers might try to execute malicious code modified at the frontend.",
+                  "mitigation": "Secure Coding Practices: prevent any and all code from being changed and executed without validation",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 27,
+                  "score": "6"
+                },
+                {
+                  "id": "0ff1ad2a-74c7-4ed3-8556-d10125308563",
+                  "title": "Repudiation",
+                  "status": "Low",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "Users may deny their actions within the browser.",
+                  "mitigation": "Implement comprehensive logging of user actions and interactions within the application.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 28,
+                  "score": "6"
+                },
+                {
+                  "id": "8de8be03-7583-491f-8fe1-ef05b16ac1ba",
+                  "title": "Information Disclosure",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Inadequeate configurations of logging and encryption of information may result in leaks that we do not want",
+                  "mitigation": "Disclose any information in logs, prevent leaks to the console, encrypt all sensitive information",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 29,
+                  "score": "9"
+                },
+                {
+                  "id": "a45465f9-8f38-4635-9d5f-38a02b800ec2",
+                  "title": "Denial of Service",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Attackers may try to flood the system with too many requests for a given period of time",
+                  "mitigation": "Implement rate limits in the frontend, cache responses to prevent computing resources to be wasted",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 30,
+                  "score": "4"
+                },
+                {
+                  "id": "a25090ae-7ac6-4ee2-b723-d55ba728c4be",
+                  "title": "Elevation of Privilege",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "Attackers might try to impersonate higher ranking users and perform malicious actions",
+                  "mitigation": "Use RBAC and JWT validations, encrypt session cookies",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 31,
+                  "score": "12"
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 740,
+              "y": 400
+            },
+            "size": {
+              "width": 150,
+              "height": 140
+            },
+            "attrs": {
+              "text": {
+                "text": "Backend"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 5,
+            "id": "e8dc7047-f1fb-47db-bf44-54c3e5792f29",
+            "data": {
+              "type": "tm.Process",
+              "name": "Backend",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "cfed9634-c9b0-4b9c-93b0-6a42b0f2b699",
+                  "title": "DDoS",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Attackers will perform frontend operations that will trigger backend requests and perform a denial of service",
+                  "mitigation": "Apply rate limit between components to throttle too many requests in a given period of time",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 36,
+                  "score": "4"
+                },
+                {
+                  "id": "2672ca41-f77e-4ad5-9739-1bed6a141726",
+                  "title": "Elevation of Privilege",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Elevation of privilege",
+                  "description": "Attackers may try to access the backend directly with credentials that belong to higher ranking users or propagate an elevation of privilege from the frontend.",
+                  "mitigation": "Re-validate the authorization provided by the frontend and evaluate the operation being requested.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 37,
+                  "score": "8"
+                },
+                {
+                  "id": "c15cdad2-1332-4090-9080-cfa2517dd276",
+                  "title": "Tampering",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Attackers might try to modify information stored in the database by performing rogue backend requests with tampered information.",
+                  "mitigation": "Validate all requests, their origin and what it is trying to modify. Do not allow arbitrary requests.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 38,
+                  "score": "6"
+                },
+                {
+                  "id": "3d1ca008-12f8-4aa6-b57b-8dea0d38556b",
+                  "title": "Spoofing",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Users might try to impersonate other users by propagating an attack from the frontend to the backend (escalation of privilege or spoofing, for example).",
+                  "mitigation": "Re-authenticate the user and analyze what action he is trying to make vs permissions and origin of request. for example a premium user cannot delete other people's tweets. Also if a premium user as an ip of 1.2.3.4 it is not expectable to have tweets being deleted from that ip.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 40,
+                  "score": "6"
+                },
+                {
+                  "id": "e1b4577e-ea3f-4209-b652-d4112c4491b2",
+                  "title": "Disclosure of Information",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Attackers might try to access and release information that can only be accessed using the backend (for example information stored in the database).",
+                  "mitigation": "Validate requests, encrypt information using DTO and drop all fields that are not needed when performing a request to prevent too much information traveling at once.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 41,
+                  "score": "6"
+                }
+              ]
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Public-Facing Application",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "5e975cfd-00ba-4ef6-b373-919ea935f5b7",
+            "labels": [
+              "Public-Facing Application"
+            ],
+            "source": {
+              "x": 350,
+              "y": 10
+            },
+            "target": {
+              "x": 860,
+              "y": 10
+            },
+            "vertices": [
+              {
+                "x": 390,
+                "y": 10
+              },
+              {
+                "x": 470,
+                "y": -10
+              },
+              {
+                "x": 540,
+                "y": 10
+              },
+              {
+                "x": 680,
+                "y": -10
+              },
+              {
+                "x": 730,
+                "y": 10
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "User <-> SocialNet",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "HTTPS",
+              "threats": [
+                {
+                  "id": "e552938f-666e-472a-8942-062367de94c6",
+                  "title": "Too Many Requests - DDOs",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Abuse cases.",
+                  "mitigation": "Implement rate limiting.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 44,
+                  "score": "4"
+                },
+                {
+                  "id": "f7ca0aae-3c9a-42e0-81e8-75a4ec150af2",
+                  "title": "Modifying Requests",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Attackers may try to modify requests made to the frontend.",
+                  "mitigation": "Implement validations for requests and payloads. Use HTTPS.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 45,
+                  "score": "4"
+                }
+              ]
+            },
+            "id": "76bcaba8-c835-44fc-9e03-2820678a3ce2",
+            "labels": [
+              "User <-> SocialNet"
+            ],
+            "source": {
+              "cell": "34fe03dc-ea9a-4f13-a725-52cdae71c368"
+            },
+            "target": {
+              "x": 600,
+              "y": -60
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Authentication and Authorization",
+              "description": "Requests authorization for users. Validates credentials of users.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "protocol": "HTTPS",
+              "threats": [
+                {
+                  "id": "ae66b5a8-938d-4c55-9cc7-d6041aee94cd",
+                  "title": "Modifying users ",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Attackers may use requests from the frontend to modify credentials of users in the authentication system.",
+                  "mitigation": "Validate payloads before propagating them.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 57,
+                  "score": "6"
+                },
+                {
+                  "id": "6e77cb28-d524-47d1-adfe-69c2ce78ea51",
+                  "title": "Disclose credentials in the console",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Trying to obtain information regarding authorization.",
+                  "mitigation": "Configure logging at the frontend level, prevent leaks to the console. Encrypt data and hide sensitive information.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 58,
+                  "score": "4"
+                },
+                {
+                  "id": "7434fe15-b2b6-4b02-be29-d17ec2113f62",
+                  "title": "DDos of Auth Service",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Perform too many authentication requests.",
+                  "mitigation": "Implement rate limiting.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 59,
+                  "score": "2"
+                }
+              ]
+            },
+            "id": "3af4ad9a-42df-4798-b8be-fee1923026d6",
+            "labels": [
+              "Authentication and Authorization"
+            ],
+            "source": {
+              "cell": "9a6457f4-c8a3-4923-8b63-3dd595216f5f"
+            },
+            "target": {
+              "cell": "34fe03dc-ea9a-4f13-a725-52cdae71c368"
+            },
+            "vertices": [
+              {
+                "x": 430,
+                "y": 400
+              },
+              {
+                "x": 450,
+                "y": 370
+              },
+              {
+                "x": 490,
+                "y": 290
+              },
+              {
+                "x": 530,
+                "y": 250
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Validate Authorization",
+              "description": "Prevent threats and re-validate authorization.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "protocol": "HTTPS",
+              "threats": [
+                {
+                  "id": "1d465aca-08f1-43d5-95ba-2a63e0b3400e",
+                  "title": "Trying to impersonate other users",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Attackers may explore vulnerabilities to impersonate higher ranking users and perform backend operations.",
+                  "mitigation": "Implement latest supabase version.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 53,
+                  "score": "1"
+                },
+                {
+                  "id": "5945ee86-e92e-493a-b2b1-8233907ced02",
+                  "title": "Disclose user credentials",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Poorly configured backend may leak information regarding authorization and authentication.",
+                  "mitigation": "Implement logging, use dtos and prevent leaks of information.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 55,
+                  "score": "2"
+                },
+                {
+                  "id": "799ec130-5ca5-49f6-a9a9-fec84a0e1b53",
+                  "title": "Modifying Information on the authentication server",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Attackers may explore the backend and try to modify the information at rest regarding users.",
+                  "mitigation": "Validate all requests by user and type.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 56,
+                  "score": "4"
+                }
+              ]
+            },
+            "id": "cfb93c05-095e-4dc0-8c39-37c0b62960b8",
+            "labels": [
+              "Validate Authorization"
+            ],
+            "source": {
+              "cell": "e8dc7047-f1fb-47db-bf44-54c3e5792f29"
+            },
+            "target": {
+              "cell": "9a6457f4-c8a3-4923-8b63-3dd595216f5f"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "DBMS",
+              "description": "Query data from the database. Save data to the database.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "SQL",
+              "threats": [
+                {
+                  "id": "19bffa0c-08b3-4a6a-a278-12f231035b76",
+                  "title": "DDOs to DB",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Abuse cases may result in too many requests to the database.",
+                  "mitigation": "Implement rate limiting, cache and query optimization.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 46,
+                  "score": "4"
+                },
+                {
+                  "id": "08597456-a8ea-4f3a-ac15-b402451b4659",
+                  "title": "Disclosing Sensitive information",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Information disclosure",
+                  "description": "Bad configurations may result in information being disclosed.",
+                  "mitigation": "Implement logging configurations with proper levels, encrypt sensitive data, query information that is scoped and hide sensitive information.\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 47,
+                  "score": "4"
+                },
+                {
+                  "id": "3e3c7d91-e1c3-4c97-a068-bbc7ace3c30b",
+                  "title": "Mydifying data at rest",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Attackers may try to access and modify data at rest.",
+                  "mitigation": "Implement transactional operations with logging so these changes can be reverted. Implement segregation of permissions by using multiple users with scoped permissions (read-only for example).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 48,
+                  "score": "5"
+                }
+              ]
+            },
+            "id": "24f7604f-f9ac-4807-a50e-d5693e4abfb7",
+            "labels": [
+              "DBMS"
+            ],
+            "source": {
+              "cell": "e8dc7047-f1fb-47db-bf44-54c3e5792f29"
+            },
+            "target": {
+              "x": 650,
+              "y": 610
+            },
+            "vertices": [
+              {
+                "x": 710,
+                "y": 560
+              },
+              {
+                "x": 690,
+                "y": 580
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Fetch User Credentials",
+              "description": "Validate stored credentials agains input credentials",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "SQL",
+              "threats": [
+                {
+                  "id": "1fb23707-bd7f-4bad-942c-198006821c4c",
+                  "title": "User Information Leak",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Information disclosure",
+                  "description": "The auth system may disclose information.",
+                  "mitigation": "Logging and engine configurations on the database.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 50,
+                  "score": "1"
+                },
+                {
+                  "id": "a34d4eae-9490-486c-8564-ef9d26199bdb",
+                  "title": "Abuse case: too many authorization attempts",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Attackers may try to authenticate too many times.",
+                  "mitigation": "Rate limiting the authentication requests.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 51,
+                  "score": "1"
+                },
+                {
+                  "id": "57898e86-53d7-4e23-ac72-1e894f22bc77",
+                  "title": "Modifying user credentials",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Attackers may try to modify user credentials.",
+                  "mitigation": "Encrypt passwords and validate request origin.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 52,
+                  "score": "1"
+                }
+              ]
+            },
+            "id": "ec280b64-3d8a-4ba2-8330-c0e2381340c5",
+            "labels": [
+              "Fetch User Credentials"
+            ],
+            "source": {
+              "cell": "9a6457f4-c8a3-4923-8b63-3dd595216f5f"
+            },
+            "target": {
+              "x": 550,
+              "y": 610
+            },
+            "vertices": [
+              {
+                "x": 430,
+                "y": 550
+              },
+              {
+                "x": 450,
+                "y": 570
+              },
+              {
+                "x": 510,
+                "y": 590
+              },
+              {
+                "x": 530,
+                "y": 610
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Backend Operations",
+              "description": "Perform backend operations and queries.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "protocol": "HTTPS",
+              "threats": [
+                {
+                  "id": "f5ba1470-b874-4f95-b6cd-c992f077b3d1",
+                  "title": "Modifying more data than it should",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Trying to modify the data at rest using the backend.",
+                  "mitigation": "Implement validations of who is performing the request and if the request makes sense.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 60,
+                  "score": "4"
+                },
+                {
+                  "id": "f4dc0756-990c-49b7-a567-4cc7860debf4",
+                  "title": "Obtaining information",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Obtaining information by abusing logging configurations.",
+                  "mitigation": "Implement proper logging, using DTOs, hiding sensitive information.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 61,
+                  "score": "4"
+                },
+                {
+                  "id": "e64ee9c4-4641-4bde-b4c6-9cc9fde17123",
+                  "title": "Trying to DDOs the backend",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Propagating DDOs from the frontend may end in a ddos to the backend.",
+                  "mitigation": "Implement rate limiting and cache.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 62,
+                  "score": "2"
+                }
+              ]
+            },
+            "id": "ab56e7a8-a1f0-47fa-8930-84736dcb45b4",
+            "labels": [
+              "Backend Operations"
+            ],
+            "source": {
+              "x": 780,
+              "y": 400
+            },
+            "target": {
+              "cell": "34fe03dc-ea9a-4f13-a725-52cdae71c368"
+            },
+            "vertices": [
+              {
+                "x": 720,
+                "y": 300
+              },
+              {
+                "x": 670,
+                "y": 250
+              }
+            ]
+          }
+        ],
+        "description": "Threat Modeling based on Deployment Diagram"
+      }
+    ],
+    "diagramTop": 3,
+    "reviewer": "Paulo Baltarejo Sousa <pbs@isep.ipp.pt>",
+    "threatTop": 62
+  }
+}
