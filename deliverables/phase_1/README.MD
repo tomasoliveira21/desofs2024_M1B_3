@@ -60,9 +60,31 @@ The entity `MediaAttachment` is reusable by the various aggregates.
 
 ![User Use Cases](img/uc/basic_user_uc.svg)
 
+The use case diagram provided illustrates the various interactions that a `Basic User` can have within a social media platform, presumably similar to Twitter. At the center of the diagram is the `User` represented by a stick figure icon connected to several actions via lines, indicating different functions or activities that the user can perform on the platform:
+
+1. `Search for Posts`: Indicates the user's ability to search for and find posts published by other users on the platform.
+2. `Edit Profile`: The user can modify the information in their personal profile.
+3. `Follow Other Users`: This action allows the user to follow other users, which likely means they will see those users' updates in their news feed.
+4. `Retweet Posts`: The user can share posts from other users with their own followers, a feature known as retweeting.
+5. `Like Posts`: The user can express their enjoyment of a post by clicking a like button.
+6. `Comment on Posts`: The user can add comments to posts, allowing for direct interaction with the published content.
+7. `Post Tweets`: The user can create and publish their own posts.
+
 ![Premium User Use Cases](img/uc/premium_user_uc.svg)
 
+The use case diagram illustrates the extended functionalities available to a `Premium User` within the SocialNet platform. Employing the principle of inheritance, the `Premium User` retains all the capabilities of a `Basic User, with the addition of an exclusive feature:
+
+1. `Access Trends`: Unique to the Premium User, this feature provides access to the platform's trending topics and popular content, offering insights into what is currently engaging the community.
+
 ![Administrator User Use Cases](img/uc/admin_user_uc.svg)
+
+The use case diagram presented delineates the specific capabilities afforded to an `Admin User` on the SocialNet. Building upon the concept of inheritance, it is clear that the `Admin User` inherits the full spectrum of functionalities of a `Premium User`, with the augmentation of several key administrative powers that are critical for platform management and moderation.
+
+The exclusive administrative features include:
+
+1. `Delete Tweets`: The Admin User has the authority to remove tweets from the platform that may be in violation of the platform's policies or for other administrative reasons.
+2. `Ban Users`: This important capability allows the Admin User to restrict access to the platform for users who have breached the terms of service or engaged in prohibited activities.
+3. `Access Control Panel`: The Admin User has privileged access to the platform's control panel, which enables them to oversee the platform's operations, modify settings, and perform a wide range of administrative tasks.
 
 Abuse cases identified:
  
