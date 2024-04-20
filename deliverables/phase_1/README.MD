@@ -12,7 +12,7 @@
       - [Basic User](#basic-user)
       - [Premium User](#premium-user)
       - [Admin User](#admin-user)
-      - [Tweet Interaction](#tweet-interaction)
+      - [Post Interaction](#post-interaction)
       - [Banned Users](#banned-users)
   - [Implementation](#implementation)
   - [Technological Decisions](#technological-decisions)
@@ -189,6 +189,7 @@ Port description:
 - HTTPS between containers whenever possible (might not be possible due to endpoints not being exposed)
 - Hashed and Salted passwords (provided by supabase)
 - Private network within Docker: no exposed ports
+- Design the RBAC using an Allowlist pattern: `A list of who or what that is allowed access to a given device, service, or other`
 
 Data that we consider sensitive within our domain model:
 
@@ -207,6 +208,8 @@ The approach we took: analyze the [Data Flow Diagram](#implementation) and apply
 
 The full report, with the security analysis for each infrastructure component, as well as the security analysis for the relationships between our domain entities is present at [`threat-analysis.pdf`](threat-dragon/threat-analysis.pdf).
 
+Please refer to the section [](#test-plan) for the tests we consider necessary at this stage upon implementation.
+
 ### ASVS Checklist
 
 Here are the results for the ASVS Checklist for this iteration.
@@ -215,8 +218,32 @@ Here are the results for the ASVS Checklist for this iteration.
 
 Please note that this is an ongoing process and certain entries marked as `Not Applicable` will be handled in Phase 2.
 
-Full checklist available at [`asvs`](asvs)
+Full checklist available at [`asvs`](asvs).
 
 ## Test Plan
 
 In this section we will be describing all tests that we define as needed to test the mitigations that are identified during the [threat modeling process](#threat-model).
+
+- Client:
+  - Verify that the client can access the frontend securely over HTTPS and HTTP is redirected to HTTPS
+  - Test for session management: verify that session tokens are securely generated, transmitted, and invalidated upon logout and stored properly (e.g encripted cookies)
+  - Test for input validation: ensure that user inputs are properly validated to prevent injection attacks (for instance validate `WHERE`, `DROP` and `SELECT` statements)
+- Frontend:
+  - Verify that authentication mechanisms are correctly implemented and prevent unauthorized access (verify that MFA is working and mandatory)
+  - Test for access control: ensure that users can only access resources they are authorized to (RBAC) to prevent escalation of privilege (test for the Allowlist pattern)
+  - Perform cross-site scripting (XSS) to verify the impact that the frontend has on other components
+- Backend:
+  - Verify that backend APIs are securely accessible over HTTPS only, with HTTP being redirected to HTTPS
+  - Test for input validation and parameterized queries to prevent SQL injection attacks (for instance validate `WHERE`, `DROP` and `SELECT` statements and not trust on the frontend validations)
+  - Test for proper error handling and logging of security-related events by verifying if sensitive information is logged on an error (should not be)
+  - Perform authentication bypass testing to ensure authorization is always required and test for escalation of privilege
+- Authentication System:
+  - Verify that user authentication works correctly with valid credentials and invalid credentials as well
+  - Test for authentication weaknesses such as brute force attacks
+  - Perform session management testing to ensure session tokens are securely handled and invalidated after a certain period of time
+  - Test for account lockout mechanisms and password complexity requirements in order to mitigate brute-force attacks
+- Database:
+  - Verify that the database is securely configured to only allow access from authorized users and has the permissions segregated (routes to list should use users with read-only access)
+  - Test for proper data encryption at rest of sensitive data and user data, so that SQL injection attacks are mitigated
+  - Perform SQL injection testing to ensure that input sanitization is implemented correctly (supabase provides this with parameterized queries out-of-the-box)
+  - Test if database backups are running properly (on a selected cron, to be defined upon implementation)
