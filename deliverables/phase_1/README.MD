@@ -9,7 +9,9 @@
     - [Application Requirements](#application-requirements)
     - [Domain Model](#domain-model)
     - [Use Cases](#use-cases)
-      - [User and Premium User](#user-and-premium-user)
+      - [Basic User](#basic-user)
+      - [Premium User](#premium-user)
+      - [Admin User](#admin-user)
       - [Tweet Interaction](#tweet-interaction)
       - [Banned Users](#banned-users)
   - [Implementation](#implementation)
@@ -56,7 +58,7 @@ The entity `MediaAttachment` is reusable by the various aggregates.
 
 ### Use Cases
 
-#### User and Premium User
+#### Basic User
 
 ![User Use Cases](img/uc/basic_user_uc.svg)
 
@@ -70,11 +72,15 @@ The use case diagram provided illustrates the various interactions that a `Basic
 6. `Comment on Posts`: The user can add comments to posts, allowing for direct interaction with the published content.
 7. `Post Tweets`: The user can create and publish their own posts.
 
+#### Premium User
+
 ![Premium User Use Cases](img/uc/premium_user_uc.svg)
 
 The use case diagram illustrates the extended functionalities available to a `Premium User` within the SocialNet platform. Employing the principle of inheritance, the `Premium User` retains all the capabilities of a `Basic User, with the addition of an exclusive feature:
 
 1. `Access Trends`: Unique to the Premium User, this feature provides access to the platform's trending topics and popular content, offering insights into what is currently engaging the community.
+
+#### Admin User
 
 ![Administrator User Use Cases](img/uc/admin_user_uc.svg)
 
@@ -96,9 +102,21 @@ Abuse cases identified:
 6. Performing searchs with SQL instructions or system paths
 7. Posting Hashtags with SQL instructions or system paths
 
-#### Tweet Interaction
+#### Post Interaction
 
 ![Tweet Interaction Use Cases](img/uc/tweet_interaction_uc.svg)
+
+The use case diagram provided focuses on `Post Interaction` within the SocialNet platform, delineating the actions that are available to users when interacting with posts. The diagram specifies two roles involved in this interaction: the `Author` of the post and the `Follower` who engages with the post.
+
+For the `Author`, the capabilities highlighted are:
+
+1. `Post`: The Author can create and publish a post, sharing their thoughts, announcements, or information with their followers.
+2. `Attach Image to the post`: An extension of posting, this function allows the Author to enhance their message by adding visual content, such as images, which can make the post more engaging and informative.
+
+For the `Follower`, the diagram outlines two distinct actions:
+
+1. `Retweet`: Followers can redistribute the Author's post to their own followers, thereby amplifying its reach and visibility on the platform.
+2. `Like a Post`: Followers can show their appreciation or agreement with the Author's tweet by liking it, a simple interaction that also serves as feedback to the Author.
 
 Abuse cases identified:
 
@@ -107,6 +125,13 @@ Abuse cases identified:
 #### Banned Users
 
 ![Ban Use Case](img/uc/ban_status.svg)
+
+The use case diagram for `Banned Users` outlines the process that occurs when a user who has been banned from the social networking platform, SocialNet, attempts to access their account. The procedure is as follows:
+
+1. `Attempt Login`: The User begins the process by attempting to log in to the SocialNet system.
+2. `SocialNet System`: The system receives the login attempt and initiates a verification sequence.
+3. `Verify Ban Status`: As part of the login sequence, the system checks the user's account against a list of banned users.
+4. `Redirect to Ban Page`: If the user is found to be banned, instead of completing the login process, the system redirects the user to a "Ban Page." This page presumably informs the user of their ban status and may include details about the reason for the ban, and potentially how to appeal the decision if that option is available.
 
 Abuse cases identified:
 
