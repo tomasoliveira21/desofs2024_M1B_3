@@ -38,9 +38,23 @@
 
 Here are the mockups for the frontend application:
 
-![Home Page](img/home_page.png)
+![Login Page](img/login.webp)
 
-![Profile Page](img/profile_page.png)
+The login page serves as the entry point to the frontend application. It features a minimalistic and user-friendly interface, designed to ensure a smooth sign-in process for returning users. Here is an overview of the login page layout and functionality:
+
+- `Header`: At the top of the page, there is a prominent header with the word Login, indicating the purpose of the page.
+- `Input Fields`:
+  - Username: The first input field is labeled `Username`, where users enter their unique identifier.
+  - Password: The second input field is for the `Password`, which is masked for security.
+- `Links and Actions`:
+  - Forgot Password?: Beneath the password field, there is a link labeled `Forgot Password?` for users who need to reset their credentials.
+  - Login Button: Below the password recovery link, there is a `Login button` that users click to submit their credentials and access the application.
+- `Registration Prompt`:
+  - At the bottom of the login form, there is a prompt `Don't have an account? Register` for new users to navigate to the registration page.
+
+![Home Page](img/home_page.webp)
+
+![Profile Page](img/profile_page.webp)
 
 ### Domain Model
 
@@ -131,7 +145,7 @@ The use case diagram for `Banned Users` outlines the process that occurs when a 
 1. `Attempt Login`: The User begins the process by attempting to log in to the SocialNet system.
 2. `SocialNet System`: The system receives the login attempt and initiates a verification sequence.
 3. `Verify Ban Status`: As part of the login sequence, the system checks the user's account against a list of banned users.
-4. `Redirect to Ban Page`: If the user is found to be banned, instead of completing the login process, the system redirects the user to a "Ban Page." This page presumably informs the user of their ban status and may include details about the reason for the ban, and potentially how to appeal the decision if that option is available.
+4. `Redirect to Ban Page`: If the user is found to be banned, instead of completing the login process, the system redirects the user to a Ban Page. This page presumably informs the user of their ban status and may include details about the reason for the ban, and potentially how to appeal the decision if that option is available.
 
 Abuse cases identified:
 
