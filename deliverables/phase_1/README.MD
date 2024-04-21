@@ -78,6 +78,16 @@ The profile page is designed to provide a personal space for users to express th
 - `User Content Section`:
   - Below the profile header, the majority of the page is reserved for a `List of posts by a specific user`. This area is where all the posts made by the profile owner are displayed, creating a curated feed of their contributions.
 
+### User Roles
+In our application, we have 4 different roles:
+
+- `Basic User`: User has access to the main functionalities of SocialNet
+- `Premium User`: User inherits the functionalities of Basic and has access to trends
+- `Admin User`: Administrator user, who can access all types of functionalities including banning other users
+- `Banned User`: User banned from SocialNet
+
+In our application, the Principle of Least Privilege will be used, meaning if there are permission conflicts, we will always resolve in favor of the one with the least privilege.
+
 ### Domain Model
 
 We are using PlantUML to design our Domain Model, with the first iteration being the following:
