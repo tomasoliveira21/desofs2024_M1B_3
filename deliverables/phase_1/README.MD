@@ -15,6 +15,7 @@
       - [Admin User](#admin-user)
       - [Post Interaction](#post-interaction)
       - [Banned Users](#banned-users)
+  - [Sequence Diagram](#sequence-diagram)
   - [Implementation](#implementation)
   - [Technological Decisions](#technological-decisions)
     - [Tech-Stack](#tech-stack)
@@ -183,6 +184,16 @@ The use case diagram for `Banned Users` outlines the process that occurs when a 
 Abuse cases identified:
 
 1. Accessing the website too many times in a given period of time
+
+### Sequence Diagram
+
+![Sequence Diagram](img/sequence_diagram.png)
+
+This sequence diagram outlines the interactions between different types of users (Basic User, Admin User, and Premium User). It details three main scenarios:
+
+- `Ban Check`: Each user type checks their ban status upon attempting to log in. Depending on the ban status, the System either redirects the user to a Ban Page or proceeds with the login attempt.
+- `Common Actions`: Basic actions such as posting tweets, commenting, liking, retweeting, following other users, editing profiles, and searching for posts are available to all user types, depicted under the common actions group.
+- `Admin and Premium Actions`: Additional privileges are shown for Admin and Premium Users. Admin Users have exclusive actions like accessing the control panel, banning users, and deleting tweets. Premium Users have similar capabilities excluding administrative controls but include accessing trends.
 
 ## Implementation
 
