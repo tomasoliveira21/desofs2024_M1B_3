@@ -17,7 +17,7 @@
   - [Implementation](#implementation)
   - [Technological Decisions](#technological-decisions)
     - [Tech-Stack](#tech-stack)
-    - [Infrastructure - High-Level System Architecture Diagram](#infrastructure---high-level-system-architecture-diagram)
+    - [Architectural Design](#architectural-design)
   - [Security Analysis](#security-analysis)
     - [Security Requirements](#security-requirements)
     - [Threat Model](#threat-model)
@@ -77,6 +77,16 @@ The profile page is designed to provide a personal space for users to express th
   - Adjacent to the profile picture, there is ample space dedicated to the user's bio, allowing for a brief introduction or personal statement.
 - `User Content Section`:
   - Below the profile header, the majority of the page is reserved for a `List of posts by a specific user`. This area is where all the posts made by the profile owner are displayed, creating a curated feed of their contributions.
+
+### User Roles
+In our application, we have 4 different roles:
+
+- `Basic User`: User has access to the main functionalities of SocialNet
+- `Premium User`: User inherits the functionalities of Basic and has access to trends
+- `Admin User`: Administrator user, who can access all types of functionalities including banning other users
+- `Banned User`: User banned from SocialNet
+
+In our application, the Principle of Least Privilege will be used, meaning if there are permission conflicts, we will always resolve in favor of the one with the least privilege.
 
 ### Domain Model
 
@@ -195,9 +205,11 @@ Port description:
 - [Cloudflare Tunnels](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) to expose the application (custom domain to be defined)
 - [Postgres](https://www.postgresql.org/) as the database engine
 
-### Infrastructure - High-Level System Architecture Diagram
+### Architectural Design
 
 ![Infrastructure](img/infrastructure.svg)
+
+**Note:** this architectural design may change in the future iterations because we have to implement and see the *real-world* performance of our authentication system to analyze if it is usable for our needs. If a change occurs, this section will be updated with a changelog and justification.
 
 ## Security Analysis
 
