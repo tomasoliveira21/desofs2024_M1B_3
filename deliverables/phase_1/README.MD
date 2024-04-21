@@ -7,6 +7,7 @@
 - [Phase 1](#phase-1)
   - [Design](#design)
     - [Application Requirements](#application-requirements)
+    - [User Roles](#user-roles)
     - [Domain Model](#domain-model)
     - [Use Cases](#use-cases)
       - [Basic User](#basic-user)
@@ -254,11 +255,11 @@ This attack tree visualizes the potential security risks and exploitation strate
 
 Here are the results for the ASVS Checklist for this iteration.
 
-![ASVS Results](asvs/results)
+![ASVS Results](asvs/results.png)
 
 Please note that this is an ongoing process and certain entries marked as `Not Applicable` will be handled in Phase 2.
 
-Full checklist available at [`asvs`](asvs).
+Full checklist available at [`asvs`](asvs/v4-ASVS-checklist-en.xlsx).
 
 ## Test Plan
 
