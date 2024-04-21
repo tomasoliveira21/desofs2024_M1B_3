@@ -17,7 +17,7 @@
   - [Implementation](#implementation)
   - [Technological Decisions](#technological-decisions)
     - [Tech-Stack](#tech-stack)
-    - [Infrastructure - High-Level System Architecture Diagram](#infrastructure---high-level-system-architecture-diagram)
+    - [Architectural Design](#architectural-design)
   - [Security Analysis](#security-analysis)
     - [Security Requirements](#security-requirements)
     - [Threat Model](#threat-model)
@@ -195,9 +195,11 @@ Port description:
 - [Cloudflare Tunnels](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) to expose the application (custom domain to be defined)
 - [Postgres](https://www.postgresql.org/) as the database engine
 
-### Infrastructure - High-Level System Architecture Diagram
+### Architectural Design
 
 ![Infrastructure](img/infrastructure.svg)
+
+**Note:** this architectural design may change in the future iterations because we have to implement and see the *real-world* performance of our authentication system to analyze if it is usable for our needs. If a change occurs, this section will be updated with a changelog and justification.
 
 ## Security Analysis
 
