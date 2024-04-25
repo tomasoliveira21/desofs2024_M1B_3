@@ -1,0 +1,129 @@
+version: 2.1
+
+parameters:
+  run_integration_tests:
+    type: boolean
+    default: false
+
+  run_unit_tests:
+    type: boolean
+    default: true
+
+
+executors:
+  app:
+    working_directory: /mnt/ramdisk
+    docker:
+      - image: circleci/python:3.9
+        environment:
+         PIPENV_VENV_IN_PROJECT: true
+         DATABASE_URL: postgres://root:@localhost/socialNet_backend_test
+         REDIS_URL: redis://localhost:6379
+
+      - image: circleci/postgres:12-alpine-ram
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: socialNet_backend_test
+      - image: circleci/redis:6-alpine
+
+
+commands:
+  build:
+    description: "Install and build the app, anything common for all unit test runs"
+    steps:
+      - checkout  # checkout source code to working directory
+      - run:
+          name: Install submodules
+          command: git submodule update --init
+      - run:
+          name: Install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+      - run:
+          name: Wait for Postgres
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Wait for Redis
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
+
+      - restore_cache:
+          keys:
+            - pip-packages-v1-{{ checksum "Pipfile.lock" }}
+      - run:
+          name: Install dependencies
+          command: |
+            pipenv sync --dev
+            source /mnt/ramdisk/.venv/bin/activate
+            pip install -e alvin-python-lib -e alvin-grpc-py -e .
+      - save_cache:
+          paths:
+            - /mnt/ramdisk/.venv
+          key: pip-packages-v1-{{ checksum "Pipfile.lock" }}
+
+
+  lint:
+    steps:
+      - run:
+          name: Linting
+          command:
+            pipenv run flake8
+
+# We split into two jobs so we can do the more expensive HTML coverage only for master builds
+jobs:
+  unit-tests:
+    executor: app
+    steps:
+      - build
+      - lint
+      - run:
+          name: Run unit tests
+          command: |
+            pipenv run python runtests.py --coverage
+
+  unit-tests-with-cov-html:
+    executor: app
+    steps:
+      - build
+      - lint
+      - run:
+          name: Run unit tests with coverage html
+          command: |
+              pipenv run python runtests.py --coverage-html
+              # pipenv run coverage-badge -o coverage.svg
+      - store_artifacts:
+          path: /mnt/ramdisk/htmlcov
+      # - store_artifacts:
+      #     path: ~/app/coverage.svg
+
+  integration-tests:
+    executor: app
+    steps:
+      - build
+      - run:
+          name: Run integration tests
+          command: |
+              pipenv run python runtests.py --integration-only -vs
+
+workflows:
+  version: 2
+  unit-tests:
+    when: << pipeline.parameters.run_unit_tests >>
+    jobs:
+      # Run normal tests for normal branches
+      - unit-tests:
+          filters:
+            branches:
+              ignore: master
+
+      # Also run integration tests generate HTML coverage report for master commits
+      - unit-tests-with-cov-html:
+          filters:
+            branches:
+              only:
+                - master
+
+  integration-tests:
+    when: << pipeline.parameters.run_integration_tests >>
+    jobs:
+      - integration-tests

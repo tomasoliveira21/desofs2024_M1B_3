@@ -1,0 +1,50 @@
+execution_role: arn:aws:iam::something:role/prod-ecs-task-execution
+task_role: arn:aws:iam::role:role/prod-socialnet-backend
+image: something.dkr.ecr.us-east-2.amazonaws.com/socialnet-backend:latest
+services:
+  -
+    file: prod-socialnet-backend-web.json
+    family: prod-socialnet-backend-web
+    container_name: socialnet-backend-web
+    command: /home/app/entrypoint/run-web.sh
+    cpu: 512
+    memory: 512
+    ports:
+      - 80
+  -
+    file: prod-socialnet-backend-grpc.json
+    family: prod-socialnet-backend-grpc
+    container_name: socialnet-backend-grpc
+    command: /home/app/entrypoint/run-grpc.sh
+    cpu: 512
+    memory: 512
+    ports:
+      - 50051
+  -
+    file: prod-socialnet-backend-worker.json
+    family: prod-socialnet-backend-worker
+    container_name: socialnet-backend-worker
+    command: /home/app/entrypoint/run-worker.sh
+    cpu: 256
+    memory: 512
+  -
+    file: prod-socialnet-backend-scheduler.json
+    family: prod-socialnet-backend-scheduler
+    container_name: socialnet-backend-scheduler
+    command: /home/app/entrypoint/run-scheduler.sh
+    cpu: 256
+    memory: 256
+  -
+    file: prod-socialnet-backend-admin.json
+    family: prod-socialnet-backend-admin
+    container_name: socialnet-backend-admin
+    command: /home/app/entrypoint/run-admin.sh
+    cpu: 512
+    memory: 512
+  -
+    file: prod-socialnet-backend-migration.json
+    family: prod-socialnet-backend-migration
+    container_name: socialnet-backend-migration
+    command: /home/app/entrypoint/run-migration.sh
+    cpu: 256
+    memory: 512

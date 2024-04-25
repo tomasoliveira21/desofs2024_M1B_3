@@ -1,0 +1,8 @@
+[run]
+omit =
+    socialNet_backend/commands/*
+    socialNet_backend/test/*
+    socialNet_backend/api/grpc/protobuf*
+    socialNet_backend/api/grpc/setup*.py
+    */test_*.py
+    *version*.py
