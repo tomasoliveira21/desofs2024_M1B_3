@@ -1,0 +1,33 @@
+name: Build Frontend on PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.9.0'
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./deliverables/phase_2/frontend
+
+    - name: Build
+      run: npm run build
+      working-directory: ./deliverables/phase_2/frontend
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: frontend-build
+        path: ./deliverables/phase_2/frontend/build/
