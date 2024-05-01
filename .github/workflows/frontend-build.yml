@@ -30,3 +30,18 @@ jobs:
       with:
         name: frontend-build
         path: ./deliverables/phase_2/frontend/build/
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectKey: "tomasoliveira21_desofs2024_M1B_3"
+        organization: "tomasoliveira21"
+        scannerMode: "CLI"
+        configMode: "manual"
+        cliOptions: >
+          -Dsonar.projectBaseDir=./deliverables/phase_2/frontend
+          -Dsonar.sources=.
+          -Dsonar.host.url=https://sonarcloud.io
