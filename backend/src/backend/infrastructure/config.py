@@ -1,0 +1,2 @@
+MIN_TWEET_SIZE: int = 280
+MAX_TWEET_SIZE: int = 2400
