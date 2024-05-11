@@ -20,7 +20,6 @@ class HashtagRepository:
             supabase_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q",
             options=opts,
         )
-        self.__client.postgrest.schema("socialnet")
         self.__adapter = TypeAdapter(List[HashtagDto])
 
     def save_hashtag(self, hashtag: Hashtag, tweet_id: int):
@@ -34,13 +33,17 @@ class HashtagRepository:
         return self.__adapter.validate_python(response.data)
 
     def get_trends(self):
-        query = """
-            SELECT name, COUNT(*) as count
-            FROM socialnet."Hashtags"
-            WHERE created_at >= now() - INTERVAL '1 DAYS'
-            GROUP BY name
-            ORDER BY count DESC
-            LIMIT 10
         """
-        response = self.__client.table("Hashtags").select()
-        return response
+        DROP VIEW IF EXISTS socialnet.trends;
+        CREATE VIEW socialnet.trends AS
+        SELECT
+            name,
+            COUNT(*) AS count,
+            ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS position
+        FROM     socialnet."Hashtags"
+        WHERE    created_at >= Now() - interval '1 DAYS'
+        group BY name
+        ORDER BY count DESC limit 10; 
+        """
+        response = self.__client.table("trends").select("*").execute()
+        return response.data

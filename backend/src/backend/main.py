@@ -17,12 +17,12 @@ hr: HashtagRepository = HashtagRepository()
 
 # TWEETS
 @tweet_router.get("")
-async def get_tweets():
+def get_tweets():
     return tr.get_tweets()
 
 
 @tweet_router.post("")
-async def post_tweet(tweet: Tweet) -> TweetDto:
+def post_tweet(tweet: Tweet) -> TweetDto:
     r_tweet: TweetDto = tr.save_tweet(tweet=tweet)
     if tweet.hashtags:
         hr: HashtagRepository = HashtagRepository()
@@ -32,18 +32,18 @@ async def post_tweet(tweet: Tweet) -> TweetDto:
 
 
 @tweet_router.delete("")
-async def delete_tweet(id: int) -> TweetDto:
+def delete_tweet(id: int) -> TweetDto:
     return tr.delete_tweet(id=id)
 
 
 # HASHTAGS
 @hashtag_router.get("")
-async def get_hashtags():
+def get_hashtags():
     return hr.get_hashtags()
 
 
 @hashtag_router.get("/trends")
-async def get_trends():
+def get_trends():
     return hr.get_trends()
 
 
