@@ -24,13 +24,6 @@ class Tweet(BaseModel):
         )
 
 
-class TweetDto(BaseModel):
+class TweetDto(Tweet):
     id: int
     created_at: datetime
-    content: Annotated[
-        str,
-        StringConstraints(
-            min_length=MIN_TWEET_SIZE,
-            max_length=MAX_TWEET_SIZE,
-        ),
-    ]

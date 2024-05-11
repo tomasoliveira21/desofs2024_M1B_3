@@ -1,28 +1,52 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 
-from backend.domain.tweet import Tweet
+from backend.domain.tweet import Tweet, TweetDto
+from backend.infrastructure.repository.hashtag_repository import HashtagRepository
 from backend.infrastructure.repository.tweet_repository import TweetRepository
 
 app = FastAPI(
     title="SocialNet - Backend", description="The Backend for the SocialNet application"
 )
 
+tweet_router = APIRouter(prefix="/tweet", tags=["Tweets"])
+hashtag_router = APIRouter(prefix="/hashtag", tags=["Hashtag"])
+
+tr: TweetRepository = TweetRepository()
+hr: HashtagRepository = HashtagRepository()
+
 
 # TWEETS
-@app.get("/tweet")
+@tweet_router.get("")
 async def get_tweets():
-    tr: TweetRepository = TweetRepository()
     return tr.get_tweets()
 
 
-@app.post("/tweet")
-async def post_tweet(tweet: Tweet):
-    tr: TweetRepository = TweetRepository()
-    print(tweet.hashtags)
-    return tr.save_tweet(tweet=tweet)
+@tweet_router.post("")
+async def post_tweet(tweet: Tweet) -> TweetDto:
+    r_tweet: TweetDto = tr.save_tweet(tweet=tweet)
+    if tweet.hashtags:
+        hr: HashtagRepository = HashtagRepository()
+        for hashtag in tweet.hashtags:
+            hr.save_hashtag(hashtag=hashtag, tweet_id=r_tweet.id)
+    return r_tweet
 
 
-@app.delete("/tweet")
-async def delete_tweet(id: int):
-    tr: TweetRepository = TweetRepository()
+@tweet_router.delete("")
+async def delete_tweet(id: int) -> TweetDto:
     return tr.delete_tweet(id=id)
+
+
+# HASHTAGS
+@hashtag_router.get("")
+async def get_hashtags():
+    return hr.get_hashtags()
+
+
+@hashtag_router.get("/trends")
+async def get_trends():
+    return hr.get_trends()
+
+
+# ROUTERS
+app.include_router(tweet_router)
+app.include_router(hashtag_router)

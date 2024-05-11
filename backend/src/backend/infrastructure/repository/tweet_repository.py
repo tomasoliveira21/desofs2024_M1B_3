@@ -22,13 +22,13 @@ class TweetRepository:
         self.__adapter = TypeAdapter(List[TweetDto])
 
     def get_tweets(self) -> List[TweetDto]:
-        raw_list = self.__client.table("Tweets").select("*").execute()
-        return self.__adapter.validate_python(raw_list.data)
+        response = self.__client.table("Tweets").select("*").execute()
+        return self.__adapter.validate_python(response.data)
 
-    def save_tweet(self, tweet: Tweet):
+    def save_tweet(self, tweet: Tweet) -> TweetDto:
         response = self.__client.table("Tweets").insert(tweet.model_dump()).execute()
         return self.__adapter.validate_python(response.data)[0]
 
-    def delete_tweet(self, id: int):
+    def delete_tweet(self, id: int) -> TweetDto:
         response = self.__client.table("Tweets").delete().eq("id", id).execute()
         return self.__adapter.validate_python(response.data)[0]
