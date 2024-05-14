@@ -1,11 +1,15 @@
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, Depends, FastAPI
 
+from backend.application.auth import JWTBearer
 from backend.domain.tweet import Tweet, TweetDto
+from backend.infrastructure.config import settings
 from backend.infrastructure.repository.hashtag_repository import HashtagRepository
 from backend.infrastructure.repository.tweet_repository import TweetRepository
 
 app = FastAPI(
-    title="SocialNet - Backend", description="The Backend for the SocialNet application"
+    title="SocialNet - Backend",
+    description="The Backend for the SocialNet application",
+    dependencies=[Depends(JWTBearer())],
 )
 
 tweet_router = APIRouter(prefix="/tweet", tags=["Tweets"])
