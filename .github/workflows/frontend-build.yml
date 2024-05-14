@@ -19,11 +19,11 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      working-directory: ./deliverables/phase_2/frontend
+      working-directory: ./frontend
 
     - name: Build
       run: npm run build
-      working-directory: ./deliverables/phase_2/frontend
+      working-directory: ./frontend
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
