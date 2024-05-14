@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "SocialNet"
+version = "0.1.0"
+description = "A Twitter-like socal network"
+authors = [
+    "Paulo Moreira <1180778@isep.ipp.pt>",
+    "Tomás Afonso Soares De Oliveira <1230213@isep.ipp.pt>",
+    "Diogo Alexandre Pereira Ferreira <1230176@isep.ipp.pt>",
+    "Luís Silva <1181031@isep.ipp.pt>",
+]
+readme = "README.md"
+packages = [{ include = "backend", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.110.3"
+pydantic = "^2.7.1"
+supabase = "^2.4.3"
+pydantic-settings = "^2.2.1"
+uvicorn = "^0.29.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
