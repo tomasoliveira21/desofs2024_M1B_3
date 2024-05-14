@@ -1,4 +1,4 @@
-*/.python-version
-*/__pycache__
-*/.vscode
-*/poetry.lock
+**/.python-version
+**/__pycache__
+**/.vscode
+**/poetry.lock
