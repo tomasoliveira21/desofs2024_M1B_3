@@ -29,7 +29,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: frontend-build
-        path: ./deliverables/phase_2/frontend/build/
+        path: ./frontend
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
@@ -42,6 +42,6 @@ jobs:
         scannerMode: "CLI"
         configMode: "manual"
         cliOptions: >
-          -Dsonar.projectBaseDir=./deliverables/phase_2/frontend
+          -Dsonar.projectBaseDir=./frontend
           -Dsonar.sources=.
           -Dsonar.host.url=https://sonarcloud.io
