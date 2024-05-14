@@ -5,15 +5,15 @@ from typing import Annotated, List
 from pydantic import BaseModel, StringConstraints, TypeAdapter
 
 from backend.domain.hashtag import Hashtag
-from backend.infrastructure.config import MAX_TWEET_SIZE, MIN_TWEET_SIZE
+from backend.infrastructure.config import settings
 
 
 class Tweet(BaseModel):
     content: Annotated[
         str,
         StringConstraints(
-            min_length=MIN_TWEET_SIZE,
-            max_length=MAX_TWEET_SIZE,
+            min_length=settings.tweet_min_size,
+            max_length=settings.tweet_max_size,
         ),
     ]
 
