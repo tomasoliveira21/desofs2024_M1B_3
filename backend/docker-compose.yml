@@ -1,0 +1,22 @@
+services:
+  api:
+    container_name: backend
+    image: socialnet-backend:development
+    build:
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      context: .
+      dockerfile: Dockerfile.development
+    ports:
+      - 5000:5000
+    volumes:
+      - ./src/backend:/api/backend
+    depends_on:
+      - redis
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - 6379:6379

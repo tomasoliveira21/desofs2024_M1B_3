@@ -2,3 +2,5 @@
 **/__pycache__
 **/.vscode
 **/poetry.lock
+**/.venv
+**/.pytest_cache

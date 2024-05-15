@@ -1,15 +1,29 @@
+import redis.asyncio as redis
 from fastapi import APIRouter, Depends, FastAPI
+from fastapi.concurrency import asynccontextmanager
+from fastapi_limiter import FastAPILimiter
+from fastapi_limiter.depends import RateLimiter
 
 from backend.application.auth import JWTBearer
 from backend.domain.tweet import Tweet, TweetDto
-from backend.infrastructure.config import settings
 from backend.infrastructure.repository.hashtag_repository import HashtagRepository
 from backend.infrastructure.repository.tweet_repository import TweetRepository
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    redis_connection = redis.from_url(
+        "redis://localhost", encoding="utf-8", decode_responses=True
+    )
+    await FastAPILimiter.init(redis_connection)
+    yield
+
 
 app = FastAPI(
     title="SocialNet - Backend",
     description="The Backend for the SocialNet application",
-    dependencies=[Depends(JWTBearer())],
+    dependencies=[Depends(JWTBearer()), Depends(RateLimiter(times=2, seconds=5))],
+    lifespan=lifespan,
 )
 
 tweet_router = APIRouter(prefix="/tweet", tags=["Tweets"])

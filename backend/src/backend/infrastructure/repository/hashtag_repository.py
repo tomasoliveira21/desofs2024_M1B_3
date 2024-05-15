@@ -1,9 +1,9 @@
-from datetime import datetime, timedelta
-from os import name
 from typing import List
 
-from backend.domain.hashtag import Hashtag, HashtagDto
 from pydantic import TypeAdapter
+
+from backend.domain.hashtag import Hashtag, HashtagDto
+from backend.infrastructure.config import settings
 from supabase import Client, create_client
 from supabase.lib.client_options import ClientOptions
 
@@ -16,8 +16,8 @@ class HashtagRepository:
         opts = ClientOptions().replace(schema="socialnet")
         self.__client = create_client(
             # TODO: change this to be a singleton and remove hardcoded values
-            supabase_url="http://127.0.0.1:8000",
-            supabase_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q",
+            supabase_url=settings.supabase_url,
+            supabase_key=settings.supabase_key,
             options=opts,
         )
         self.__adapter = TypeAdapter(List[HashtagDto])
@@ -43,7 +43,7 @@ class HashtagRepository:
         FROM     socialnet."Hashtags"
         WHERE    created_at >= Now() - interval '1 DAYS'
         group BY name
-        ORDER BY count DESC limit 10; 
+        ORDER BY count DESC limit 10;
         """
         response = self.__client.table("trends").select("*").execute()
         return response.data
