@@ -28,17 +28,20 @@ class JWTBearer(HTTPBearer):
         else:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
 
-    def decode_jwt(self, jwtoken: str) -> dict | None:
+    def decode_jwt(self, jwtoken: str) -> dict | Exception:
         try:
             decoded_token = jwt.decode(
                 jwt=jwtoken,
                 key=settings.jwt_secret_key,
                 algorithms=settings.jwt_algorithms,
-                audience=settings.jwt_algorithms,
+                audience=settings.jwt_audience,
             )
-            return decoded_token if decoded_token["exp"] >= time() else None
-        except Exception:
-            return {}
+            if decoded_token["exp"] >= time():
+                return decoded_token
+            else:
+                raise Exception("Expired JWT Token")
+        except Exception as e:
+            raise e
 
     def verify_jwt(self, jwtoken: str) -> bool:
         isTokenValid: bool = True
