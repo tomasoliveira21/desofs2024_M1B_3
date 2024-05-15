@@ -1,7 +1,6 @@
 import os
 from typing import List
 
-from pydantic import HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ENVIRONMENT = os.environ.get("ENVIRONMENT", "development")
@@ -13,7 +12,7 @@ class Settings(BaseSettings):
     )
     tweet_min_size: int
     tweet_max_size: int
-    supabase_url: HttpUrl
+    supabase_url: str
     supabase_key: str
     jwt_secret_key: str
     jwt_algorithms: List[str]

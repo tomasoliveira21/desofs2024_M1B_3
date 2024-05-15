@@ -1,7 +1,9 @@
 from typing import List
 
-from backend.domain.tweet import Tweet, TweetDto
 from pydantic import TypeAdapter
+
+from backend.domain.tweet import Tweet, TweetDto
+from backend.infrastructure.config import settings
 from supabase import Client, create_client
 from supabase.lib.client_options import ClientOptions
 
@@ -14,8 +16,8 @@ class TweetRepository:
         opts = ClientOptions().replace(schema="socialnet")
         self.__client = create_client(
             # TODO: change this to be a singleton and remove hardcoded values
-            supabase_url="http://127.0.0.1:8000",
-            supabase_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q",
+            supabase_url=settings.supabase_url,
+            supabase_key=settings.supabase_key,
             options=opts,
         )
         self.__adapter = TypeAdapter(List[TweetDto])
