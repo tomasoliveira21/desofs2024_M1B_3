@@ -21,7 +21,7 @@ function Sidebar() {
         <SidebarRow Icon={HashtagIcon} title="Explore"/>
         <SidebarRow Icon={BellIcon} title="Notifications"/>
         <SidebarRow Icon={MailIcon} title="Messages"/>
-        <SidebarRow Icon={BookmarkIcon} title="Bookmarks"/>
+        <SidebarRow Icon={BookmarkIcon} title="Profile"/>
         <SidebarRow Icon={CollectionIcon} title="Lists"/>
         <SidebarRow Icon={UserIcon} title="Sign In"/>
 
