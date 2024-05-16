@@ -15,7 +15,7 @@ from backend.infrastructure.repository.tweet_repository import TweetRepository
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     redis_connection = redis.from_url(
-        f"redis://{os.environ.get("REDIS_HOST", "127.0.0.1")}",
+        f"redis://{os.environ.get('REDIS_HOST', '127.0.0.1')}",
         encoding="utf-8",
         decode_responses=True,
     )
