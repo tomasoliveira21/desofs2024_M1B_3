@@ -7,8 +7,6 @@ on:
 jobs:
   build-backend:
     runs-on: [self-hosted]
-    env:
-      REDIS_HOST: "redis"
     defaults:
       run:
         working-directory: ./backend
@@ -30,6 +28,8 @@ jobs:
 
       - name: Test with pytest
         run: poetry run pytest
+        env:
+          REDIS_HOST: "127.0.0.1"
 
       - name: Get pyproject version
         run: |
