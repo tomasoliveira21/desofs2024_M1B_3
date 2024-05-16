@@ -36,3 +36,6 @@ jobs:
 
       - name: Build Docker image
         run: docker build -f Dockerfile.production -t socialnet-backend:$DOCKER_VERSION .
+
+      - name: Deploy Backend Container
+        run: VERSION=$DOCKER_VERSION docker compose -f ~/stack/backend/docker-compose.yaml up -d
