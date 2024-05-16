@@ -17,9 +17,9 @@ jobs:
 
       - name: Set up Python 3.12
         run: |
-          source ~/.bashrc
-          realpath ~
-          echo $HOME
+          export PYENV_ROOT="$HOME/.pyenv"
+          export PATH="$PYENV_ROOT/bin:$PATH"
+          eval "$(pyenv init -)"
           pyenv global 3.12
 
       - name: Install Poetry
