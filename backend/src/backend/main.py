@@ -1,3 +1,5 @@
+import os
+
 import redis.asyncio as redis
 from fastapi import APIRouter, Depends, FastAPI
 from fastapi.concurrency import asynccontextmanager
@@ -13,7 +15,9 @@ from backend.infrastructure.repository.tweet_repository import TweetRepository
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     redis_connection = redis.from_url(
-        "redis://127.0.0.1", encoding="utf-8", decode_responses=True
+        f"redis://{os.environ.get("REDIS_HOST", "127.0.0.1")}",
+        encoding="utf-8",
+        decode_responses=True,
     )
     await FastAPILimiter.init(redis_connection)
     yield
