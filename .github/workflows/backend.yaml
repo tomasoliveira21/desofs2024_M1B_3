@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-backend:
     runs-on: [self-hosted]
     defaults:
       run:
@@ -19,17 +19,17 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          architecture: "arm64"
+          arch: "arm64"
           cache: 'pip'
 
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
 
       - name: Install Poetry
-        run: python -m pip install poetry
+        run: python -m pip install poetry toml
 
       - name: Install dependencies
-        run: poetry install --dev
+        run: poetry install
 
       - name: Test with pytest
         run: poetry run pytest
@@ -37,7 +37,7 @@ jobs:
       - name: Get pyproject version
         run: |
           version=$(python -c "import toml; print(toml.load('pyproject.toml')['tool']['poetry']['version'])")
-          echo "VERSION=$version" >> $GITHUB_ENV
+          echo "DOCKER_VERSION=$version" >> $GITHUB_ENV
 
       - name: Build Docker image
-        run: docker build -f Dockerfile.production -t socialnet-backend:$VERSION .
+        run: docker build -f Dockerfile.production -t socialnet-backend:$DOCKER_VERSION .
