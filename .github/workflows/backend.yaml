@@ -18,7 +18,8 @@ jobs:
       - name: Set up Python 3.12
         run: |
           source ~/.bashrc
-          echo $PATH
+          realpath ~
+          echo $HOME
           pyenv global 3.12
 
       - name: Install Poetry
