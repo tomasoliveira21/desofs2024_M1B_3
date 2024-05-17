@@ -14,6 +14,7 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@heroicons/react": "^1.0.6",
     "@release-it/conventional-changelog": "^8.0.1",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.43.1",
     "husky": "^9.0.11",
