@@ -21,6 +21,7 @@ uvicorn = "^0.29.0"
 pyjwt = "^2.8.0"
 fastapi-limiter = "^0.1.6"
 pytest-asyncio = "^0.23.6"
+pytest-cov = "^5.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"

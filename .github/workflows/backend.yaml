@@ -27,7 +27,7 @@ jobs:
         run: poetry install
 
       - name: Test with pytest
-        run: poetry run pytest
+        run: poetry run pytest --cov=backend tests
         env:
           REDIS_HOST: "127.0.0.1"
 
