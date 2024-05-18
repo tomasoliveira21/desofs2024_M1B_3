@@ -36,6 +36,7 @@ jobs:
           poetry run pytest --cov=backend tests >> result.log
           echo "## Backend Test Coverage" > comment.md
           poetry run coverage report --format markdown >> comment.md
+          REPORT=$(realpath comment.md) >> $GITHUB_ENV
         env:
           REDIS_HOST: "127.0.0.1"
           TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
@@ -45,8 +46,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            $(cat comment.md)
+          body-path: ${{ env.REPORT }}
 
       - name: Get pyproject version
         run: |
