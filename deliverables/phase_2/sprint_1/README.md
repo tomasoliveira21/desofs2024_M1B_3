@@ -201,7 +201,7 @@ services:
 
 Cloudflared allows us to expose the API to the internet without the need for a reverse proxy. All TLS communication is handled by Cloudflare and more information on how Cloudflare Tunnels work [is available here](https://www.cloudflare.com/products/tunnel/).
 
-Finally, our runner is installed using the documentation [provided by GitHub]() and has access to these services and can manage them. The information travels between GitHub and the Runner encrypted, as per GitHub's design.
+Finally, our runner is installed using the documentation [provided by GitHub](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners) and has access to these services and can manage them. The information travels between GitHub and the Runner encrypted, as per GitHub's design.
 
 The [Supabase Self-Hosted](https://supabase.com/docs/guides/self-hosting) Docker Compose stack is available at [`supabase/docker`](../../../supabase/docker/).
 
