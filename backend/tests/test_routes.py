@@ -10,8 +10,8 @@ from backend.main import app
 expired_jwt = "eyJhbGciOiJIUzI1NiIsImtpZCI6Im4vWWpIdEc4dVk4OU9OQkgiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzE1OTc1MzIwLCJpYXQiOjE3MTU5NzE3MjAsImlzcyI6Imh0dHBzOi8vbnpucGJrbG9xdmtlbnhiY3B0anUuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjU5Y2JlYjA1LWIzZTMtNDAyNy04MWQ5LTFiNWU2ZDkwNGM2YiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcxNTk3MTcyMH1dLCJzZXNzaW9uX2lkIjoiN2FmZDVjMzItOTAxMC00N2UwLTlmYTUtYzliMTkxNDRjNTgxIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.IwKaCaJUHIX80ZTUMczif0c44elvLPe1IMsGZ225MJg"
 
 test_user: SignInWithPasswordCredentials = {
-    "email": os.environ.get("TEST_USER_EMAIL", "desofs-test@isep.ipp.pt"),
-    "password": os.environ.get("TEST_USER_PASSWORD", "7jTdM&^hdy74rWbH"),
+    "email": os.environ.get("TEST_USER_EMAIL", ""),
+    "password": os.environ.get("TEST_USER_PASSWORD", ""),
 }
 
 
