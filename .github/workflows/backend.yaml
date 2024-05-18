@@ -30,7 +30,7 @@ jobs:
         run: |
           poetry run pytest --cov=backend tests >> result.log
           echo "## Backend Test Coverage" > comment.md
-          poetry run coverage --format=markdown >> comment.md
+          poetry run coverage report --format markdown >> comment.md
         env:
           REDIS_HOST: "127.0.0.1"
           TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
