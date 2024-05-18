@@ -48,3 +48,18 @@ uvicorn backend.main:app --reload --port 5000
 grant USAGE on schema my_schema to service_role;
 grant all on all tables in schema my_schema to service_role;
 ```
+
+### Create `trends` View
+
+```sql
+DROP VIEW IF EXISTS socialnet.trends;
+CREATE VIEW socialnet.trends AS
+SELECT
+    name,
+    COUNT(*) AS count,
+    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS position
+FROM     socialnet."Hashtags"
+WHERE    created_at >= Now() - interval '1 DAYS'
+group BY name
+ORDER BY count DESC limit 10;
+```

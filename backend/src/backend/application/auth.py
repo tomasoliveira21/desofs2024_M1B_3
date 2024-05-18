@@ -5,6 +5,7 @@ from fastapi import HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from backend.infrastructure.config import settings
+from supabase import create_client
 
 
 class JWTBearer(HTTPBearer):
@@ -24,9 +25,22 @@ class JWTBearer(HTTPBearer):
                 raise HTTPException(
                     status_code=403, detail="Invalid token or expired token."
                 )
+            if not self.verify_supabase_session(jwtoken=credentials.credentials):
+                raise HTTPException(status_code=403, detail="User not found.")
             return credentials.credentials
         else:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
+
+    def verify_supabase_session(self, jwtoken: str) -> bool:
+        try:
+            client = create_client(
+                supabase_url=settings.supabase_auth_url,
+                supabase_key=settings.supabase_auth_key,
+            )
+            client.auth.get_user(jwtoken)
+            return True
+        except Exception:
+            return False
 
     def decode_jwt(self, jwtoken: str) -> dict | Exception:
         try:
@@ -36,6 +50,7 @@ class JWTBearer(HTTPBearer):
                 algorithms=settings.jwt_algorithms,
                 audience=settings.jwt_audience,
             )
+            print(f"token={decoded_token}")
             if decoded_token["exp"] >= time():
                 return decoded_token
             else:
