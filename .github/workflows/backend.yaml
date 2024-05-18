@@ -27,11 +27,22 @@ jobs:
         run: poetry install
 
       - name: Test with pytest
-        run: poetry run pytest --cov=backend tests
+        run: |
+          poetry run pytest --cov=backend tests >> result.log
+          echo "## Backend Test Coverage" > comment.md
+          coverage --format=markdown >> comment.md
         env:
           REDIS_HOST: "127.0.0.1"
           TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
+      - name: Post coverage comment on PR
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            $(cat comment.md)
 
       - name: Get pyproject version
         run: |
