@@ -30,6 +30,8 @@ jobs:
         run: poetry run pytest --cov=backend tests
         env:
           REDIS_HOST: "127.0.0.1"
+          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
       - name: Get pyproject version
         run: |
