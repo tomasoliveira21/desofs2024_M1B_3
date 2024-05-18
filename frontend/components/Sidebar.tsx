@@ -12,8 +12,21 @@ import {
 } from '@heroicons/react/outline';
 
 import SidebarRow from './SidebarRow';  
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 function Sidebar() {
+
+  const router = useRouter();
+
+
+  const logout = async () => {
+    await supabase
+      .auth
+      .signOut()
+
+    router.refresh();
+  }
 
   return (
     <div className='flex flex-col col-span-2 items-center px-4 md:items-start'>
@@ -24,7 +37,7 @@ function Sidebar() {
         <SidebarRow Icon={MailIcon} title="Messages"/>
         <SidebarRow Icon={BookmarkIcon} title="Bookmarks"/>
         <SidebarRow Icon={CollectionIcon} title="Lists"/>
-        <SidebarRow Icon={UserIcon} title="Sign Out"/>
+        <SidebarRow Icon={UserIcon} title="Sign Out" onClick={logout}/>
 
         <SidebarRow Icon={DotsCircleHorizontalIcon} title="More"/>
     </div>
