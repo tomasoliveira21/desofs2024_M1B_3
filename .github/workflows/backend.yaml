@@ -3,6 +3,8 @@ name: Build Backend on PR
 on:
   pull_request:
     branches: [main]
+    paths:
+      - backend/**
 
 jobs:
   build-backend:
