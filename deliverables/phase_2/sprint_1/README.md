@@ -1,5 +1,23 @@
 # Phase 2 - Sprint 1
 
+## Table of Contents
+
+- [Objective](#objective)
+- [Pipeline Design](#pipeline-design)
+  - [Frontend](#frontend)
+  - [Backend](#backend)
+- [Application Development](#application-development)
+  - [Authorization Architecture](#authorization-architecture)
+  - [Frontend Development](#frontend-1)
+  - [Backend Development](#backend-1)
+- [Tests](#tests)
+- [Deployment](#deployment)
+- [Future Work/Improvements](#future-workimprovements)
+  - [Secrets Management](#secrets-management)
+  - [MVC - Model View Controller (Backend)](#mvc---model-view-controller-backend)
+  - [Logging system](#logging-system)
+- [ASVS Results](#asvs-results)
+
 ## Objective
 
 In this sprint we were expected to develop some code for our application and build the pipeline that will build and maintain our code.
@@ -69,9 +87,19 @@ These follow [Semantc Versioning](https://semver.org/) and [Conventional Commits
 
 ### Frontend
 
+Regarding the frontend, we have built the following [steps](../../../.github/workflows/frontend.yaml):
+
+1. Checkout Code
+2. Set up Node.js 20.9.0
+3. Install the [`npm`](../../../frontend/package.json) dependencies
+4. Build the project
+5. SonarCloud scan
+
+In this iteration, we did not implement tests on the frontend side, but in the next iteration, our goal is to use the Jest tool to implement coverage for the frontend code. After executing the tests, a report will be generated in the pull request, just as we did on the backend.
+
 ### Backend
 
-Regarding the backend, we have built the following steps ([`.github/workflows](../../../.github/workflows/backend.yaml)):
+Regarding the backend, we have built the following [steps](../../../.github/workflows/backend.yaml):
 
 1. Checkout the code
 2. Set up Python 3.11 (initially we wanted 3.12 but is not suported on ARM64 machines yet)
@@ -97,7 +125,22 @@ In case the tests fail nothing else proceeds.
 
 ### Authorization Architecture
 
+![Architecture Diagram](img/architecture.png)
+
+This diagram represents the architecture of our application. If the user wants to register on SocialNet, a request is made to the Supabase Authentication service, which validates and returns a success or error response to the frontend. If the user wants to log in to SocialNet, a request is made to the Supabase Authentication service, which validates and returns a success or error response to the frontend. In both cases (registration and login), if the response from the micro-service to the frontend is successful, a JWT token is returned.
+
+When a user interacts with a tweet, a POST method is sent with the JWT token of the user who made the post. The backend receives this post and validates against the Supabase micro-service to check if the user's JWT token is valid and exists. If valid, the tweet is stored in the Supabase database.
+
 ### Frontend
+
+On the frontend, during this iteration, we developed the authentication system, a password recovery system, and session management.
+
+The [login page](../../../frontend/src/app/login/page.tsx) allows users to log in with their email and password using the Supabase authentication service. The page also includes functionality for users to reset their password if they've forgotten it. The interface adjusts dynamically to switch between login and password reset modes based on user interaction. Error messages are displayed if the login or password reset attempts fail.
+
+If the user wants to reset their password, they will receive an email with a temporary link. By clicking on this link, they will be redirected to the reset page.
+The [reset page](../../../frontend/src/app/reset/page.tsx) allows users to enter a new password and confirm it to reset their password. The page includes an option to show or hide the password input for better user experience. Once the passwords match and are confirmed, the new password is updated using the Supabase authentication service, and the user is redirected to the home page. If the passwords do not match, an alert notifies the user.
+
+It was also created a [middleware](../../../frontend/src/middleware.ts) to manage user authentication using Supabase. The middleware checks if a user is logged in before allowing access to most pages. Certain URLs, like `/reset`, are publicly accessible without authentication. If the user is not authenticated and tries to access a protected page, they are redirected to the login page. This ensures that only authenticated users can access specific parts of the application.
 
 ### Backend
 
@@ -221,7 +264,9 @@ We will be enforcing more of GitHub Secrets for the repository, which we current
 
 We will have to refactor the [`main.py`](../../../backend/src/backend/main.py) file in the backend to adopt a Model -> View -> Controller architecture, with a properly defined layer of service and controller to handle exceptions and remove the business logic from the View Layer which has the HTTP routes.
 
-<!---->
+### Logging system
+
+One of the future improvements we plan to implement is a comprehensive logging system. This system will capture and store detailed logs of user activities, application events, and error occurrences. By integrating a logging mechanism, we aim to enhance the application's observability, making it easier to monitor performance, troubleshoot issues, and maintain security. This will also enable us to generate valuable insights and analytics, ultimately leading to a more reliable and user-friendly application.
 
 ## ASVS Results
 
