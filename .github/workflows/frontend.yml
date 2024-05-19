@@ -41,3 +41,18 @@ jobs:
           -Dsonar.projectBaseDir=./frontend
           -Dsonar.sources=.
           -Dsonar.host.url=https://sonarcloud.io
+
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps: 
+    - uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.9.0'
+    - run: npm ci
+    - run: npm run semantic-release
+      env: 
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
