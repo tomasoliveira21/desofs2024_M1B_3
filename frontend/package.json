@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "release": "release-it",
     "commit": "git-cz",
     "semantic-release": "semantic-release --branches main"
   },
