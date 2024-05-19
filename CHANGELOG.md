@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.1.0...v1.1.1) (2024-05-19)
+
+
+### Bug Fixes
+
+* CHANGELOG file ([9c438fb](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/9c438fb3242b9aac9788887234c3d64f8932bc76))
+
 # [1.1.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.0.0...v1.1.0) (2024-05-19)
 
 
