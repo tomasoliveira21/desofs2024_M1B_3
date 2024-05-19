@@ -54,21 +54,3 @@
 * reset password feature ([c4b6cdf](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/c4b6cdf442adfb7c96e051a4f718149aff3528f1))
 * update frontend mockups ([4d7e6c8](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/4d7e6c83c951b8d47d5ae7d981489481bb587a14))
 * updating some styles on reset page ([dbf2bb4](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/dbf2bb476f0585150c9441e4ca2f0d862c590d80))
-
-## What's Changed
-* feat: phase 1 by @tomasoliveira21 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/1
-* Add ASVS checklist, permissions model and refactor README by @PauloMoreira1180778 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/2
-* Backend development by @PauloMoreira1180778 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/7
-* Add authentication for backend routes by @PauloMoreira1180778 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/9
-* feat: Frontend application by @tomasoliveira21 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/4
-* Implement rate limit on the backend by @PauloMoreira1180778 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/11
-* feat: authentication flow by @tomasoliveira21 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/16
-* #12 implement cicd for backend by @PauloMoreira1180778 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/14
-* fix: dependabot workflow by @tomasoliveira21 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/17
-* #25 create reame for phase 2 sprint 1 by @PauloMoreira1180778 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/26
-* feat: new release flow by @tomasoliveira21 in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/27
-
-## New Contributors
-* @PauloMoreira1180778 made their first contribution in https://github.com/tomasoliveira21/desofs2024_M1B_3/pull/2
-
-**Full Changelog**: https://github.com/tomasoliveira21/desofs2024_M1B_3/commits/v1.0.0
