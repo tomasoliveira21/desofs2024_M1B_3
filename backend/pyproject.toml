@@ -15,7 +15,7 @@ packages = [{ include = "backend", from = "src" }]
 python = "^3.11"
 fastapi = "^0.110.3"
 pydantic = "^2.7.1"
-supabase = "^2.4.3"
+supabase = "^2.4.6"
 pydantic-settings = "^2.2.1"
 uvicorn = "^0.29.0"
 pyjwt = "^2.8.0"
