@@ -16,7 +16,7 @@ class TweetRepository:
         return cls._instance
 
     def _initialize_params(self):
-        self.client = SupabaseSingleton().get_client_db()
+        self.client = SupabaseSingleton().get_client()
         self.adapter = TypeAdapter(List[TweetDto])
 
     def get_tweets(self) -> List[TweetDto]:

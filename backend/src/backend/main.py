@@ -1,4 +1,3 @@
-import os
 
 import redis.asyncio as redis
 from fastapi import APIRouter, Depends, FastAPI
@@ -8,14 +7,17 @@ from fastapi_limiter.depends import RateLimiter
 
 from backend.application.auth import JWTBearer
 from backend.domain.tweet import Tweet, TweetDto
+from backend.infrastructure.config import settings
 from backend.infrastructure.repository.hashtag_repository import HashtagRepository
 from backend.infrastructure.repository.tweet_repository import TweetRepository
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    redis_connection = redis.from_url(
-        f"redis://{os.environ.get('REDIS_HOST', '127.0.0.1')}",
+    redis_connection = redis.Redis(
+        host=settings.redis_host,
+        port=settings.redis_port,
+        password=settings.redis_password,
         encoding="utf-8",
         decode_responses=True,
     )

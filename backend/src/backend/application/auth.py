@@ -1,7 +1,7 @@
 from time import time
 
 import jwt
-from fastapi import Depends, HTTPException, Request
+from fastapi import HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from backend.infrastructure.config import settings
@@ -9,7 +9,7 @@ from backend.infrastructure.supabase_auth import SupabaseSingleton
 
 
 class JWTBearer(HTTPBearer):
-    _supabase: SupabaseSingleton = Depends(SupabaseSingleton)
+    _supabase: SupabaseSingleton = SupabaseSingleton()
 
     def __init__(self, auto_error: bool = True):
         super(JWTBearer, self).__init__(auto_error=auto_error)
@@ -48,7 +48,6 @@ class JWTBearer(HTTPBearer):
                 algorithms=settings.jwt_algorithms,
                 audience=settings.jwt_audience,
             )
-            print(f"token={decoded_token}")
             if decoded_token["exp"] >= time():
                 return decoded_token
             else:

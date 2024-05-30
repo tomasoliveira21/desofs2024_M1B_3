@@ -16,7 +16,7 @@ class HashtagRepository:
         return cls._instance
 
     def _initialize_params(self):
-        self.client = SupabaseSingleton().get_client_db()
+        self.client = SupabaseSingleton().get_client()
         self.adapter = TypeAdapter(List[HashtagDto])
 
     def save_hashtag(self, hashtag: Hashtag, tweet_id: int):
