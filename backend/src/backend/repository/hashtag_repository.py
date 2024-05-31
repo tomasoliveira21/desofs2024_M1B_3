@@ -16,19 +16,19 @@ class HashtagRepository:
         return cls._instance
 
     def _initialize_params(self):
-        self.client = SupabaseSingleton().get_client()
-        self.adapter = TypeAdapter(List[HashtagDto])
+        self.__client = SupabaseSingleton().get_client()
+        self.__adapter = TypeAdapter(List[HashtagDto])
 
     def save_hashtag(self, hashtag: Hashtag, tweet_id: int):
         h = {"name": hashtag.name, "tweet_id": tweet_id}
         print(h)
-        response = self.client.table("Hashtags").insert(h).execute()
-        return self.adapter.validate_python(response.data)[0]
+        response = self.__client.table("Hashtags").insert(h).execute()
+        return self.__adapter.validate_python(response.data)[0]
 
     def get_hashtags(self):
-        response = self.client.table("Hashtags").select("*").execute()
-        return self.adapter.validate_python(response.data)
+        response = self.__client.table("Hashtags").select("*").execute()
+        return self.__adapter.validate_python(response.data)
 
     def get_trends(self):
-        response = self.client.table("trends").select("*").execute()
+        response = self.__client.table("trends").select("*").execute()
         return response.data

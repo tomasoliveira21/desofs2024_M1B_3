@@ -1,4 +1,3 @@
-
 import redis.asyncio as redis
 from fastapi import APIRouter, Depends, FastAPI
 from fastapi.concurrency import asynccontextmanager
@@ -8,8 +7,8 @@ from fastapi_limiter.depends import RateLimiter
 from backend.application.auth import JWTBearer
 from backend.domain.tweet import Tweet, TweetDto
 from backend.infrastructure.config import settings
-from backend.infrastructure.repository.hashtag_repository import HashtagRepository
-from backend.infrastructure.repository.tweet_repository import TweetRepository
+from backend.service.hashtag_service import HashtagService
+from backend.service.tweet_service import TweetService
 
 
 @asynccontextmanager
@@ -35,40 +34,36 @@ app = FastAPI(
 tweet_router = APIRouter(prefix="/tweet", tags=["Tweets"])
 hashtag_router = APIRouter(prefix="/hashtag", tags=["Hashtag"])
 
-tr: TweetRepository = TweetRepository()
-hr: HashtagRepository = HashtagRepository()
+# SERVICES
+tweet_service = TweetService()
+hashtag_service = HashtagService()
 
 
 # TWEETS
 @tweet_router.get("")
 def get_tweets():
-    return tr.get_tweets()
+    return tweet_service.get_all_tweets()
 
 
 @tweet_router.post("")
 def post_tweet(tweet: Tweet) -> TweetDto:
-    r_tweet: TweetDto = tr.save_tweet(tweet=tweet)
-    if tweet.hashtags:
-        hr: HashtagRepository = HashtagRepository()
-        for hashtag in tweet.hashtags:
-            hr.save_hashtag(hashtag=hashtag, tweet_id=r_tweet.id)
-    return r_tweet
+    return tweet_service.create_tweet(tweet=tweet)
 
 
 @tweet_router.delete("")
 def delete_tweet(id: int) -> TweetDto:
-    return tr.delete_tweet(id=id)
+    return tweet_service.remove_tweet(tweet_id=id)
 
 
 # HASHTAGS
 @hashtag_router.get("")
 def get_hashtags():
-    return hr.get_hashtags()
+    return hashtag_service.get_hashtags()
 
 
 @hashtag_router.get("/trends")
 def get_trends():
-    return hr.get_trends()
+    return hashtag_service.get_trends()
 
 
 # ROUTERS
