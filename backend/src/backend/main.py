@@ -59,12 +59,12 @@ def delete_tweet(id: int, request: Request) -> TweetDto:
 # HASHTAGS
 @hashtag_router.get("")
 def get_hashtags(request: Request):
-    return hashtag_service.get_hashtags()
+    return hashtag_service.get_hashtags(request=request)
 
 
 @hashtag_router.get("/trends")
 def get_trends(request: Request):
-    return hashtag_service.get_trends()
+    return hashtag_service.get_trends(request=request)
 
 
 # ROUTERS

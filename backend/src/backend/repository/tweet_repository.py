@@ -27,7 +27,11 @@ class TweetRepository:
 
     def save_tweet(self, tweet: Tweet, request: Request) -> TweetDto:
         self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
-        response = self.__client.table("Tweets").insert(tweet.model_dump()).execute()
+        response = (
+            self.__client.table("Tweets")
+            .insert(tweet.model_dump(exclude={"hashtags"}))
+            .execute()
+        )
         return self.__adapter.validate_python(response.data)[0]
 
     def delete_tweet(self, id: int, request: Request) -> TweetDto:

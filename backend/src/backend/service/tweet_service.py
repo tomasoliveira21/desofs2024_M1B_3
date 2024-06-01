@@ -21,7 +21,7 @@ class TweetService:
         if tweet.hashtags:
             for hashtag in tweet.hashtags:
                 self._hashtag_repository.save_hashtag(
-                    hashtag=hashtag, tweet_id=created_tweet.id
+                    hashtag=hashtag, tweet_uuid=created_tweet.uuid, request=request
                 )
 
         return created_tweet
