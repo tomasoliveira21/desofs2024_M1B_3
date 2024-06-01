@@ -1,5 +1,6 @@
 from typing import List
 
+from fastapi import Request
 from pydantic import TypeAdapter
 
 from backend.domain.tweet import Tweet, TweetDto
@@ -19,14 +20,18 @@ class TweetRepository:
         self.__client = SupabaseSingleton().get_client()
         self.__adapter = TypeAdapter(List[TweetDto])
 
-    def get_tweets(self) -> List[TweetDto]:
+    def get_tweets(self, request: Request) -> List[TweetDto]:
+        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         response = self.__client.table("Tweets").select("*").execute()
         return self.__adapter.validate_python(response.data)
 
-    def save_tweet(self, tweet: Tweet) -> TweetDto:
+    def save_tweet(self, tweet: Tweet, request: Request) -> TweetDto:
+        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         response = self.__client.table("Tweets").insert(tweet.model_dump()).execute()
         return self.__adapter.validate_python(response.data)[0]
 
-    def delete_tweet(self, id: int) -> TweetDto:
+    def delete_tweet(self, id: int, request: Request) -> TweetDto:
+        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         response = self.__client.table("Tweets").delete().eq("id", id).execute()
+        print(response)
         return self.__adapter.validate_python(response.data)[0]

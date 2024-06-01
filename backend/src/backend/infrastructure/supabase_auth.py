@@ -6,7 +6,6 @@ from supabase.lib.client_options import ClientOptions
 
 class SupabaseSingleton:
     _instance = None
-    _client: Client
 
     def __new__(cls):
         if cls._instance is None:

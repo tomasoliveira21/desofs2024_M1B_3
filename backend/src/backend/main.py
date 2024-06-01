@@ -1,5 +1,6 @@
+
 import redis.asyncio as redis
-from fastapi import APIRouter, Depends, FastAPI
+from fastapi import APIRouter, Depends, FastAPI, Request
 from fastapi.concurrency import asynccontextmanager
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
@@ -41,28 +42,28 @@ hashtag_service = HashtagService()
 
 # TWEETS
 @tweet_router.get("")
-def get_tweets():
-    return tweet_service.get_all_tweets()
+def get_tweets(request: Request):
+    return tweet_service.get_all_tweets(request=request)
 
 
 @tweet_router.post("")
-def post_tweet(tweet: Tweet) -> TweetDto:
-    return tweet_service.create_tweet(tweet=tweet)
+def post_tweet(tweet: Tweet, request: Request) -> TweetDto:
+    return tweet_service.create_tweet(tweet=tweet, request=request)
 
 
 @tweet_router.delete("")
-def delete_tweet(id: int) -> TweetDto:
-    return tweet_service.remove_tweet(tweet_id=id)
+def delete_tweet(id: int, request: Request) -> TweetDto:
+    return tweet_service.delete_tweet(tweet_id=id, request=request)
 
 
 # HASHTAGS
 @hashtag_router.get("")
-def get_hashtags():
+def get_hashtags(request: Request):
     return hashtag_service.get_hashtags()
 
 
 @hashtag_router.get("/trends")
-def get_trends():
+def get_trends(request: Request):
     return hashtag_service.get_trends()
 
 

@@ -23,7 +23,7 @@ class JWTBearer(HTTPBearer):
                 raise HTTPException(
                     status_code=403, detail="Invalid authentication scheme."
                 )
-            if not self._verify_jwt(credentials.credentials):
+            if not self._verify_jwt(credentials.credentials, request=request):
                 raise HTTPException(
                     status_code=403, detail="Invalid token or expired token."
                 )
@@ -55,10 +55,11 @@ class JWTBearer(HTTPBearer):
         except Exception as e:
             raise e
 
-    def _verify_jwt(self, jwtoken: str) -> bool:
+    def _verify_jwt(self, jwtoken: str, request: Request) -> bool:
         isTokenValid: bool = True
         try:
-            self._decode_jwt(jwtoken=jwtoken)
+            request.state.credentials = self._decode_jwt(jwtoken=jwtoken)
+            request.state.jwt = jwtoken
         except Exception:
             isTokenValid = False
         return isTokenValid

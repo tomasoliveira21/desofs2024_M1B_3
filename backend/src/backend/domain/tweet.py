@@ -23,7 +23,7 @@ class Tweet(BaseModel):
             [{"name": h} for h in re.findall(r"#(\w+)", self.content)]
         )
 
-
 class TweetDto(Tweet):
     id: int
     created_at: datetime
+    hash: str
