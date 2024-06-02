@@ -1,5 +1,6 @@
 
 from datetime import datetime
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -9,5 +10,5 @@ class Hashtag(BaseModel):
 
 class HashtagDto(Hashtag):
     id: int
-    tweet_id: int
+    tweet_uuid: UUID
     created_at: datetime

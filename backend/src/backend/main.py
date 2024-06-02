@@ -1,21 +1,23 @@
-import os
 
 import redis.asyncio as redis
-from fastapi import APIRouter, Depends, FastAPI
+from fastapi import APIRouter, Depends, FastAPI, Request
 from fastapi.concurrency import asynccontextmanager
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 
 from backend.application.auth import JWTBearer
 from backend.domain.tweet import Tweet, TweetDto
-from backend.infrastructure.repository.hashtag_repository import HashtagRepository
-from backend.infrastructure.repository.tweet_repository import TweetRepository
+from backend.infrastructure.config import settings
+from backend.service.hashtag_service import HashtagService
+from backend.service.tweet_service import TweetService
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    redis_connection = redis.from_url(
-        f"redis://{os.environ.get('REDIS_HOST', '127.0.0.1')}",
+    redis_connection = redis.Redis(
+        host=settings.redis_host,
+        port=settings.redis_port,
+        password=settings.redis_password,
         encoding="utf-8",
         decode_responses=True,
     )
@@ -33,40 +35,36 @@ app = FastAPI(
 tweet_router = APIRouter(prefix="/tweet", tags=["Tweets"])
 hashtag_router = APIRouter(prefix="/hashtag", tags=["Hashtag"])
 
-tr: TweetRepository = TweetRepository()
-hr: HashtagRepository = HashtagRepository()
+# SERVICES
+tweet_service = TweetService()
+hashtag_service = HashtagService()
 
 
 # TWEETS
 @tweet_router.get("")
-def get_tweets():
-    return tr.get_tweets()
+def get_tweets(request: Request):
+    return tweet_service.get_all_tweets(request=request)
 
 
 @tweet_router.post("")
-def post_tweet(tweet: Tweet) -> TweetDto:
-    r_tweet: TweetDto = tr.save_tweet(tweet=tweet)
-    if tweet.hashtags:
-        hr: HashtagRepository = HashtagRepository()
-        for hashtag in tweet.hashtags:
-            hr.save_hashtag(hashtag=hashtag, tweet_id=r_tweet.id)
-    return r_tweet
+def post_tweet(tweet: Tweet, request: Request) -> TweetDto:
+    return tweet_service.create_tweet(tweet=tweet, request=request)
 
 
 @tweet_router.delete("")
-def delete_tweet(id: int) -> TweetDto:
-    return tr.delete_tweet(id=id)
+def delete_tweet(id: int, request: Request) -> TweetDto:
+    return tweet_service.delete_tweet(tweet_id=id, request=request)
 
 
 # HASHTAGS
 @hashtag_router.get("")
-def get_hashtags():
-    return hr.get_hashtags()
+def get_hashtags(request: Request):
+    return hashtag_service.get_hashtags(request=request)
 
 
 @hashtag_router.get("/trends")
-def get_trends():
-    return hr.get_trends()
+def get_trends(request: Request):
+    return hashtag_service.get_trends(request=request)
 
 
 # ROUTERS
