@@ -4,7 +4,7 @@ RUN adduser api
 
 COPY --chown=api:api src/backend /api/backend
 
-COPY --chown=api:api pyproject.toml poetry.lock .env.development /api/
+COPY --chown=api:api pyproject.toml poetry.lock .env /api/
 
 RUN pip install poetry
 
