@@ -1,3 +1,20 @@
+# [1.2.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.1.2...v1.2.0) (2024-06-02)
+
+
+### Bug Fixes
+
+* backend worflow ([9356f75](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/9356f754ce36449ca21a2c57c4ee88c11d81b86f))
+* docker compose stack and dockerfiles ([ceb39ad](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/ceb39ad83317ed3426669f55f5f41e225aa7b2ed))
+* hashtag insert on tweets, improve services and main ([a42d628](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/a42d628c3a35abdaa42c8301009b3aebc9e39e3b))
+* Refactor JWTBearer class to use SupabaseSingleton and fix repositories ([17de625](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/17de6251413c6a0920d64b159dc7bef99f805cd7))
+
+
+### Features
+
+* Add HashtagService and TweetService classes ([91c9f42](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/91c9f422bc392c04674892ab632fea4d35d498c2))
+* Add SupabaseSingleton dependency to JWTBearer class ([02be410](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/02be4102a6d8aac96fa1e6e8ed28a18b1ef7b29f))
+* backend refactors (auth and development) ([19019c9](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/19019c914499f34ae6eb77ed487d2c178a46ae62)), closes [#36](https://github.com/tomasoliveira21/desofs2024_M1B_3/issues/36)
+
 ## [1.1.2](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.1.1...v1.1.2) (2024-05-19)
 
 
