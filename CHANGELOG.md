@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.2.0...v1.3.0) (2024-06-03)
+
+
+### Bug Fixes
+
+* refactor FE ([02ab4f0](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/02ab4f0f373fa28455274bb685f02864dc3e875f))
+
+
+### Features
+
+* Post tweets ([9676c72](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/9676c72a9d9eb56ee66f2bb50384f575ecbd7b7f))
+* refactor FE ([00df50f](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/00df50f58f9fcd63578783a1c3ae28cf498765ab))
+
 # [1.2.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.1.2...v1.2.0) (2024-06-02)
 
 
