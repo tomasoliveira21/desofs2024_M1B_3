@@ -11,4 +11,6 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./src/backend:/api/backend
+      - ./backend/src/backend:/api/backend
+
+# TO-DO: add frontend container
