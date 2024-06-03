@@ -40,6 +40,17 @@ poetry shell
 uvicorn backend.main:app --reload --port 5000
 ```
 
+## PGAdmin
+
+For M1 Macs:
+ 
+```shell
+$ docker run -p 8000:80 \
+    -e 'PGADMIN_DEFAULT_EMAIL=desofs@isep.ipp.pt' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=desofs' \
+    -d --platform linux/amd64 dpage/pgadmin4
+```
+
 ## Supabase specific configurations
 
 ### `service_role` authorization on private schema
