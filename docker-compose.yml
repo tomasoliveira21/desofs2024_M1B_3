@@ -6,7 +6,7 @@ services:
       platforms:
         - linux/amd64
         - linux/arm64
-      context: .
+      context: ./backend
       dockerfile: Dockerfile.development
     ports:
       - 5000:5000
