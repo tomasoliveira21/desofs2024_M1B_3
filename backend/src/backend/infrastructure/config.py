@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     redis_host: str
     redis_port: int
     redis_password: str
+    cors_origins: List[str]
 
 
 settings = Settings()  # type: ignore
