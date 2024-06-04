@@ -11,17 +11,10 @@ function Widgets() {
         <input
           type="text"
           placeholder="Search SocialNet"
-          className="flex-1 bg-transparent outline-none"
+          className="flex-1 bg-transparent outline-none text-black"
         />
       </div>
-
-      {typeof window !== "undefined" && (
-        <TwitterTimelineEmbed
-          sourceType="profile"
-          screenName="xxneut"
-          options={{ height: 400 }}
-        />
-      )}
+    
     </div>
   );
 }
