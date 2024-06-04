@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.4.0...v1.4.1) (2024-06-04)
+
+
+### Bug Fixes
+
+* icons ([18a0c13](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/18a0c13109eec38d78601ccc0376be05e721b591))
+
 # [1.4.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.3.0...v1.4.0) (2024-06-04)
 
 
