@@ -1,3 +1,19 @@
+# [1.5.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.4.1...v1.5.0) (2024-06-04)
+
+
+### Bug Fixes
+
+* add cors to fast-api ([9cf79ba](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/9cf79ba3238e27e607a31fd69f8c82cdaae09dd1))
+* change context ([b015ecb](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/b015ecb04975af4ae2b6e56161d208dea6b4ce91))
+* move docker-compose from backend to root ([63971d3](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/63971d340b4b524faa80cdc539964415e7e93922))
+
+
+### Features
+
+* Error handling toasts ([d574766](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/d574766f7c4f049cf959d122176aec6dd202be03))
+* profile route + hashtag route ([a86a41c](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/a86a41c061c22ef34a02d61c49c6543b7fa4804f))
+* Refresh feature + Toast errors ([dc65f86](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/dc65f861f61d2c00b071d31d1d4195f4d4977a69))
+
 ## [1.4.1](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.4.0...v1.4.1) (2024-06-04)
 
 
