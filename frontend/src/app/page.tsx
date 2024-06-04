@@ -6,6 +6,7 @@ import Widgets from "../../components/Widgets";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { Session } from "@supabase/auth-helpers-nextjs";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [session, setSession] = useState<Session | null>(null);
@@ -26,8 +27,9 @@ export default function Home() {
 
   return (
     <div className="lg:max-w-6xl mx-auto mx-h-screen overflow-hidden">
+      <Toaster />
       <main className="grid grid-cols-9">
-        <Sidebar />
+        <Sidebar session={session}/>
         <Feed session={session} />
         <Widgets />
       </main>
