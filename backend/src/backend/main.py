@@ -1,7 +1,7 @@
-
 import redis.asyncio as redis
 from fastapi import APIRouter, Depends, FastAPI, Request
 from fastapi.concurrency import asynccontextmanager
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 
@@ -30,6 +30,14 @@ app = FastAPI(
     description="The Backend for the SocialNet application",
     dependencies=[Depends(JWTBearer()), Depends(RateLimiter(times=20, seconds=5))],
     lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 tweet_router = APIRouter(prefix="/tweet", tags=["Tweets"])
