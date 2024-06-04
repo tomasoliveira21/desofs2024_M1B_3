@@ -1,11 +1,8 @@
 import React from "react";
 import TimeAgo from "react-timeago";
-import {
-  ChatAlt2Icon,
-  HeartIcon,
-  SwitchHorizontalIcon,
-  UploadIcon,
-} from "@heroicons/react/outline";
+import { ChatAlt2Icon, HeartIcon, UploadIcon } from "@heroicons/react/outline";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRetweet } from "@fortawesome/free-solid-svg-icons";
 
 function Tweet({ tweet }: any) {
   return (
@@ -44,7 +41,7 @@ function Tweet({ tweet }: any) {
           <p>7</p>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
-          <SwitchHorizontalIcon className="h-5 w-5" />
+          <FontAwesomeIcon icon={faRetweet} className="h-5 w-5" />
         </div>
         <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
           <HeartIcon className="h-5 w-5" />
