@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.3.0...v1.4.0) (2024-06-04)
+
+
+### Features
+
+* get Tweets and tweet component ([6cd855e](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/6cd855e7c936541a1137d653fcf6be984ca80ed1))
+
 # [1.3.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.2.0...v1.3.0) (2024-06-03)
 
 
