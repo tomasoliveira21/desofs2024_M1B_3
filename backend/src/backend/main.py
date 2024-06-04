@@ -1,3 +1,6 @@
+from typing import List
+from uuid import UUID
+
 import redis.asyncio as redis
 from fastapi import APIRouter, Depends, FastAPI, Request
 from fastapi.concurrency import asynccontextmanager
@@ -6,6 +9,7 @@ from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 
 from backend.application.auth import JWTBearer
+from backend.domain.hashtag import HashtagDto
 from backend.domain.tweet import Tweet, TweetDto
 from backend.infrastructure.config import settings
 from backend.service.hashtag_service import HashtagService
@@ -49,8 +53,13 @@ hashtag_service = HashtagService()
 
 
 # TWEETS
+@tweet_router.get("/{uuid}")
+def get_tweet(uuid: UUID, request: Request) -> TweetDto:
+    return tweet_service.get_tweet(uuid=uuid, request=request)
+
+
 @tweet_router.get("")
-def get_tweets(request: Request):
+def get_tweets(request: Request) -> List[TweetDto]:
     return tweet_service.get_all_tweets(request=request)
 
 
@@ -60,18 +69,18 @@ def post_tweet(tweet: Tweet, request: Request) -> TweetDto:
 
 
 @tweet_router.delete("")
-def delete_tweet(id: int, request: Request) -> TweetDto:
-    return tweet_service.delete_tweet(tweet_id=id, request=request)
+def delete_tweet(uuid: int, request: Request) -> TweetDto:
+    return tweet_service.delete_tweet(tweet_id=uuid, request=request)
 
 
 # HASHTAGS
 @hashtag_router.get("")
-def get_hashtags(request: Request):
+def get_hashtags(request: Request) -> List[HashtagDto]:
     return hashtag_service.get_hashtags(request=request)
 
 
 @hashtag_router.get("/trends")
-def get_trends(request: Request):
+def get_trends(request: Request) -> List[HashtagDto]:
     return hashtag_service.get_trends(request=request)
 
 

@@ -1,0 +1,2 @@
+class invalidSupabaseResponse(Exception):
+    pass
