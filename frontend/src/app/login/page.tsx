@@ -26,7 +26,7 @@ export default function Login() {
       })
 
       if (dataUser) {
-        router.refresh();
+        router.push('/');
       } else if (error) {
         setMessage("Login failed: " + error.message);
       }

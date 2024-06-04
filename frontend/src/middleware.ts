@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(req: NextRequest) {
     const res = NextResponse.next();
 
-    const publicUrls = ['/reset'];
+    const publicUrls = ['/reset', '/login'];
 
     if(publicUrls.includes(req.nextUrl.pathname)) {
         return res;
@@ -16,18 +16,15 @@ export async function middleware(req: NextRequest) {
         data: {
             session
         }
-     } = await supabase.auth.getSession();
-
-    console.log(session);
+    } = await supabase.auth.getSession();
 
     if(!session) {
-        return NextResponse.rewrite(new URL('/login', req.url)) 
+        return NextResponse.redirect(new URL('/login', req.url));
     }
 
     return res;
 };
 
-//list pages to match the middleware
 export const config = {
     matcher: [
         '/((?!api|_next/static|_next/image|favicon.ico).*)',
