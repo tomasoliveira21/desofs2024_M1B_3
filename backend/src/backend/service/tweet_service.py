@@ -4,47 +4,52 @@ from uuid import UUID
 from fastapi import HTTPException, Request
 
 from backend.application.exceptions import invalidSupabaseResponse
+from backend.application.utils import single_read_object
 from backend.domain.tweet import Tweet, TweetDto
 from backend.infrastructure.logging import Logger
-from backend.repository.hashtag_repository import HashtagRepository
 from backend.repository.tweet_repository import TweetRepository
+from backend.service.hashtag_service import HashtagService
 
 
 class TweetService:
     def __init__(self):
         self._tweet_repository = TweetRepository()
-        self._hashtag_repository = HashtagRepository()
+        self._hashtag_service = HashtagService()
         self._logger = Logger().get_logger()
 
     def get_tweet(self, uuid: UUID, request: Request) -> TweetDto:
         self._logger.info(f'[{request.state.credentials["sub"]}] get tweet {uuid}')
         try:
-            return self._tweet_repository.get_tweet(uuid=uuid, request=request)
+            with single_read_object(
+                self._tweet_repository.get_tweet(uuid=uuid, request=request)
+            ) as tweet:
+                return tweet
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def get_all_tweets(self, request: Request) -> List[TweetDto]:
         self._logger.info(f'[{request.state.credentials["sub"]}] get all tweets')
         try:
-            return self._tweet_repository.get_tweets(request=request)
+            with single_read_object(
+                self._tweet_repository.get_tweets(request=request)
+            ) as tweets:
+                return tweets
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def create_tweet(self, tweet: Tweet, request: Request) -> TweetDto:
-        self._logger.info(f'[{request.state.credentials["sub"]}] create tweet')
+        self._logger.info(f'[{request.state.credentials["sub"]}] save tweet')
         try:
-            created_tweet = self._tweet_repository.save_tweet(tweet, request=request)
-
-            if tweet.hashtags:
-                for hashtag in tweet.hashtags:
-                    self._logger.info(
-                        f'[{request.state.credentials["sub"]}] create hashtag'
+            with single_read_object(
+                self._tweet_repository.save_tweet(tweet, request=request)
+            ) as created_tweet:
+                if tweet.hashtags:
+                    self._hashtag_service.save_hashtags(
+                        hashtags=tweet.hashtags,
+                        tweet_uuid=created_tweet.uuid,
+                        request=request,
                     )
-                    self._hashtag_repository.save_hashtag(
-                        hashtag=hashtag, tweet_uuid=created_tweet.uuid, request=request
-                    )
-
-            return created_tweet
+                return created_tweet
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -53,6 +58,9 @@ class TweetService:
             f'[{request.state.credentials["sub"]}] delete tweet {tweet_id}'
         )
         try:
-            return self._tweet_repository.delete_tweet(tweet_id, request=request)
+            with single_read_object(
+                self._tweet_repository.delete_tweet(tweet_id, request=request)
+            ) as deleted_tweet:
+                return deleted_tweet
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
