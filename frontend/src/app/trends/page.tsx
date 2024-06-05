@@ -29,7 +29,7 @@ export default function Trends() {
     async function getTrends() {
       if (session) {
         const trendsData = await fetchTrends(session.access_token);
-        setTrends(trendsData.slice(0, 5));
+        setTrends(trendsData);
       }
     }
     getTrends();

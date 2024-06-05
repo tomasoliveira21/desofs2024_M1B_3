@@ -1,5 +1,5 @@
 services:
-  api:
+  backend:
     container_name: backend
     image: socialnet-backend:development
     build:
@@ -12,5 +12,6 @@ services:
       - 5000:5000
     volumes:
       - ./backend/src/backend:/api/backend
+      - ./backend/.env:/api/.env
 
 # TO-DO: add frontend container
