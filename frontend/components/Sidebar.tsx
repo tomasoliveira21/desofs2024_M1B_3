@@ -31,7 +31,7 @@ function Sidebar({ session }: FeedProps) {
   };
 
   const goToExplore = () => {
-    router.push("/explore");
+    router.push("/trends");
   };
 
   const goToProfile = () => {

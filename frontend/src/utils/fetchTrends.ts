@@ -13,7 +13,6 @@ export const fetchTrends = async (sessionToken: string) => {
       }
   
       const data = await response.json();
-      console.log('Trends retrieved successfully:', data);
       return data;
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
