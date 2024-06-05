@@ -4,15 +4,15 @@ import jwt
 from fastapi import HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from backend.application.exceptions import expiredJWTToken
 from backend.infrastructure.config import settings
 from backend.infrastructure.supabase_auth import SupabaseSingleton
 
 
 class JWTBearer(HTTPBearer):
-    _supabase: SupabaseSingleton = SupabaseSingleton()
-
     def __init__(self, auto_error: bool = True):
         super(JWTBearer, self).__init__(auto_error=auto_error)
+        self._supabase: SupabaseSingleton = SupabaseSingleton()
 
     async def __call__(self, request: Request):
         credentials: HTTPAuthorizationCredentials | None = await super(
@@ -40,7 +40,7 @@ class JWTBearer(HTTPBearer):
         except Exception:
             return False
 
-    def _decode_jwt(self, jwtoken: str) -> dict | Exception:
+    def _decode_jwt(self, jwtoken: str) -> dict:
         try:
             decoded_token = jwt.decode(
                 jwt=jwtoken,
@@ -48,18 +48,20 @@ class JWTBearer(HTTPBearer):
                 algorithms=settings.jwt_algorithms,
                 audience=settings.jwt_audience,
             )
-            if decoded_token["exp"] >= time():
-                return decoded_token
-            else:
-                raise Exception("Expired JWT Token")
         except Exception as e:
             raise e
+
+        if decoded_token["exp"] >= time():
+            return decoded_token
+        else:
+            raise expiredJWTToken()
 
     def _verify_jwt(self, jwtoken: str, request: Request) -> bool:
         isTokenValid: bool = True
         try:
             request.state.credentials = self._decode_jwt(jwtoken=jwtoken)
             request.state.jwt = jwtoken
+            request.state.role = request.state.credentials["user_role"]
         except Exception:
             isTokenValid = False
         return isTokenValid

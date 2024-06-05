@@ -32,7 +32,7 @@ class TweetRepository:
             )
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
-            self.__logger.error(f'teste user: {request.state.credentials["sub"]} - {e}')
+            self.__logger.error(f'[{request.state.credentials["sub"]}] {e}')
             raise invalidSupabaseResponse("Could not get tweets at this moment.")
 
     def get_tweets(self, request: Request) -> List[TweetDto]:
@@ -41,7 +41,7 @@ class TweetRepository:
             response = self.__client.table("Tweets").select("*").execute()
             return self.__adapter.validate_python(response.data)
         except Exception as e:
-            self.__logger.error(f'teste user: {request.state.credentials["sub"]} - {e}')
+            self.__logger.error(f'[{request.state.credentials["sub"]}] {e}')
             raise invalidSupabaseResponse("Could not get tweets at this moment.")
 
     def save_tweet(self, tweet: Tweet, request: Request) -> TweetDto:
