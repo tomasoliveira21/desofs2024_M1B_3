@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.5.0...v1.6.0) (2024-06-05)
+
+
+### Features
+
+* Trends page ([9ef4f4b](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/9ef4f4b66a7ccd21c9ddb5bbf2e60971b1d94ce1))
+
 # [1.5.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.4.1...v1.5.0) (2024-06-04)
 
 
