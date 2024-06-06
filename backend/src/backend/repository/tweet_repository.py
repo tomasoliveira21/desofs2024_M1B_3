@@ -59,7 +59,7 @@ class TweetRepository:
             self.__logger.error(f'[{request.state.credentials["sub"]}] {e}')
             raise invalidSupabaseResponse("Could not save the tweet at this moment.")
 
-    def delete_tweet(self, id: int, request: Request) -> TweetDto:
+    def delete_tweet(self, id: UUID, request: Request) -> TweetDto:
         try:
             self.__client.auth.set_session(
                 access_token=request.state.jwt, refresh_token=""

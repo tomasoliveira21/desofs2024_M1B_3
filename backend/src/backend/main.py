@@ -14,7 +14,6 @@ from backend.domain.hashtag import HashtagDto
 from backend.domain.tweet import Tweet, TweetDto
 from backend.domain.user import UserRole
 from backend.infrastructure.config import settings
-from backend.repository.user_repository import UserRepository
 from backend.service.hashtag_service import HashtagService
 from backend.service.tweet_service import TweetService
 
@@ -78,7 +77,7 @@ def post_tweet(
 
 
 @tweet_router.delete("", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
-def delete_tweet(uuid: int, request: Request) -> TweetDto:
+def delete_tweet(uuid: UUID, request: Request) -> TweetDto:
     return tweet_service.delete_tweet(tweet_id=uuid, request=request)
 
 
@@ -98,8 +97,7 @@ def get_trends(request: Request) -> List[HashtagDto]:
 # USERS
 @user_router.get("", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
 def get_user(request: Request):
-    ur = UserRepository()
-    return ur.get_user(request)
+    return request.state.user
 
 
 # ROUTERS

@@ -53,7 +53,7 @@ class TweetService:
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
-    def delete_tweet(self, tweet_id: int, request: Request) -> TweetDto:
+    def delete_tweet(self, tweet_id: UUID, request: Request) -> TweetDto:
         self._logger.info(
             f'[{request.state.credentials["sub"]}] delete tweet {tweet_id}'
         )

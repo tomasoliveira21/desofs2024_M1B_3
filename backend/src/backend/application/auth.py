@@ -6,13 +6,12 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from backend.application.exceptions import expiredJWTToken
 from backend.infrastructure.config import settings
-from backend.infrastructure.supabase_auth import SupabaseSingleton
+from backend.service.user_service import UserService
 
 
 class JWTBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
         super(JWTBearer, self).__init__(auto_error=auto_error)
-        self._supabase: SupabaseSingleton = SupabaseSingleton()
 
     async def __call__(self, request: Request):
         credentials: HTTPAuthorizationCredentials | None = await super(
@@ -27,15 +26,15 @@ class JWTBearer(HTTPBearer):
                 raise HTTPException(
                     status_code=403, detail="Invalid token or expired token."
                 )
-            if not self._verify_supabase_session(jwtoken=credentials.credentials):
+            if not self._verify_supabase_user(request=request):
                 raise HTTPException(status_code=403, detail="User not found.")
             return credentials.credentials
         else:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
 
-    def _verify_supabase_session(self, jwtoken: str) -> bool:
+    def _verify_supabase_user(self, request: Request) -> bool:
         try:
-            self._supabase._client.auth.get_user(jwtoken)
+            request.state.user = UserService().get_user(request=request)
             return True
         except Exception:
             return False

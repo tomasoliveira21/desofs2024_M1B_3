@@ -1,8 +1,14 @@
 from enum import Enum
-from typing import Annotated
+from typing import Annotated, Any
 from uuid import UUID
 
-from pydantic import BaseModel, EmailStr, Field, StringConstraints
+from pydantic import (
+    BaseModel,
+    EmailStr,
+    Field,
+    StringConstraints,
+    field_validator,
+)
 
 
 class Role(BaseModel):
@@ -43,8 +49,20 @@ class UserRole(Enum):
         return self.value.hierarchy
 
 
-class User(BaseModel):
+class UserDto(BaseModel):
     id: UUID
     email: EmailStr
     username: str
     role: UserRole
+
+    @field_validator("role", mode="before")
+    def validate_role(cls, v: Any) -> UserRole:
+        if isinstance(v, str):
+            try:
+                return UserRole[v]
+            except KeyError:
+                raise ValueError(f"Invalid role: {v}")
+        elif isinstance(v, UserRole):
+            return v
+        else:
+            raise TypeError("role must be a string or UserRole")
