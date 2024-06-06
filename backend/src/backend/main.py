@@ -1,10 +1,12 @@
+from tempfile import NamedTemporaryFile
 from typing import List
 from uuid import UUID
 
 import redis.asyncio as redis
-from fastapi import APIRouter, Depends, FastAPI, Request
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, UploadFile
 from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 
@@ -14,6 +16,8 @@ from backend.domain.hashtag import HashtagDto
 from backend.domain.tweet import Tweet, TweetDto
 from backend.domain.user import UserRole
 from backend.infrastructure.config import settings
+from backend.infrastructure.supabase_auth import SupabaseSingleton
+from backend.repository.tweet_repository import TweetRepository
 from backend.service.hashtag_service import HashtagService
 from backend.service.tweet_service import TweetService
 from backend.service.user_service import UserService
@@ -58,16 +62,16 @@ user_service = UserService()
 
 
 # TWEETS
+@tweet_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def get_tweets(request: Request) -> List[TweetDto]:
+    return tweet_service.get_all_tweets(request=request)
+
+
 @tweet_router.get(
     "/{uuid}", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
 def get_tweet(uuid: UUID, request: Request) -> TweetDto:
     return tweet_service.get_tweet(uuid=uuid, request=request)
-
-
-@tweet_router.get("", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
-def get_tweets(request: Request) -> List[TweetDto]:
-    return tweet_service.get_all_tweets(request=request)
 
 
 @tweet_router.post("", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
@@ -78,9 +82,27 @@ def post_tweet(
     return tweet_service.create_tweet(tweet=tweet, request=request)
 
 
+@tweet_router.post(
+    "/{uuid}/image", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
+)
+def post_image(
+    uuid: UUID,
+    image: UploadFile,
+    request: Request,
+):
+    return TweetRepository().save_image(request=request, uuid=uuid, image=image)
+
+
 @tweet_router.delete("", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
 def delete_tweet(uuid: UUID, request: Request) -> TweetDto:
-    return tweet_service.delete_tweet(tweet_id=uuid, request=request)
+    return tweet_service.delete_tweet(uuid=uuid, request=request)
+
+
+@tweet_router.get(
+    "/{uuid}/image", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
+)
+def get_image(uuid: UUID, request: Request) -> FileResponse:
+    return TweetRepository().get_image(request=request, uuid=uuid)
 
 
 # HASHTAGS
@@ -101,9 +123,24 @@ def get_trends(request: Request) -> List[HashtagDto]:
 def get_self_user(request: Request):
     return request.state.user
 
+
 @user_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
 def get_users(request: Request):
     return user_service.get_all_users(request=request)
+
+
+@user_router.post(
+    "/profile_picture", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
+)
+def post_profile_picture(image: UploadFile, request: Request) -> FileResponse:
+    return user_service.save_profile_picture(request=request, image=image)
+
+
+@user_router.get(
+    "/profile_picture", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
+)
+def get_profile_picture(request: Request):
+    return user_service.get_profile_picture(request=request)
 
 
 # ROUTERS

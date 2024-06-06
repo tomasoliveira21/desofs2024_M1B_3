@@ -1,7 +1,8 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import HTTPException, Request
+from fastapi import HTTPException, Request, UploadFile
+from fastapi.responses import FileResponse, JSONResponse
 
 from backend.application.exceptions import invalidSupabaseResponse
 from backend.application.utils import single_read_object
@@ -41,7 +42,7 @@ class TweetService:
         self.__logger.info(f"[{request.state.credentials['sub']}] save tweet")
         try:
             with single_read_object(
-                self.__tweet_repository.save_tweet(tweet, request=request)
+                self.__tweet_repository.save_tweet(tweet=tweet, request=request)
             ) as created_tweet:
                 if tweet.hashtags:
                     self.__hashtag_service.save_hashtags(
@@ -53,14 +54,36 @@ class TweetService:
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
-    def delete_tweet(self, tweet_id: UUID, request: Request) -> TweetDto:
-        self.__logger.info(
-            f"[{request.state.credentials['sub']}] delete tweet {tweet_id}"
-        )
+    def delete_tweet(self, uuid: UUID, request: Request) -> TweetDto:
+        self.__logger.info(f"[{request.state.credentials['sub']}] delete tweet {uuid}")
         try:
             with single_read_object(
-                self.__tweet_repository.delete_tweet(tweet_id, request=request)
+                self.__tweet_repository.delete_tweet(uuid=uuid, request=request)
             ) as deleted_tweet:
                 return deleted_tweet
+        except invalidSupabaseResponse as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def save_image(
+        self, request: Request, uuid: UUID, image: UploadFile
+    ) -> JSONResponse:
+        self.__logger.info(f"[{request.state.credentials['sub']}] save tweet image")
+        try:
+            with single_read_object(
+                self.__tweet_repository.save_image(
+                    request=request, uuid=uuid, image=image
+                )
+            ) as uploaded_image:
+                return uploaded_image
+        except invalidSupabaseResponse as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def get_image(self, request: Request, uuid: UUID) -> FileResponse:
+        self.__logger.info(f"[{request.state.credentials['sub']}] get tweet image")
+        try:
+            with single_read_object(
+                self.__tweet_repository.get_image(request=request, uuid=uuid)
+            ) as image:
+                return image
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))

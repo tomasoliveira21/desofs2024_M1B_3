@@ -1,6 +1,9 @@
+from tempfile import NamedTemporaryFile, _TemporaryFileWrapper
 from typing import List
 
-from fastapi import Request
+from click import File
+from fastapi import Request, UploadFile
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import TypeAdapter
 
 from backend.application.exceptions import invalidSupabaseResponse
@@ -45,3 +48,44 @@ class UserRepository:
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise invalidSupabaseResponse("Could not get users at this moment.")
+
+    def save_profile_picture(self, request: Request, image: UploadFile):
+        with NamedTemporaryFile(
+            delete=True,
+        ) as tmp_image:
+            try:
+                self.__client.auth.set_session(
+                    access_token=request.state.jwt, refresh_token=""
+                )
+                path = f"profile_pictures/{request.state.user.id}"
+                contents = image.file.read()
+                tmp_image.write(contents)
+                self.__client.storage.from_("socialnet").upload(
+                    path=path,
+                    file=tmp_image.name,
+                    file_options={"content-type": image.content_type}
+                    if image.content_type
+                    else None,
+                )
+            except Exception:
+                raise invalidSupabaseResponse("Error on uploading the image")
+            finally:
+                image.file.close()
+        return JSONResponse(status_code=200, content={"message": path})
+
+    def get_profile_picture(self, request: Request) -> FileResponse:
+        try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
+            with NamedTemporaryFile(delete=False, mode="wb+") as tmp_image:
+                res = self.__client.storage.from_("socialnet").download(
+                    f"profile_pictures/{request.state.user.id}"
+                )
+                tmp_image.write(res)
+                return FileResponse(tmp_image.name, media_type="image/png")
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise invalidSupabaseResponse(
+                "Could not get profile picture at this moment."
+            )
