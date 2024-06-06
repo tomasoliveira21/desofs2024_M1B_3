@@ -10,10 +10,10 @@ class Logger:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super(Logger, cls).__new__(cls)
-            cls._instance._initialize_logger()
+            cls._instance.__initialize_logger()
         return cls._instance
 
-    def _initialize_logger(self):
+    def __initialize_logger(self):
         self._logger = logging.getLogger("socialnet")
         if not self._logger.hasHandlers():
             self._logger.setLevel(logging.INFO)

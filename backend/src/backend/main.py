@@ -16,6 +16,7 @@ from backend.domain.user import UserRole
 from backend.infrastructure.config import settings
 from backend.service.hashtag_service import HashtagService
 from backend.service.tweet_service import TweetService
+from backend.service.user_service import UserService
 
 
 @asynccontextmanager
@@ -53,6 +54,7 @@ user_router = APIRouter(prefix="/user", tags=["User"])
 # SERVICES
 tweet_service = TweetService()
 hashtag_service = HashtagService()
+user_service = UserService()
 
 
 # TWEETS
@@ -95,9 +97,13 @@ def get_trends(request: Request) -> List[HashtagDto]:
 
 
 # USERS
-@user_router.get("", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
-def get_user(request: Request):
+@user_router.get("/self", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def get_self_user(request: Request):
     return request.state.user
+
+@user_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
+def get_users(request: Request):
+    return user_service.get_all_users(request=request)
 
 
 # ROUTERS

@@ -10,7 +10,7 @@ class RBAC:
 
     async def __call__(self, request: Request):
         try:
-            user_role = UserRole[request.state.role]
+            user_role = request.state.user.role
         except ValueError:
             raise HTTPException(status_code=403, detail="Invalid role")
         if user_role.value.hierarchy < self._minimum_role.value.hierarchy:

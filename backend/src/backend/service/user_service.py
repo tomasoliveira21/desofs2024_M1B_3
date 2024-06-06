@@ -11,14 +11,24 @@ from backend.repository.user_repository import UserRepository
 
 class UserService:
     def __init__(self):
-        self._repository = UserRepository()
-        self._logger = Logger().get_logger()
+        self.__repository = UserRepository()
+        self.__logger = Logger().get_logger()
 
-    def get_user(self, request: Request) -> List[UserDto]:
-        self._logger.info(f'[{request.state.credentials["sub"]}] get user')
+    def get_self_user(self, request: Request) -> List[UserDto]:
+        self.__logger.info(f"[{request.state.credentials['sub']}] get self user")
         try:
             with single_read_object(
-                self._repository.get_user(request=request)
+                self.__repository.get_self_user(request=request)
+            ) as trends:
+                return trends
+        except invalidSupabaseResponse as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def get_all_users(self, request: Request) -> List[UserDto]:
+        self.__logger.info(f"[{request.state.credentials['sub']}] get all users")
+        try:
+            with single_read_object(
+                self.__repository.get_all_users(request=request)
             ) as trends:
                 return trends
         except invalidSupabaseResponse as e:

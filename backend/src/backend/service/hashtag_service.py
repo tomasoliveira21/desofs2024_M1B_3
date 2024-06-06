@@ -7,13 +7,15 @@ from backend.application.exceptions import invalidSupabaseResponse
 from backend.application.utils import single_read_object
 from backend.domain.hashtag import Hashtag, HashtagDto
 from backend.infrastructure.logging import Logger
+from backend.infrastructure.supabase_auth import SupabaseSingleton
 from backend.repository.hashtag_repository import HashtagRepository
 
 
 class HashtagService:
     def __init__(self):
-        self._repository = HashtagRepository()
-        self._logger = Logger().get_logger()
+        self.__client = SupabaseSingleton().get_client()
+        self.__repository = HashtagRepository()
+        self.__logger = Logger().get_logger()
 
     def save_hashtags(
         self,
@@ -21,13 +23,14 @@ class HashtagService:
         tweet_uuid: UUID,
         request: Request,
     ):
-        self._logger.info(f'[{request.state.credentials["sub"]}] save hashtags')
+        self.__logger.info(f"[{request.state.credentials['sub']}] save hashtags")
+        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         if not isinstance(hashtags, list):
             hashtags = [hashtags]
         try:
             for hashtag in hashtags:
                 with single_read_object(
-                    self._repository.save_hashtag(
+                    self.__repository.save_hashtag(
                         hashtag=hashtag, tweet_uuid=tweet_uuid, request=request
                     )
                 ):
@@ -36,20 +39,21 @@ class HashtagService:
             raise HTTPException(status_code=500, detail=str(e))
 
     def get_hashtags(self, request: Request) -> List[HashtagDto]:
-        self._logger.info(f'[{request.state.credentials["sub"]}] get all hashtags')
+        self.__logger.info(f"[{request.state.credentials['sub']}] get all hashtags")
+        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         try:
             with single_read_object(
-                self._repository.get_hashtags(request=request)
+                self.__repository.get_hashtags(request=request)
             ) as hashtags:
                 return hashtags
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def get_trends(self, request: Request) -> List[HashtagDto]:
-        self._logger.info(f'[{request.state.credentials["sub"]}] get trends')
+        self.__logger.info(f"[{request.state.credentials['sub']}] get trends")
         try:
             with single_read_object(
-                self._repository.get_trends(request=request)
+                self.__repository.get_trends(request=request)
             ) as trends:
                 return trends
         except invalidSupabaseResponse as e:
