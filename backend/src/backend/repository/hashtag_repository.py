@@ -9,15 +9,15 @@ from backend.infrastructure.supabase_auth import SupabaseSingleton
 
 
 class HashtagRepository:
-    _instance = None
+    __instance = None
 
     def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(HashtagRepository, cls).__new__(cls)
-            cls._instance._initialize_params()
-        return cls._instance
+        if cls.__instance is None:
+            cls.__instance = super(HashtagRepository, cls).__new__(cls)
+            cls.__instance.__initialize_params()
+        return cls.__instance
 
-    def _initialize_params(self):
+    def __initialize_params(self):
         self.__client = SupabaseSingleton().get_client()
         self.__adapter = TypeAdapter(List[HashtagDto])
 

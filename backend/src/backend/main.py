@@ -1,3 +1,6 @@
+from typing import List
+from uuid import UUID
+
 import redis.asyncio as redis
 from fastapi import APIRouter, Depends, FastAPI, Request
 from fastapi.concurrency import asynccontextmanager
@@ -6,10 +9,14 @@ from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 
 from backend.application.auth import JWTBearer
+from backend.application.rbac import RBAC
+from backend.domain.hashtag import HashtagDto
 from backend.domain.tweet import Tweet, TweetDto
+from backend.domain.user import UserRole
 from backend.infrastructure.config import settings
 from backend.service.hashtag_service import HashtagService
 from backend.service.tweet_service import TweetService
+from backend.service.user_service import UserService
 
 
 @asynccontextmanager
@@ -42,39 +49,64 @@ app.add_middleware(
 
 tweet_router = APIRouter(prefix="/tweet", tags=["Tweets"])
 hashtag_router = APIRouter(prefix="/hashtag", tags=["Hashtag"])
+user_router = APIRouter(prefix="/user", tags=["User"])
 
 # SERVICES
 tweet_service = TweetService()
 hashtag_service = HashtagService()
+user_service = UserService()
 
 
 # TWEETS
-@tweet_router.get("")
-def get_tweets(request: Request):
+@tweet_router.get(
+    "/{uuid}", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
+)
+def get_tweet(uuid: UUID, request: Request) -> TweetDto:
+    return tweet_service.get_tweet(uuid=uuid, request=request)
+
+
+@tweet_router.get("", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def get_tweets(request: Request) -> List[TweetDto]:
     return tweet_service.get_all_tweets(request=request)
 
 
-@tweet_router.post("")
-def post_tweet(tweet: Tweet, request: Request) -> TweetDto:
+@tweet_router.post("", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def post_tweet(
+    tweet: Tweet,
+    request: Request,
+) -> TweetDto:
     return tweet_service.create_tweet(tweet=tweet, request=request)
 
 
-@tweet_router.delete("")
-def delete_tweet(id: int, request: Request) -> TweetDto:
-    return tweet_service.delete_tweet(tweet_id=id, request=request)
+@tweet_router.delete("", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
+def delete_tweet(uuid: UUID, request: Request) -> TweetDto:
+    return tweet_service.delete_tweet(tweet_id=uuid, request=request)
 
 
 # HASHTAGS
-@hashtag_router.get("")
-def get_hashtags(request: Request):
+@hashtag_router.get("", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def get_hashtags(request: Request) -> List[HashtagDto]:
     return hashtag_service.get_hashtags(request=request)
 
 
-@hashtag_router.get("/trends")
-def get_trends(request: Request):
+@hashtag_router.get(
+    "/trends", dependencies=[Depends(RBAC(minimum_role=UserRole.premium))]
+)
+def get_trends(request: Request) -> List[HashtagDto]:
     return hashtag_service.get_trends(request=request)
+
+
+# USERS
+@user_router.get("/self", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def get_self_user(request: Request):
+    return request.state.user
+
+@user_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
+def get_users(request: Request):
+    return user_service.get_all_users(request=request)
 
 
 # ROUTERS
 app.include_router(tweet_router)
 app.include_router(hashtag_router)
+app.include_router(user_router)
