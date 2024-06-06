@@ -1,7 +1,9 @@
+from tempfile import NamedTemporaryFile
 from typing import List
 from uuid import UUID
 
-from fastapi import Request
+from fastapi import Request, UploadFile
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import TypeAdapter
 
 from backend.application.exceptions import invalidSupabaseResponse
@@ -59,14 +61,74 @@ class TweetRepository:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise invalidSupabaseResponse("Could not save the tweet at this moment.")
 
-    def delete_tweet(self, id: UUID, request: Request) -> TweetDto:
+    def delete_tweet(self, uuid: UUID, request: Request) -> TweetDto:
         try:
             self.__client.auth.set_session(
                 access_token=request.state.jwt, refresh_token=""
             )
-            response = self.__client.table("Tweets").delete().eq("id", id).execute()
+            response = self.__client.table("Tweets").delete().eq("id", uuid).execute()
             print(response)
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise invalidSupabaseResponse("Could not delete the tweet at this moment.")
+
+    def save_image(
+        self, request: Request, uuid: UUID, image: UploadFile
+    ) -> JSONResponse:
+        with NamedTemporaryFile(
+            delete=True,
+        ) as tmp_image:
+            try:
+                self.__client.auth.set_session(
+                    access_token=request.state.jwt, refresh_token=""
+                )
+                path = f"tweets/{uuid}"
+                contents = image.file.read()
+                tmp_image.write(contents)
+                self.__client.storage.from_("socialnet").upload(
+                    path=path,
+                    file=tmp_image.name,
+                    file_options={"content-type": image.content_type}
+                    if image.content_type
+                    else None,
+                )
+            except Exception:
+                raise invalidSupabaseResponse("Error on uploading the tweet image")
+            finally:
+                image.file.close()
+        return JSONResponse(status_code=200, content={"message": path})
+
+    def get_image(self, request: Request, uuid: UUID) -> FileResponse:
+        try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
+            with NamedTemporaryFile(delete=False, mode="wb+") as tmp_image:
+                res = self.__client.storage.from_("socialnet").download(
+                    f"tweets/{uuid}"
+                )
+                tmp_image.write(res)
+                return FileResponse(tmp_image.name, media_type="image/png")
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise invalidSupabaseResponse(
+                "Could not get the tweet image at this moment."
+            )
+
+    def has_image(self, uuid: UUID, request: Request) -> bool:
+        try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
+            res = self.__client.storage.from_("socialnet").list(path="tweets")
+            if len(res) > 0:
+                for file in res:
+                    if file.get("name") == str(uuid):
+                        return True
+            return False
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise invalidSupabaseResponse(
+                "Could not confirm tweet has image at this moment."
+            )
