@@ -1,7 +1,6 @@
-from tempfile import NamedTemporaryFile, _TemporaryFileWrapper
+from tempfile import NamedTemporaryFile
 from typing import List
 
-from click import File
 from fastapi import Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import TypeAdapter
@@ -88,4 +87,21 @@ class UserRepository:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise invalidSupabaseResponse(
                 "Could not get profile picture at this moment."
+            )
+
+    def has_profile_picture(self, request: Request) -> bool:
+        try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
+            res = self.__client.storage.from_("socialnet").list(path="profile_pictures")
+            if len(res) > 0:
+                for file in res:
+                    if file.get("name") == str(request.state.user.id):
+                        return True
+            return False
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise invalidSupabaseResponse(
+                "Could not confirm user has profile picture at this moment."
             )

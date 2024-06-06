@@ -87,3 +87,13 @@ class TweetService:
                 return image
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
+
+    def has_image(self, request: Request, uuid: UUID) -> bool:
+        self.__logger.info(f"[{request.state.credentials['sub']}] verify tweet image")
+        try:
+            with single_read_object(
+                self.__tweet_repository.has_image(request=request, uuid=uuid)
+            ) as bool_image:
+                return bool_image
+        except invalidSupabaseResponse as e:
+            raise HTTPException(status_code=500, detail=str(e))

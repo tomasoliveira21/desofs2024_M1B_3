@@ -1,4 +1,3 @@
-from importlib.readers import FileReader
 from typing import List
 
 from fastapi import HTTPException, Request, UploadFile
@@ -53,5 +52,17 @@ class UserService:
                 self.__repository.get_profile_picture(request=request)
             ) as pfpicture:
                 return pfpicture
+        except invalidSupabaseResponse as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def has_profile_picture(self, request: Request) -> bool:
+        self.__logger.info(
+            f"[{request.state.credentials['sub']}] verify profile picture"
+        )
+        try:
+            with single_read_object(
+                self.__repository.has_profile_picture(request=request)
+            ) as bool_pfp:
+                return bool_pfp
         except invalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))

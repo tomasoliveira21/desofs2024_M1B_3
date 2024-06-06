@@ -1,5 +1,3 @@
-from calendar import c
-from http.client import HTTPResponse
 from tempfile import NamedTemporaryFile
 from typing import List
 from uuid import UUID
@@ -116,4 +114,21 @@ class TweetRepository:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise invalidSupabaseResponse(
                 "Could not get the tweet image at this moment."
+            )
+
+    def has_image(self, uuid: UUID, request: Request) -> bool:
+        try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
+            res = self.__client.storage.from_("socialnet").list(path="tweets")
+            if len(res) > 0:
+                for file in res:
+                    if file.get("name") == str(uuid):
+                        return True
+            return False
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise invalidSupabaseResponse(
+                "Could not confirm tweet has image at this moment."
             )

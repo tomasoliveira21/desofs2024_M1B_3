@@ -1,12 +1,10 @@
-from tempfile import NamedTemporaryFile
 from typing import List
 from uuid import UUID
 
 import redis.asyncio as redis
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, UploadFile
+from fastapi import APIRouter, Depends, FastAPI, Request, UploadFile
 from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 
@@ -16,7 +14,6 @@ from backend.domain.hashtag import HashtagDto
 from backend.domain.tweet import Tweet, TweetDto
 from backend.domain.user import UserRole
 from backend.infrastructure.config import settings
-from backend.infrastructure.supabase_auth import SupabaseSingleton
 from backend.repository.tweet_repository import TweetRepository
 from backend.service.hashtag_service import HashtagService
 from backend.service.tweet_service import TweetService
@@ -101,8 +98,11 @@ def delete_tweet(uuid: UUID, request: Request) -> TweetDto:
 @tweet_router.get(
     "/{uuid}/image", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
-def get_image(uuid: UUID, request: Request) -> FileResponse:
-    return TweetRepository().get_image(request=request, uuid=uuid)
+def get_image(uuid: UUID, request: Request):
+    if tweet_service.has_image(request=request, uuid=uuid):
+        return tweet_service.get_image(request=request, uuid=uuid)
+    else:
+        return None
 
 
 # HASHTAGS
@@ -132,7 +132,7 @@ def get_users(request: Request):
 @user_router.post(
     "/profile_picture", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
-def post_profile_picture(image: UploadFile, request: Request) -> FileResponse:
+def post_profile_picture(image: UploadFile, request: Request):
     return user_service.save_profile_picture(request=request, image=image)
 
 
@@ -140,7 +140,10 @@ def post_profile_picture(image: UploadFile, request: Request) -> FileResponse:
     "/profile_picture", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
 def get_profile_picture(request: Request):
-    return user_service.get_profile_picture(request=request)
+    if user_service.has_profile_picture(request=request):
+        return user_service.get_profile_picture(request=request)
+    else:
+        return None
 
 
 # ROUTERS

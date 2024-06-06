@@ -5,7 +5,6 @@ description = "A Twitter-like socal network"
 authors = [
     "Paulo Moreira <1180778@isep.ipp.pt>",
     "Tomás Afonso Soares De Oliveira <1230213@isep.ipp.pt>",
-    "Diogo Alexandre Pereira Ferreira <1230176@isep.ipp.pt>",
     "Luís Silva <1181031@isep.ipp.pt>",
 ]
 readme = "README.md"
@@ -28,7 +27,33 @@ python-multipart = "^0.0.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
+ruff = "^0.4.8"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+src = ["src"]
+
+exclude = [
+    ".direnv",
+    ".git",
+    ".py_cache",
+    ".pyenv",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "build",
+    "dist",
+    "venv",
+]
+
+line-length = 88
+indent-width = 4
+target-version = "py311"
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+extend-select = ["F401"]
+unfixable = []
