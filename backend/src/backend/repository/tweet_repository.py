@@ -37,7 +37,7 @@ class TweetRepository:
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
-            raise invalidSupabaseResponse("Could not get tweets at this moment.")
+            raise invalidSupabaseResponse("tweets at this moment.")
 
     def get_all_tweets(self, request: Request) -> List[TweetDto]:
         try:

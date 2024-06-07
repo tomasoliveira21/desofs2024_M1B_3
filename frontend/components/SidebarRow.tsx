@@ -4,7 +4,6 @@ interface Props {
     Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element,
     title: string,
     onClick?: () => void
-
   }
 
 function SidebarRow({ Icon, title, onClick }: Props) {
