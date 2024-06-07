@@ -27,8 +27,10 @@ class TweetRepository:
         self.__logger = Logger().get_logger()
 
     def get_tweet(self, uuid: UUID, request: Request) -> TweetDto:
-        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
             response = (
                 self.__client.table("Tweets").select("*").eq("uuid", uuid).execute()
             )
@@ -37,10 +39,44 @@ class TweetRepository:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise invalidSupabaseResponse("Could not get tweets at this moment.")
 
-    def get_tweets(self, request: Request) -> List[TweetDto]:
-        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
+    def get_all_tweets(self, request: Request) -> List[TweetDto]:
         try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
             response = self.__client.table("Tweets").select("*").execute()
+            return self.__adapter.validate_python(response.data)
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise invalidSupabaseResponse("Could not get tweets at this moment.")
+
+    def get_self_tweets(self, request: Request) -> List[TweetDto]:
+        try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
+            response = (
+                self.__client.table("Tweets")
+                .select("*")
+                .eq("user_uuid", request.state.user.id)
+                .execute()
+            )
+            return self.__adapter.validate_python(response.data)
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise invalidSupabaseResponse("Could not get tweets at this moment.")
+
+    def get_user_tweets(self, user_uuid: UUID, request: Request) -> List[TweetDto]:
+        try:
+            self.__client.auth.set_session(
+                access_token=request.state.jwt, refresh_token=""
+            )
+            response = (
+                self.__client.table("Tweets")
+                .select("*")
+                .eq("user_uuid", user_uuid)
+                .execute()
+            )
             return self.__adapter.validate_python(response.data)
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
