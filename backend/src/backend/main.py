@@ -71,6 +71,20 @@ def get_tweet(uuid: UUID, request: Request) -> TweetDto:
     return tweet_service.get_tweet(uuid=uuid, request=request)
 
 
+@tweet_router.get(
+    "/user/self", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
+)
+def get_self_tweets(request: Request) -> List[TweetDto]:
+    return tweet_service.get_self_tweet(request=request)
+
+
+@tweet_router.get(
+    "/user/{user_uuid}", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
+)
+def get_user_tweets(user_uuid: UUID, request: Request) -> List[TweetDto]:
+    return tweet_service.get_user_tweet(user_uuid=user_uuid, request=request)
+
+
 @tweet_router.post("", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
 def post_tweet(
     tweet: Tweet,

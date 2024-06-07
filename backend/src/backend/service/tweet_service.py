@@ -32,7 +32,31 @@ class TweetService:
         self.__logger.info(f"[{request.state.credentials['sub']}] get all tweets")
         try:
             with single_read_object(
-                self.__tweet_repository.get_tweets(request=request)
+                self.__tweet_repository.get_all_tweets(request=request)
+            ) as tweets:
+                return tweets
+        except invalidSupabaseResponse as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def get_user_tweet(self, user_uuid: UUID, request: Request) -> List[TweetDto]:
+        self.__logger.info(
+            f"[{request.state.credentials['sub']}] get user {user_uuid} tweets"
+        )
+        try:
+            with single_read_object(
+                self.__tweet_repository.get_user_tweets(
+                    user_uuid=user_uuid, request=request
+                )
+            ) as tweets:
+                return tweets
+        except invalidSupabaseResponse as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def get_self_tweet(self, request: Request) -> List[TweetDto]:
+        self.__logger.info(f"[{request.state.credentials['sub']}] get self tweets")
+        try:
+            with single_read_object(
+                self.__tweet_repository.get_self_tweets(request=request)
             ) as tweets:
                 return tweets
         except invalidSupabaseResponse as e:
