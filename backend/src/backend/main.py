@@ -143,11 +143,6 @@ def get_users(request: Request):
     return user_service.get_all_users(request=request)
 
 
-@user_router.get("/{uuid}", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
-def get_user(request: Request, uuid: UUID):
-    return user_service.get_user(uuid=uuid, request=request)
-
-
 @user_router.post(
     "/profile_picture", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
@@ -158,8 +153,13 @@ def post_profile_picture(image: UploadFile, request: Request):
 @user_router.get(
     "/profile_picture", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
-def get_profile_picture(request: Request) -> Url:
+def get_profile_picture(request: Request):
     return user_service.get_profile_picture(request=request)
+
+
+@user_router.get("/{uuid}", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def get_user(request: Request, uuid: UUID):
+    return user_service.get_user(uuid=uuid, request=request)
 
 
 # ROUTERS
