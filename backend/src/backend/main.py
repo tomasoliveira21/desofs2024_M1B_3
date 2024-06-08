@@ -153,7 +153,7 @@ def post_profile_picture(image: UploadFile, request: Request):
 @user_router.get(
     "/profile_picture", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
-def get_profile_picture(request: Request):
+def get_profile_picture(request: Request) -> Url:
     return user_service.get_profile_picture(request=request)
 
 
