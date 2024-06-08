@@ -49,7 +49,6 @@ export default function Login() {
       const { data: resetData, error } = await supabase.auth.resetPasswordForEmail(data.email, {
         redirectTo: `${window.location.href}reset`
       });
-      console.log(data.email);
     } catch (error) {
       setMessage("An error occurred: " + error);
     }
