@@ -8,8 +8,22 @@ import {
 } from "@heroicons/react/outline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRetweet } from "@fortawesome/free-solid-svg-icons";
+import { deleteTweet } from "@/api/deleteTweet";
+import toast from "react-hot-toast";
 
-function Tweet({ tweet, isAdmin, userInfo }: any) {
+function Tweet({ tweet, isAdmin, userInfo, session }: any) {
+
+  const handleDelete = async () => {
+    const refreshToast = toast.loading('Refreshing...'); 
+
+    await deleteTweet(session.access_token, tweet.uuid);
+
+    toast.success('Feed updated!', {
+      id: refreshToast
+    })
+  };
+
+
   return (
     <div className="max-w-lg mx-auto">
       <div className="flex flex-col space-x-3 border-y p-5 border-gray-100 break-words">
@@ -33,7 +47,7 @@ function Tweet({ tweet, isAdmin, userInfo }: any) {
                 {isAdmin && (
                   <TrashIcon
                     className="h-5 w-5 text-red-500 cursor-pointer"
-                    onClick={() => alert("Delete action")}
+                    onClick={handleDelete}
                   />
                 )}
               </div>

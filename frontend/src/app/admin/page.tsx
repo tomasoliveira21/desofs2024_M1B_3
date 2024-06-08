@@ -64,7 +64,7 @@ export default function Admin() {
 
           <div className="pt-10 text-md">
             {tweets.map((tweet) => (
-              <TweetComponent key={tweet.id} tweet={tweet} isAdmin={isAdmin}/>
+              <TweetComponent key={tweet.id} tweet={tweet} isAdmin={isAdmin} session={session}/>
             ))}
           </div>
         </div>
