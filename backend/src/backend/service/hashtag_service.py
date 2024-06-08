@@ -3,7 +3,7 @@ from uuid import UUID
 
 from fastapi import HTTPException, Request
 
-from backend.application.exceptions import invalidSupabaseResponse
+from backend.application.exceptions import InvalidSupabaseResponse
 from backend.application.utils import single_read_object
 from backend.domain.hashtag import Hashtag, HashtagDto
 from backend.infrastructure.logging import Logger
@@ -35,7 +35,7 @@ class HashtagService:
                     )
                 ):
                     pass
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def get_hashtags(self, request: Request) -> List[HashtagDto]:
@@ -46,7 +46,7 @@ class HashtagService:
                 self.__repository.get_hashtags(request=request)
             ) as hashtags:
                 return hashtags
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def get_trends(self, request: Request) -> List[HashtagDto]:
@@ -56,5 +56,5 @@ class HashtagService:
                 self.__repository.get_trends(request=request)
             ) as trends:
                 return trends
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
