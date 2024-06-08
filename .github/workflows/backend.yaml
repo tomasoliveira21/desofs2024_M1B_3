@@ -24,6 +24,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Generate .env
+        run: |
+          echo $BASE64_ENCODED_DOTENV | base64 -d > .env
+        env:
+            BASE64_ENCODED_DOTENV: ${{ secrets.BASE64_ENCODED_DOTENV }}
+
       - name: setup python
         uses: deadsnakes/action@v3.1.0
         with:
@@ -40,28 +46,11 @@ jobs:
           poetry run pytest --cov=backend tests >> result.log
           echo "## Backend Test Coverage" > comment.md
           poetry run coverage report --format markdown >> comment.md
-        env:
-          REDIS_HOST: "127.0.0.1"
-          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
-
+          
       - name: Post Coverage Comment on PR
         if: ${{ github.event_name == 'pull_request' }}
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body-path: ./backend/comment.md
-
-      - name: Get pyproject version
-        run: |
-          version=$(python3 -c "import toml; print(toml.load('pyproject.toml')['tool']['poetry']['version'])")
-          echo "DOCKER_VERSION=$version" >> $GITHUB_ENV
-
-      - name: Build Docker image
-        run: docker build -f Dockerfile.production -t socialnet-backend:$DOCKER_VERSION .
-
-      - name: Tag Latest Version
-        run: docker image tag socialnet-backend:$DOCKER_VERSION socialnet-backend:latest
-
-      - name: Deploy Backend Container
-        run: VERSION=$DOCKER_VERSION docker compose -f ~/stack/backend/docker-compose.yaml up -d
+  

@@ -4,8 +4,7 @@ version = "0.1.0"
 description = "A Twitter-like socal network"
 authors = [
     "Paulo Moreira <1180778@isep.ipp.pt>",
-    "Tomás Afonso Soares De Oliveira <1230213@isep.ipp.pt>",
-    "Luís Silva <1181031@isep.ipp.pt>",
+    "Tomás Afonso Soares De Oliveira <1230213@isep.ipp.pt>"
 ]
 readme = "README.md"
 packages = [{ include = "backend", from = "src" }]
