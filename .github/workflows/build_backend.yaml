@@ -71,6 +71,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           body-path: ./backend/comment.md
           edit-mode: replace
+        continue-on-error: true
   
       - name: Build Docker image
         run: docker build -f Dockerfile.production -t socialnet-backend:development .
