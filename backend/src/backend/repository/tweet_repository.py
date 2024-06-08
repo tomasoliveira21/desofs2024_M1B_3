@@ -41,7 +41,7 @@ class TweetRepository:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise InvalidSupabaseResponse("Could not get tweets at this moment.")
 
-    def get_all_tweets(self, request: Request):
+    def get_all_tweets(self, request: Request) -> List[TweetDto]:
         try:
             self.__client.auth.set_session(
                 access_token=request.state.jwt, refresh_token=""
