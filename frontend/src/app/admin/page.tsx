@@ -9,11 +9,14 @@ import Sidebar from "../../../components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchTrends } from "@/api/fetchTrends";
 import TrendTable from "../../../components/TrendTable";
+import { fetchTweets } from "@/api/fetchTweets";
+import TweetComponent from "../../../components/Tweet";
 
-export default function Trends() {
-
+export default function Admin() {
   const [session, setSession] = useState<Session | null>(null);
+  const [tweets, setTweets] = useState<any[]>([]);
   const [trends, setTrends] = useState<any[]>([]);
+  const isAdmin = true;
 
   useEffect(() => {
     async function getSession() {
@@ -35,6 +38,17 @@ export default function Trends() {
     getTrends();
   }, [session]);
 
+  useEffect(() => {
+    const getTweets = async () => {
+      if (session) {
+        const fetchedTweets = await fetchTweets(session.access_token);
+        setTweets(fetchedTweets);
+      }
+    };
+
+    getTweets();
+  }, [session]);
+
   if (!session) {
     return <div>Loading...</div>;
   }
@@ -42,14 +56,16 @@ export default function Trends() {
   return (
     <div className="lg:max-w-6xl mx-auto mx-h-screen overflow-hidden">
       <main className="grid grid-cols-9">
-        <Sidebar session={session}/>
+        <Sidebar session={session} />
         <div className="col-span-7 lg:col-span-5">
           <div className="flex items-center justify-between">
-            <h1 className="pl-40 pt-10 pb-0 text-xl font-bold">Trends</h1>
+            <h1 className="pl-40 pt-10 pb-0 text-xl font-bold">Manage Posts</h1>
           </div>
 
-          <div className="pl-40 pt-10 text-md">
-            <TrendTable trends={trends} />
+          <div className="pt-10 text-md">
+            {tweets.map((tweet) => (
+              <TweetComponent key={tweet.id} tweet={tweet} isAdmin={isAdmin} session={session}/>
+            ))}
           </div>
         </div>
       </main>

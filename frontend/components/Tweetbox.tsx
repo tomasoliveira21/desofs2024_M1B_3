@@ -15,7 +15,7 @@ import {
   PhotographIcon,
 } from "@heroicons/react/outline";
 import { Session } from "@supabase/auth-helpers-nextjs";
-import { postTweet } from "@/utils/postTweet";
+import { postTweet } from "@/api/postTweet";
 
 interface TweetboxProps {
   session: Session;

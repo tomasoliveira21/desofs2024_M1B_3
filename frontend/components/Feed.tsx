@@ -2,7 +2,7 @@ import { RefreshIcon } from "@heroicons/react/outline";
 import React, { useState, useEffect } from "react";
 import Tweetbox from "./Tweetbox";
 import { Session } from "@supabase/auth-helpers-nextjs";
-import { fetchTweets } from "@/utils/fetchTweets";
+import { fetchTweets } from "@/api/fetchTweets";
 import TweetComponent from "./Tweet";
 import toast from "react-hot-toast";
 
