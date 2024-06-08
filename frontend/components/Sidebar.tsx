@@ -7,6 +7,7 @@ import {
   UserIcon,
   HomeIcon,
   LogoutIcon,
+  CogIcon,
 } from "@heroicons/react/outline";
 
 import SidebarRow from "./SidebarRow";
@@ -40,6 +41,10 @@ function Sidebar({ session }: FeedProps) {
     router.push("/profile");
   };
 
+  const goToAdmin = () => {
+    router.push("/admin");
+  };
+
   useEffect(() => {
     const getTweets = async () => {
       if (session) {
@@ -65,6 +70,9 @@ function Sidebar({ session }: FeedProps) {
       <SidebarRow Icon={UserIcon} title="Profile" onClick={goToProfile} />
       <SidebarRow Icon={BellIcon} title="Notifications" />
       <SidebarRow Icon={MailIcon} title="Messages" />
+      {userData?.role.name === "admin" ? (
+        <SidebarRow Icon={CogIcon} title="Manage" onClick={goToAdmin} />
+      ) : null}
       <SidebarRow Icon={LogoutIcon} title="Sign Out" onClick={logout} />
     </div>
   );
