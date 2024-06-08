@@ -54,14 +54,14 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    const getTweets = async () => {
+    const getUser = async () => {
       if (session) {
         const fetchedUser = await fetchUser(session.access_token);
         setUserData(fetchedUser);
       }
     };
 
-    getTweets();
+    getUser();
   }, [session]);
 
   if (!session) {
@@ -85,7 +85,7 @@ export default function Profile() {
           />
           <div className="w-full mt-4">
             {tweets.map((tweet) => (
-              <TweetComponent key={tweet.id} tweet={tweet} />
+              <TweetComponent key={tweet.id} tweet={tweet} userInfo={userData}/>
             ))}
           </div>
         </div>

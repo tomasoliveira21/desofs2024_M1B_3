@@ -23,7 +23,6 @@ function Tweet({ tweet, isAdmin, userInfo, session }: any) {
     })
   };
 
-
   return (
     <div className="max-w-lg mx-auto">
       <div className="flex flex-col space-x-3 border-y p-5 border-gray-100 break-words">
@@ -37,7 +36,9 @@ function Tweet({ tweet, isAdmin, userInfo, session }: any) {
           <div className="w-full">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-1">
-                <p className="mr-1 font-bold">{tweet.user_uuid}</p>
+                <p className="mr-1 font-bold">
+                  {userInfo ? userInfo.username : tweet.user_uuid}
+                </p>
 
                 <TimeAgo
                   className="text-sm text-gray-500"
