@@ -2,9 +2,11 @@ from typing import List
 from uuid import UUID
 
 from fastapi import HTTPException, Request, UploadFile
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import JSONResponse
+from pydantic_core import Url
+from storage3.utils import StorageException
 
-from backend.application.exceptions import invalidSupabaseResponse
+from backend.application.exceptions import InvalidSupabaseResponse
 from backend.application.utils import single_read_object
 from backend.domain.tweet import Tweet, TweetDto
 from backend.infrastructure.logging import Logger
@@ -25,7 +27,7 @@ class TweetService:
                 self.__tweet_repository.get_tweet(uuid=uuid, request=request)
             ) as tweet:
                 return tweet
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def get_all_tweets(self, request: Request) -> List[TweetDto]:
@@ -35,7 +37,7 @@ class TweetService:
                 self.__tweet_repository.get_all_tweets(request=request)
             ) as tweets:
                 return tweets
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def get_user_tweet(self, user_uuid: UUID, request: Request) -> List[TweetDto]:
@@ -49,7 +51,7 @@ class TweetService:
                 )
             ) as tweets:
                 return tweets
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def get_self_tweet(self, request: Request) -> List[TweetDto]:
@@ -59,7 +61,7 @@ class TweetService:
                 self.__tweet_repository.get_self_tweets(request=request)
             ) as tweets:
                 return tweets
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def create_tweet(self, tweet: Tweet, request: Request) -> TweetDto:
@@ -75,7 +77,7 @@ class TweetService:
                         request=request,
                     )
                 return created_tweet
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def delete_tweet(self, uuid: UUID, request: Request) -> TweetDto:
@@ -85,7 +87,7 @@ class TweetService:
                 self.__tweet_repository.delete_tweet(uuid=uuid, request=request)
             ) as deleted_tweet:
                 return deleted_tweet
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     def save_image(
@@ -99,25 +101,17 @@ class TweetService:
                 )
             ) as uploaded_image:
                 return uploaded_image
-        except invalidSupabaseResponse as e:
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))
 
-    def get_image(self, request: Request, uuid: UUID) -> FileResponse:
+    def get_image(self, request: Request, uuid: UUID) -> Url:
         self.__logger.info(f"[{request.state.credentials['sub']}] get tweet image")
         try:
             with single_read_object(
                 self.__tweet_repository.get_image(request=request, uuid=uuid)
             ) as image:
-                return image
-        except invalidSupabaseResponse as e:
-            raise HTTPException(status_code=500, detail=str(e))
-
-    def has_image(self, request: Request, uuid: UUID) -> bool:
-        self.__logger.info(f"[{request.state.credentials['sub']}] verify tweet image")
-        try:
-            with single_read_object(
-                self.__tweet_repository.has_image(request=request, uuid=uuid)
-            ) as bool_image:
-                return bool_image
-        except invalidSupabaseResponse as e:
+                return Url(url=image)
+        except StorageException as e:
+            raise HTTPException(status_code=404, detail=str(e))
+        except InvalidSupabaseResponse as e:
             raise HTTPException(status_code=500, detail=str(e))

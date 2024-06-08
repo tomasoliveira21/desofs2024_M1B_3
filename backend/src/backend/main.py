@@ -7,6 +7,7 @@ from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
+from pydantic_core import Url
 
 from backend.application.auth import JWTBearer
 from backend.application.rbac import RBAC
@@ -14,7 +15,6 @@ from backend.domain.hashtag import HashtagDto
 from backend.domain.tweet import Tweet, TweetDto
 from backend.domain.user import UserRole
 from backend.infrastructure.config import settings
-from backend.repository.tweet_repository import TweetRepository
 from backend.service.hashtag_service import HashtagService
 from backend.service.tweet_service import TweetService
 from backend.service.user_service import UserService
@@ -29,8 +29,11 @@ async def lifespan(app: FastAPI):
         encoding="utf-8",
         decode_responses=True,
     )
-    await FastAPILimiter.init(redis_connection)
-    yield
+    try:
+        await FastAPILimiter.init(redis_connection, prefix="fastapi-limiter")
+        yield
+    finally:
+        await redis_connection.aclose()
 
 
 app = FastAPI(
@@ -101,7 +104,7 @@ def post_image(
     image: UploadFile,
     request: Request,
 ):
-    return TweetRepository().save_image(request=request, uuid=uuid, image=image)
+    return tweet_service.save_image(request=request, uuid=uuid, image=image)
 
 
 @tweet_router.delete("", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
@@ -112,11 +115,8 @@ def delete_tweet(uuid: UUID, request: Request) -> TweetDto:
 @tweet_router.get(
     "/{uuid}/image", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
-def get_image(uuid: UUID, request: Request):
-    if tweet_service.has_image(request=request, uuid=uuid):
-        return tweet_service.get_image(request=request, uuid=uuid)
-    else:
-        return None
+def get_image(uuid: UUID, request: Request) -> Url:
+    return tweet_service.get_image(request=request, uuid=uuid)
 
 
 # HASHTAGS
@@ -138,9 +138,14 @@ def get_self_user(request: Request):
     return request.state.user
 
 
-@user_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
+@user_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
 def get_users(request: Request):
     return user_service.get_all_users(request=request)
+
+
+@user_router.get("/{uuid}", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def get_user(request: Request, uuid: UUID):
+    return user_service.get_user(uuid=uuid, request=request)
 
 
 @user_router.post(
@@ -153,11 +158,8 @@ def post_profile_picture(image: UploadFile, request: Request):
 @user_router.get(
     "/profile_picture", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
 )
-def get_profile_picture(request: Request):
-    if user_service.has_profile_picture(request=request):
-        return user_service.get_profile_picture(request=request)
-    else:
-        return None
+def get_profile_picture(request: Request) -> Url:
+    return user_service.get_profile_picture(request=request)
 
 
 # ROUTERS

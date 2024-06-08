@@ -25,14 +25,17 @@ class HashtagRepository:
         self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         h = {"name": hashtag.name, "tweet_uuid": str(tweet_uuid)}
         response = self.__client.table("Hashtags").insert(h).execute()
+        self.__client.auth.sign_out()
         return self.__adapter.validate_python(response.data)[0]
 
     def get_hashtags(self, request: Request):
         self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         response = self.__client.table("Hashtags").select("*").execute()
+        self.__client.auth.sign_out()
         return self.__adapter.validate_python(response.data)
 
     def get_trends(self, request: Request):
         self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         response = self.__client.table("trends").select("*").execute()
+        self.__client.auth.sign_out()
         return response.data

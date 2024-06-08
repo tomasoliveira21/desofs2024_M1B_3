@@ -1,11 +1,16 @@
 from tempfile import NamedTemporaryFile
 from typing import List
+from uuid import UUID
 
 from fastapi import Request, UploadFile
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import JSONResponse
 from pydantic import TypeAdapter
+from storage3.utils import StorageException
 
-from backend.application.exceptions import invalidSupabaseResponse
+from backend.application.exceptions import (
+    InvalidSupabaseResponse,
+    ProfilePictureNotFound,
+)
 from backend.domain.user import UserDto
 from backend.infrastructure.logging import Logger
 from backend.infrastructure.supabase_auth import SupabaseSingleton
@@ -34,19 +39,31 @@ class UserRepository:
                 .eq("id", request.state.credentials["sub"])
                 .execute()
             )
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f'request.state.credentials["sub"] {e}')
-            raise invalidSupabaseResponse("Could not get user at this moment.")
+            raise InvalidSupabaseResponse("Could not get user at this moment.")
 
     def get_all_users(self, request: Request) -> List[UserDto]:
         self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         try:
             response = self.__client.table("users").select("*").execute()
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
-            raise invalidSupabaseResponse("Could not get users at this moment.")
+            raise InvalidSupabaseResponse("Could not get users at this moment.")
+
+    def get_user(self, uuid: UUID, request: Request) -> UserDto:
+        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
+        try:
+            response = self.__client.table("users").select("*").eq("id", uuid).execute()
+            self.__client.auth.sign_out()
+            return self.__adapter.validate_python(response.data)[0]
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise InvalidSupabaseResponse("Could not get users at this moment.")
 
     def save_profile_picture(self, request: Request, image: UploadFile):
         with NamedTemporaryFile(
@@ -66,42 +83,28 @@ class UserRepository:
                     if image.content_type
                     else None,
                 )
+                self.__client.auth.sign_out()
             except Exception:
-                raise invalidSupabaseResponse("Error on uploading the image")
+                raise InvalidSupabaseResponse("Error on uploading the image")
             finally:
                 image.file.close()
         return JSONResponse(status_code=200, content={"message": path})
 
-    def get_profile_picture(self, request: Request) -> FileResponse:
+    def get_profile_picture(self, request: Request) -> str | None:
         try:
             self.__client.auth.set_session(
                 access_token=request.state.jwt, refresh_token=""
             )
-            with NamedTemporaryFile(delete=False, mode="wb+") as tmp_image:
-                res = self.__client.storage.from_("socialnet").download(
-                    f"profile_pictures/{request.state.user.id}"
-                )
-                tmp_image.write(res)
-                return FileResponse(tmp_image.name, media_type="image/png")
+            res = self.__client.storage.from_("socialnet").create_signed_url(
+                f"profile_pictures/{request.state.user.id}", expires_in=3600
+            )
+            self.__client.auth.sign_out()
+            return res.get("signedURL", None)
+        except StorageException as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise ProfilePictureNotFound("User does not have a profile picture.")
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
-            raise invalidSupabaseResponse(
+            raise InvalidSupabaseResponse(
                 "Could not get profile picture at this moment."
-            )
-
-    def has_profile_picture(self, request: Request) -> bool:
-        try:
-            self.__client.auth.set_session(
-                access_token=request.state.jwt, refresh_token=""
-            )
-            res = self.__client.storage.from_("socialnet").list(path="profile_pictures")
-            if len(res) > 0:
-                for file in res:
-                    if file.get("name") == str(request.state.user.id):
-                        return True
-            return False
-        except Exception as e:
-            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
-            raise invalidSupabaseResponse(
-                "Could not confirm user has profile picture at this moment."
             )
