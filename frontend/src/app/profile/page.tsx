@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { fetchTweetsByUser } from "@/api/fetchTweetsByUser";
 import TweetComponent from "../../../components/Tweet";
 import { fetchUser } from "@/api/fetchUser";
+import { fetchProfilePicture } from "@/api/fetchProfilePicture";
 
 export default function Profile() {
   const [session, setSession] = useState<Session | null>(null);
@@ -17,6 +18,7 @@ export default function Profile() {
   );
   const [userData, setUserData] = useState<any>();
 
+  console.log('jwt token: ', session?.access_token); 
 
   useEffect(() => {
     async function getSession() {
@@ -64,6 +66,22 @@ export default function Profile() {
     getUser();
   }, [session]);
 
+  useEffect(() => {
+    const getProfilePicture = async () => {
+      if (session) {
+        const fetchedProfilePicture = await fetchProfilePicture(session.access_token);
+        console.log('Fetched profile picture URL:', fetchedProfilePicture); // Log da URL
+        if (fetchedProfilePicture) {
+          setSelectedImage(fetchedProfilePicture);
+        } else {
+          console.error('Fetched profile picture is null');
+        }
+      }
+    };
+
+    getProfilePicture();
+  }, [session]);
+
   if (!session) {
     return <div>Loading...</div>;
   }
@@ -73,7 +91,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="lg:max-w-6xl mx-auto h-screen overflow-hidden bg-black">
+    <div className="lg:max-w-6xl mx-auto h-auto overflow-hidden bg-black">
       <main className="grid grid-cols-9 h-full text-white">
         <Sidebar session={session}/>
         <div className="col-span-7 flex flex-col items-start">
@@ -81,7 +99,7 @@ export default function Profile() {
             selectedImage={selectedImage}
             handleImageChange={handleImageChange}
             userName={userData.username}
-            email= {userData.email}
+            email={userData.email}
           />
           <div className="w-full mt-4">
             {tweets.map((tweet) => (

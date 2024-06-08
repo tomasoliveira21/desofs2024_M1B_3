@@ -1,11 +1,14 @@
-export const fetchProfilePicture = async (sessionToken: string) => {
+export const postProfilePicture = async (sessionToken: string, image: string) => {
     try {
       const response = await fetch('http://127.0.0.1:5000/user/profile_picture', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${sessionToken}`
-        }
+        },
+        body: JSON.stringify({
+          image: image,
+        }),
       });
   
       if (!response.ok) {
