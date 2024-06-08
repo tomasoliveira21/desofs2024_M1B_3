@@ -128,7 +128,7 @@ def get_hashtags(request: Request) -> List[HashtagDto]:
 @hashtag_router.get(
     "/trends", dependencies=[Depends(RBAC(minimum_role=UserRole.premium))]
 )
-def get_trends(request: Request) -> List[HashtagDto]:
+def get_trends(request: Request):
     return hashtag_service.get_trends(request=request)
 
 
