@@ -35,17 +35,19 @@ class TweetRepository:
             response = (
                 self.__client.table("Tweets").select("*").eq("uuid", uuid).execute()
             )
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise InvalidSupabaseResponse("Could not get tweets at this moment.")
 
-    def get_all_tweets(self, request: Request) -> List[TweetDto]:
+    def get_all_tweets(self, request: Request):
         try:
             self.__client.auth.set_session(
                 access_token=request.state.jwt, refresh_token=""
             )
             response = self.__client.table("Tweets").select("*").execute()
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
@@ -62,6 +64,7 @@ class TweetRepository:
                 .eq("user_uuid", request.state.user.id)
                 .execute()
             )
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
@@ -78,6 +81,7 @@ class TweetRepository:
                 .eq("user_uuid", user_uuid)
                 .execute()
             )
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
@@ -93,6 +97,7 @@ class TweetRepository:
                 .insert(tweet.model_dump(exclude={"hashtags"}))
                 .execute()
             )
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
@@ -104,6 +109,7 @@ class TweetRepository:
                 access_token=request.state.jwt, refresh_token=""
             )
             response = self.__client.table("Tweets").delete().eq("uuid", uuid).execute()
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
@@ -129,6 +135,7 @@ class TweetRepository:
                     if image.content_type
                     else None,
                 )
+                self.__client.auth.sign_out()
             except Exception:
                 raise InvalidSupabaseResponse("Error on uploading the tweet image")
             finally:
@@ -143,6 +150,7 @@ class TweetRepository:
             res = self.__client.storage.from_("socialnet").create_signed_url(
                 path=f"tweets/{uuid}", expires_in=3600
             )
+            self.__client.auth.sign_out()
             return res.get("signedURL")
         except StorageException as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")

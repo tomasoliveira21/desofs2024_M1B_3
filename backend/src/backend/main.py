@@ -29,9 +29,11 @@ async def lifespan(app: FastAPI):
         encoding="utf-8",
         decode_responses=True,
     )
-    await FastAPILimiter.init(redis_connection, prefix="fastapi-limiter")
-    yield
-    await redis_connection.aclose()
+    try:
+        await FastAPILimiter.init(redis_connection, prefix="fastapi-limiter")
+        yield
+    finally:
+        await redis_connection.aclose()
 
 
 app = FastAPI(

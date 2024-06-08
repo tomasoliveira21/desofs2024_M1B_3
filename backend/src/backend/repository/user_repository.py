@@ -39,6 +39,7 @@ class UserRepository:
                 .eq("id", request.state.credentials["sub"])
                 .execute()
             )
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f'request.state.credentials["sub"] {e}')
@@ -48,6 +49,7 @@ class UserRepository:
         self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         try:
             response = self.__client.table("users").select("*").execute()
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
@@ -57,6 +59,7 @@ class UserRepository:
         self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         try:
             response = self.__client.table("users").select("*").eq("id", uuid).execute()
+            self.__client.auth.sign_out()
             return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
@@ -80,6 +83,7 @@ class UserRepository:
                     if image.content_type
                     else None,
                 )
+                self.__client.auth.sign_out()
             except Exception:
                 raise InvalidSupabaseResponse("Error on uploading the image")
             finally:
@@ -94,6 +98,7 @@ class UserRepository:
             res = self.__client.storage.from_("socialnet").create_signed_url(
                 f"profile_pictures/{request.state.user.id}", expires_in=3600
             )
+            self.__client.auth.sign_out()
             return res.get("signedURL", None)
         except StorageException as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
