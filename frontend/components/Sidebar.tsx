@@ -42,7 +42,7 @@ function Sidebar({ session }: FeedProps) {
     <div className="flex flex-col col-span-2 items-center px-4 md:items-start">
       <img className="m-1 h-13 w-20" src="/soc.png" alt="" />
       <SidebarRow Icon={HomeIcon} title="Home" onClick={goToHome} />
-      <SidebarRow Icon={HashtagIcon} title="Trends" onClick={goToExplore} />
+      {/* if(hasAccess) */}<SidebarRow Icon={HashtagIcon} title="Trends" onClick={goToExplore} />
       <SidebarRow Icon={UserIcon} title="Profile" onClick={goToProfile} />
       <SidebarRow Icon={BellIcon} title="Notifications" />
       <SidebarRow Icon={MailIcon} title="Messages" />

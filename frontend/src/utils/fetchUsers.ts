@@ -1,6 +1,6 @@
 export const fetchUsers = async (sessionToken: string) => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/users/all', {
+      const response = await fetch('http://127.0.0.1:5000/user/all', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
