@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   BellIcon,
@@ -13,6 +13,7 @@ import SidebarRow from "./SidebarRow";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Session } from "@supabase/auth-helpers-nextjs";
+import { fetchUser } from "@/utils/fetchUser";
 
 interface FeedProps {
   session?: Session;
@@ -20,6 +21,7 @@ interface FeedProps {
 
 function Sidebar({ session }: FeedProps) {
   const router = useRouter();
+  const [userData, setUserData] = useState<any>();
 
   const logout = async () => {
     await supabase.auth.signOut();
@@ -38,11 +40,24 @@ function Sidebar({ session }: FeedProps) {
     router.push("/profile");
   };
 
+  useEffect(() => {
+    const getTweets = async () => {
+      if (session) {
+        const fetchedUser = await fetchUser(session.access_token);
+        setUserData(fetchedUser);
+      }
+    };
+
+    getTweets();
+  }, [session]);
+
   return (
     <div className="flex flex-col col-span-2 items-center px-4 md:items-start">
       <img className="m-1 h-13 w-20" src="/soc.png" alt="" />
       <SidebarRow Icon={HomeIcon} title="Home" onClick={goToHome} />
-      {/* if(hasAccess) */}<SidebarRow Icon={HashtagIcon} title="Trends" onClick={goToExplore} />
+      {userData?.role.name === "premium" || userData?.role.name === "admin" ? (
+        <SidebarRow Icon={HashtagIcon} title="Trends" onClick={goToExplore} />
+      ) : null}
       <SidebarRow Icon={UserIcon} title="Profile" onClick={goToProfile} />
       <SidebarRow Icon={BellIcon} title="Notifications" />
       <SidebarRow Icon={MailIcon} title="Messages" />

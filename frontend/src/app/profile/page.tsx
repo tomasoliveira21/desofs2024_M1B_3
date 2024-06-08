@@ -59,7 +59,7 @@ export default function Profile() {
   return (
     <div className="lg:max-w-6xl mx-auto h-screen overflow-hidden bg-black">
       <main className="grid grid-cols-9 h-full text-white">
-        <Sidebar />
+        <Sidebar session={session}/>
         <UserInfo
           selectedImage={selectedImage}
           handleImageChange={handleImageChange}

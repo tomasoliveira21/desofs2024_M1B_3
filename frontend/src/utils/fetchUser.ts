@@ -1,4 +1,4 @@
-export const fetchUsers = async (sessionToken: string) => {
+export const fetchUser = async (sessionToken: string) => {
     try {
       const response = await fetch('http://127.0.0.1:5000/user/self', {
         method: 'GET',
