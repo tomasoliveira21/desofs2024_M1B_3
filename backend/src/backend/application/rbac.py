@@ -8,7 +8,7 @@ class RBAC:
         super(RBAC, self).__init__()
         self._minimum_role: UserRole = minimum_role
 
-    async def __call__(self, request: Request):
+    def __call__(self, request: Request):
         try:
             user_role = request.state.user.role
         except ValueError:
