@@ -70,3 +70,15 @@ jobs:
           body-path: ./backend/comment.md
           edit-mode: replace
   
+      - name: Build Docker image
+        run: docker build -f Dockerfile.production -t socialnet-backend:development .
+  
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.22.0
+        with:
+          image-ref: 'socialnet-backend:development'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
