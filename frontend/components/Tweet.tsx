@@ -14,13 +14,7 @@ import toast from "react-hot-toast";
 function Tweet({ tweet, isAdmin, userInfo, session, profilePicture }: any) {
 
   const handleDelete = async () => {
-    const refreshToast = toast.loading('Refreshing...'); 
-
     await deleteTweet(session.access_token, tweet.uuid);
-
-    toast.success('Feed updated!', {
-      id: refreshToast
-    })
   };
 
   return (
