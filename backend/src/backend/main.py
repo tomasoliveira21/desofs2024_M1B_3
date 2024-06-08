@@ -27,7 +27,7 @@ async def lifespan(app: FastAPI):
         port=settings.redis_port,
         password=settings.redis_password,
         encoding="utf-8",
-        decode_responses=False,
+        decode_responses=True,
     )
     await FastAPILimiter.init(redis_connection, prefix="fastapi-limiter")
     yield
