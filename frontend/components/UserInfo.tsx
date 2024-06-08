@@ -3,9 +3,11 @@ import React from 'react'
 interface UserInfoProps {
     selectedImage: string;
     handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    userName: string;
+    email: string;
   }
 
-function UserInfo({ selectedImage, handleImageChange }: UserInfoProps) {
+function UserInfo({ selectedImage, handleImageChange, userName, email }: UserInfoProps) {
     return (
         <div className="col-span-7 lg:col-span-5 p-10 shadow-lg rounded-lg">
           <div className="flex items-center justify-between mb-8">
@@ -31,8 +33,8 @@ function UserInfo({ selectedImage, handleImageChange }: UserInfoProps) {
                 />
               </div>
               <div className="ml-6">
-                <p className="font-semibold text-xl text-gray-300">User name:</p>
-                <p className="font-semibold text-xl text-gray-400">Email:</p>
+                <p className="font-semibold text-xl text-gray-100">User name: <span className="text-blue-400">{userName}</span></p>
+                <p className="font-semibold text-xl text-gray-100">Email: <span className="text-blue-400">{email}</span></p>
               </div>
             </div>
           </div>
@@ -40,4 +42,4 @@ function UserInfo({ selectedImage, handleImageChange }: UserInfoProps) {
       );
 }
 
-export default UserInfo
+export default UserInfo;
