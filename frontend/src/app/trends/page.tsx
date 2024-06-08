@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 import Sidebar from "../../../components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
-import { fetchTrends } from "@/utils/fetchTrends";
+import { fetchTrends } from "@/api/fetchTrends";
 import TrendTable from "../../../components/TrendTable";
 
 export default function Trends() {

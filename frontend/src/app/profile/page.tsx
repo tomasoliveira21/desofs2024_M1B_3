@@ -5,9 +5,9 @@ import Sidebar from "../../../components/Sidebar";
 import UserInfo from "../../../components/UserInfo";
 import { Session } from "@supabase/auth-helpers-nextjs";
 import { supabase } from "@/lib/supabase";
-import { fetchTweetsByUser } from "@/utils/fetchTweetsByUser";
+import { fetchTweetsByUser } from "@/api/fetchTweetsByUser";
 import TweetComponent from "../../../components/Tweet";
-import { fetchUser } from "@/utils/fetchUser";
+import { fetchUser } from "@/api/fetchUser";
 
 export default function Profile() {
   const [session, setSession] = useState<Session | null>(null);

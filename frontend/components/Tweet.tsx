@@ -1,10 +1,15 @@
 import React from "react";
 import TimeAgo from "react-timeago";
-import { ChatAlt2Icon, HeartIcon, UploadIcon } from "@heroicons/react/outline";
+import {
+  ChatAlt2Icon,
+  HeartIcon,
+  UploadIcon,
+  TrashIcon,
+} from "@heroicons/react/outline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRetweet } from "@fortawesome/free-solid-svg-icons";
 
-function Tweet({ tweet }: any) {
+function Tweet({ tweet, isAdmin, userInfo }: any) {
   return (
     <div className="max-w-lg mx-auto">
       <div className="flex flex-col space-x-3 border-y p-5 border-gray-100 break-words">
@@ -16,13 +21,22 @@ function Tweet({ tweet }: any) {
           />
 
           <div className="w-full">
-            <div className="flex items-center space-x-1">
-              <p className="mr-1 font-bold">{tweet.user_uuid}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-1">
+                <p className="mr-1 font-bold">{tweet.user_uuid}</p>
 
-              <TimeAgo
-                className="text-sm text-gray-500"
-                date={tweet.created_at}
-              />
+                <TimeAgo
+                  className="text-sm text-gray-500"
+                  date={tweet.created_at}
+                />
+
+                {isAdmin && (
+                  <TrashIcon
+                    className="h-5 w-5 text-red-500 cursor-pointer"
+                    onClick={() => alert("Delete action")}
+                  />
+                )}
+              </div>
             </div>
 
             <p>{tweet.content}</p>

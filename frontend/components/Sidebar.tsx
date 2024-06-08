@@ -14,7 +14,7 @@ import SidebarRow from "./SidebarRow";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Session } from "@supabase/auth-helpers-nextjs";
-import { fetchUser } from "@/utils/fetchUser";
+import { fetchUser } from "@/api/fetchUser";
 
 interface FeedProps {
   session?: Session;
@@ -46,14 +46,14 @@ function Sidebar({ session }: FeedProps) {
   };
 
   useEffect(() => {
-    const getTweets = async () => {
+    const getUser = async () => {
       if (session) {
         const fetchedUser = await fetchUser(session.access_token);
         setUserData(fetchedUser);
       }
     };
 
-    getTweets();
+    getUser();
   }, [session]);
 
   if (!userData) {

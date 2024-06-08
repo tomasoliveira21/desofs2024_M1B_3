@@ -7,15 +7,16 @@ import { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 import Sidebar from "../../../components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
-import { fetchTrends } from "@/utils/fetchTrends";
+import { fetchTrends } from "@/api/fetchTrends";
 import TrendTable from "../../../components/TrendTable";
-import { fetchTweets } from "@/utils/fetchTweets";
+import { fetchTweets } from "@/api/fetchTweets";
 import TweetComponent from "../../../components/Tweet";
 
 export default function Admin() {
   const [session, setSession] = useState<Session | null>(null);
   const [tweets, setTweets] = useState<any[]>([]);
   const [trends, setTrends] = useState<any[]>([]);
+  const isAdmin = true;
 
   useEffect(() => {
     async function getSession() {
@@ -63,7 +64,7 @@ export default function Admin() {
 
           <div className="pt-10 text-md">
             {tweets.map((tweet) => (
-              <TweetComponent key={tweet.id} tweet={tweet} />
+              <TweetComponent key={tweet.id} tweet={tweet} isAdmin={isAdmin}/>
             ))}
           </div>
         </div>
