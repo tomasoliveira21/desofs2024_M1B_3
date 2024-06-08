@@ -1,5 +1,6 @@
 from tempfile import NamedTemporaryFile
 from typing import List
+from uuid import UUID
 
 from fastapi import Request, UploadFile
 from fastapi.responses import JSONResponse
@@ -48,6 +49,15 @@ class UserRepository:
         try:
             response = self.__client.table("users").select("*").execute()
             return self.__adapter.validate_python(response.data)
+        except Exception as e:
+            self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+            raise InvalidSupabaseResponse("Could not get users at this moment.")
+
+    def get_user(self, uuid: UUID, request: Request) -> UserDto:
+        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
+        try:
+            response = self.__client.table("users").select("*").eq("id", uuid).execute()
+            return self.__adapter.validate_python(response.data)[0]
         except Exception as e:
             self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
             raise InvalidSupabaseResponse("Could not get users at this moment.")

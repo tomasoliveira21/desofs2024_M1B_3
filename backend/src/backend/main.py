@@ -136,9 +136,14 @@ def get_self_user(request: Request):
     return request.state.user
 
 
-@user_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.admin))])
+@user_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
 def get_users(request: Request):
     return user_service.get_all_users(request=request)
+
+
+@user_router.get("/{uuid}", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])
+def get_user(request: Request, uuid: UUID):
+    return user_service.get_user(uuid=uuid, request=request)
 
 
 @user_router.post(

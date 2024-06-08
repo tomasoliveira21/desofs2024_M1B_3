@@ -1,4 +1,5 @@
 from typing import List
+from uuid import UUID
 
 from fastapi import HTTPException, Request, UploadFile
 from pydantic_core import Url
@@ -21,6 +22,16 @@ class UserService:
         try:
             with single_read_object(
                 self.__repository.get_self_user(request=request)
+            ) as user:
+                return user
+        except InvalidSupabaseResponse as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def get_user(self, uuid: UUID, request: Request) -> UserDto:
+        self.__logger.info(f"[{request.state.credentials['sub']}] get user {uuid}")
+        try:
+            with single_read_object(
+                self.__repository.get_user(uuid=uuid, request=request)
             ) as user:
                 return user
         except InvalidSupabaseResponse as e:
