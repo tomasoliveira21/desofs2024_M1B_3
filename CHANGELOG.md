@@ -1,3 +1,20 @@
+# [1.10.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.9.0...v1.10.0) (2024-06-09)
+
+
+### Bug Fixes
+
+* typo ([4a499f1](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/4a499f14cf0d1acab290aa84d7c762d709759bc6))
+* update save image for tweets and profile pictures; fix dockerfiles ([da60244](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/da602447c84e3cfcba18ee96e6bf6ceee031ca70))
+* update save image for tweets and profile pictures; fix dockerfiles ([6990b3a](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/6990b3a96724835acb982bd1eb2835558f5446ed))
+
+
+### Features
+
+* add nvmrc ([c6f67d4](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/c6f67d45b081f8bdcd6224fb01e726c2d59ac717))
+* deploy FE ([0177993](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/0177993ae3371f08939a365309e1423872b6e199))
+* profile picture homepage ([032fe30](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/032fe30ec75582459277635779ebe3de2f2cee6c))
+* upload images ([43b4fa9](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/43b4fa906ba49aab601fd986744197f26d83102e))
+
 # [1.9.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.8.0...v1.9.0) (2024-06-09)
 
 
