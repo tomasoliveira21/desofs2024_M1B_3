@@ -311,3 +311,337 @@ INSERT TO authenticated WITH CHECK (bucket_id = 'socialnet');
 We have fully developed our backend using Python 3.11.
 
 We used Pydantic for data and model validation, FastAPI to serve our endpoints and the Supabase Python Client to access our Supabase Project.
+
+### Domain
+
+We created the [domain classes](../../../backend/src/backend/domain/) for:
+
+- Hashtags
+- Tweets
+- Users
+
+We have implemented Data Transfer Objects that can be used to return information from the database. The base models implemented serve as the input for the FastAPI application and perform validation of the input data, using the [Annotated Types such as constrained strings](https://docs.pydantic.dev/latest/concepts/types/).
+
+```python
+class Tweet(BaseModel):
+    content: Annotated[
+        str,
+        StringConstraints(
+            min_length=settings.tweet_min_size,
+            max_length=settings.tweet_max_size,
+        ),
+    ]
+
+    @computed_field
+    @property
+    def hashtags(self) -> List[Hashtag]:
+        return TypeAdapter(List[Hashtag]).validate_python(
+            [{"name": h} for h in re.findall(r"#(\w+)", self.content)]
+        )
+
+
+class TweetDto(Tweet):
+    id: int
+    created_at: datetime
+    uuid: UUID
+    user_uuid: UUID
+```
+
+Pydantic allows to create `compute_field` properties on the classes which allow to fetch information after the object is created, without the need to modify it.
+
+### Configurations
+
+We implemented a [settings class](../../../backend/src/backend/infrastructure/config.py) that validates the data from a Dotenv file and parses it, returning a class with the attributes filled by the variables present in that dotenv file.
+
+```python
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8", extra="allow"
+    )
+    tweet_min_size: int
+    tweet_max_size: int
+    supabase_url: str
+    supabase_key: str
+    jwt_secret_key: str
+    jwt_algorithms: List[str]
+    jwt_audience: List[str]
+    redis_host: str
+    redis_port: int
+    redis_password: str
+    cors_origins: List[str]
+```
+
+Comparing to the [first sprint](../sprint_1/) we have improved our secret management by not commiting to the GitHub repository the dotenv file and by using this class, so no more `os.environ.get()` calls are made, which reduces risk of forgetness of variables hard-coded. This class is used in all the code to fetch settings global to all the Backend.
+
+### MVC
+
+#### API
+
+The [`main.py`](../../../backend/src/backend/main.py) file includes the declaration of the FastAPI `app`:
+
+```python
+app = FastAPI(
+    title="SocialNet - Backend",
+    description="The Backend for the SocialNet application",
+    dependencies=[Depends(JWTBearer()), Depends(RateLimiter(times=20, seconds=5))],
+    lifespan=lifespan,
+)
+```
+
+After that, we have added a CORS middleware to improve security and we are feeding the CORS domain from the [dotenv](#configurations) file:
+
+```python
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+We then proceed to create the Routers that will aggregate the paths for our API operations:
+
+```python
+tweet_router = APIRouter(prefix="/tweet", tags=["Tweets"])
+hashtag_router = APIRouter(prefix="/hashtag", tags=["Hashtag"])
+user_router = APIRouter(prefix="/user", tags=["User"])
+```
+
+Finally we add methods to the routers and add the routers to the app previously created:
+
+```python
+@tweet_router.get(
+    "/user/self", dependencies=[Depends(RBAC(minimum_role=UserRole.default))]
+)
+def get_self_tweets(request: Request) -> List[TweetDto]:
+    return tweet_service.get_self_tweet(request=request)
+
+...
+
+# ROUTERS
+app.include_router(tweet_router)
+app.include_router(hashtag_router)
+app.include_router(user_router)
+```
+
+#### Services
+
+We instantiate the Services needed in the [`main.py` file](../../../backend/src/backend/main.py#L58-L61) and the routes call the services to perform the operations.
+
+Each service contains the logger used for the application and the repository associated with the DDD Aggregate it corresponds to:
+
+```python
+class HashtagService:
+    def __init__(self):
+        self.__repository = HashtagRepository()
+        self.__logger = Logger().get_logger()
+```
+
+Then each method in the service logs the operation and the user performing the operation and calls the repository. In case the repository methods fail the exception handling is performed at this layer:
+
+```python
+def get_hashtags(self, request: Request) -> List[HashtagDto]:
+    self.__logger.info(f"[{request.state.credentials['sub']}] get all hashtags")
+    try:
+        with single_read_object(
+            self.__repository.get_hashtags(request=request)
+        ) as hashtags:
+            return hashtags
+    except InvalidSupabaseResponse as e:
+        raise HTTPException(status_code=500, detail=str(e))
+```
+
+In this layer, the object is destroyed after beind returned, using a combination of `with` and the [Single Read Object method](#single-read-objects).
+
+#### Repositories
+
+Each repository is called by a service and it is a Singleton, and includes the Supabase Client to perform actions agains the database, as well as an [TypeAdapter](https://docs.pydantic.dev/latest/concepts/type_adapter/) to transform the information from the database to the user:
+
+```python
+class TweetRepository:
+    __instance = None
+
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super(TweetRepository, cls).__new__(cls)
+            cls.__instance.__initialize_params()
+        return cls.__instance
+
+    def __initialize_params(self):
+        self.__client = SupabaseSingleton().get_client()
+        self.__adapter = TypeAdapter(List[TweetDto])
+        self.__logger = Logger().get_logger()
+```
+
+Each method sets the session associated with the user that is performing the request so that the RLS policyes correctly apply and then the exceptions are validated, as well as transforming the fetched data onto DTOs so that they can be presented to the user:
+
+```python
+def get_all_tweets(self, request: Request) -> List[TweetDto]:
+    try:
+        self.__client.auth.set_session(
+            access_token=request.state.jwt, refresh_token=""
+        )
+        response = self.__client.table("Tweets").select("*").execute()
+        self.__client.auth.sign_out()
+        return self.__adapter.validate_python(response.data)
+    except Exception as e:
+        self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+        raise InvalidSupabaseResponse("Could not get tweets at this moment.")
+```
+
+### Authentication & RBAC
+
+We have two separate classes:
+
+[Auth](../../../backend/src/backend/application/auth.py): performs the validations regarding the JWT token passed as the Authentication Bearer token for each route:
+
+```python
+class JWTBearer(HTTPBearer):
+    def __init__(self, auto_error: bool = True):
+        super(JWTBearer, self).__init__(auto_error=auto_error)
+
+    async def __call__(self, request: Request):
+        credentials: HTTPAuthorizationCredentials | None = await super(
+            JWTBearer, self
+        ).__call__(request)
+        if credentials:
+            if not credentials.scheme == "Bearer":
+                raise HTTPException(
+                    status_code=403, detail="Invalid authentication scheme."
+                )
+            else:
+                request.state.jwt = credentials.credentials
+
+            try:
+                decoded_token = jwt.decode(
+                    jwt=request.state.jwt,
+                    key=settings.jwt_secret_key,
+                    algorithms=settings.jwt_algorithms,
+                    audience=settings.jwt_audience,
+                )
+                request.state.credentials = decoded_token
+            except Exception:
+                raise HTTPException(
+                    status_code=500, detail="Could not decode JWT Token."
+                )
+
+            if not request.state.credentials["exp"] >= time():
+                raise HTTPException(status_code=403, detail="JWT Token has expired.")
+
+            try:
+                request.state.user = UserService().get_self_user(request=request)
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
+
+            return credentials.credentials
+```
+
+The authentication performs the following actions:
+
+1. Verify if the JWT bearer token is present
+2. Decode the JWT token using the JWT configurations provided by supabase
+3. Verify if the JWT token is not expired
+4. Verify if both the user and sessions exist in Supabase
+
+We then use the `request.state` to transfer this informatio between the layers.
+
+[RBAC](../../../backend/src/backend/application/rbac.py): performs the validation of RBAC, using a system of hierarchy regarding the roles and is injected in each route:
+
+```python
+class RBAC:
+    def __init__(self, minimum_role: UserRole, auto_error: bool = True):
+        super(RBAC, self).__init__()
+        self._minimum_role: UserRole = minimum_role
+
+    def __call__(self, request: Request):
+        try:
+            user_role = request.state.user.role
+        except ValueError:
+            raise HTTPException(status_code=403, detail="Invalid role")
+        if user_role.value.hierarchy < self._minimum_role.value.hierarchy:
+            raise HTTPException(
+                status_code=403, detail="User does not have enough permissions."
+            )
+```
+
+The user roles are created using an hierarchy system, where `default < premium < admin`:
+
+```python
+class Role(BaseModel):
+    name: Annotated[
+        str,
+        StringConstraints(
+            min_length=1, max_length=24, to_lower=True, strip_whitespace=True
+        ),
+    ]
+    hierarchy: Annotated[int, Field(ge=0)]
+
+
+class DefaultRole(Role):
+    def __init__(self, name="default", hierarchy=0):
+        super().__init__(name=name, hierarchy=hierarchy)
+
+
+class PremiumRole(Role):
+    def __init__(self, name="premium", hierarchy=1):
+        super().__init__(name=name, hierarchy=hierarchy)
+
+
+class AdminRole(Role):
+    def __init__(self, name="admin", hierarchy=2):
+        super().__init__(name=name, hierarchy=hierarchy)
+```
+
+This RBAC class is then added as a dependency on each method with the minimum needed role to perform that action: `@tweet_router.get("/all", dependencies=[Depends(RBAC(minimum_role=UserRole.default))])`. This will act as an RBAC validation on top of the RLS policies implemented. 
+
+### Logging and Error Handling
+
+### Security
+
+#### Single-Read Objects
+
+To stand-out this feature, we have implemented an [`utils.py` class](../../../backend/src/backend/application/utils.py) that has the following code:
+
+```python
+@contextmanager
+def single_read_object(object: Any):
+    try:
+        yield object
+    finally:
+        del object
+```
+
+The `yield` instruction acts as the return value of the `single_read_object` function and when that return is used by the caller of this function (`finally`) then the object is destroyed, even if there are references poiting to the object.
+
+This is used in the service layer to destroy the object after the repository returns the values requested:
+
+```python
+with single_read_object(
+                self.__repository.get_hashtags(request=request)
+            ) as hashtags:
+                return hashtags
+```
+
+#### Private Attributes
+
+The classes created include private attributes that are prefixed by `__` and cannot be accessed outside the class itself. This increases security when transitioning data from one layer to the other.
+
+```python
+class HashtagService:
+    def __init__(self):
+        self.__client = SupabaseSingleton().get_client()
+        self.__repository = HashtagRepository()
+        self.__logger = Logger().get_logger()
+```
+
+#### Others
+
+We created a singleton for our Supabase Client and we are returning a copy of the instance and not direct references to the client instance, as we can see [here](../../../backend/src/backend/infrastructure/supabase_auth.py#L23-L26):
+
+```python
+@staticmethod
+def get_client() -> Client:
+    instance = SupabaseSingleton()
+    return instance.__client
+```

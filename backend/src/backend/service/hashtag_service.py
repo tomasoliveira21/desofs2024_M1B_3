@@ -7,13 +7,11 @@ from backend.application.exceptions import InvalidSupabaseResponse
 from backend.application.utils import single_read_object
 from backend.domain.hashtag import Hashtag, HashtagDto
 from backend.infrastructure.logging import Logger
-from backend.infrastructure.supabase_auth import SupabaseSingleton
 from backend.repository.hashtag_repository import HashtagRepository
 
 
 class HashtagService:
     def __init__(self):
-        self.__client = SupabaseSingleton().get_client()
         self.__repository = HashtagRepository()
         self.__logger = Logger().get_logger()
 
@@ -24,7 +22,6 @@ class HashtagService:
         request: Request,
     ):
         self.__logger.info(f"[{request.state.credentials['sub']}] save hashtags")
-        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         if not isinstance(hashtags, list):
             hashtags = [hashtags]
         try:
@@ -40,7 +37,6 @@ class HashtagService:
 
     def get_hashtags(self, request: Request) -> List[HashtagDto]:
         self.__logger.info(f"[{request.state.credentials['sub']}] get all hashtags")
-        self.__client.auth.set_session(access_token=request.state.jwt, refresh_token="")
         try:
             with single_read_object(
                 self.__repository.get_hashtags(request=request)
