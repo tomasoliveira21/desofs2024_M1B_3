@@ -128,13 +128,26 @@ class TweetRepository:
                 path = f"tweets/{uuid}"
                 contents = image.file.read()
                 tmp_image.write(contents)
-                self.__client.storage.from_("socialnet").upload(
-                    path=path,
-                    file=tmp_image.name,
-                    file_options={"content-type": image.content_type}
-                    if image.content_type
-                    else None,
-                )
+                ti_list = [
+                    f"tweets/{image['name']}"
+                    for image in self.__client.storage.from_("socialnet").list("tweets")
+                ]
+                if path not in ti_list:
+                    self.__client.storage.from_("socialnet").upload(
+                        path=path,
+                        file=tmp_image.name,
+                        file_options={"content-type": image.content_type}
+                        if image.content_type
+                        else None,
+                    )
+                else:
+                    self.__client.storage.from_("socialnet").update(
+                        path=path,
+                        file=tmp_image.name,
+                        file_options={"content-type": image.content_type}
+                        if image.content_type
+                        else None,
+                    )
                 self.__client.auth.sign_out()
             except Exception:
                 raise InvalidSupabaseResponse("Error on uploading the tweet image")
