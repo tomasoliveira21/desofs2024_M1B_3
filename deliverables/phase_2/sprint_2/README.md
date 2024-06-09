@@ -1364,3 +1364,9 @@ Effective error handling is crucial for providing a smooth and user-friendly exp
 
 ### Pipeline
 In this phase of our project, we also integrated the Zed Attack Proxy (ZAP) from the Open Web Application Security Project (OWASP) into our pipeline. This addition aims to enhance the security of our application by identifying vulnerabilities and security issues early in the development process.
+
+## ASVS
+
+![Results](asvs/asvs_results.png)
+
+Document: [`v4-ASVS-checklist-en.xlsx`](asvs/v4-ASVS-checklist-en.xlsx)
