@@ -5,6 +5,7 @@ import { Session } from "@supabase/auth-helpers-nextjs";
 import { fetchTweets } from "@/api/fetchTweets";
 import TweetComponent from "./Tweet";
 import toast from "react-hot-toast";
+import { fetchProfilePicture } from "@/api/fetchProfilePicture";
 
 interface FeedProps {
   session: Session;
@@ -12,6 +13,8 @@ interface FeedProps {
 
 function Feed({ session }: FeedProps) {
   const [tweets, setTweets] = useState<any[]>([]);
+  const [profileImage, setProfileImage] = useState<any>();
+
 
   useEffect(() => {
     const getTweets = async () => {
@@ -20,6 +23,21 @@ function Feed({ session }: FeedProps) {
     };
 
     getTweets();
+  }, [session]);
+
+  useEffect(() => {
+    const getProfilePicture = async () => {
+      if (session) {
+        const fetchedProfilePicture = await fetchProfilePicture(session.access_token);
+        if (fetchedProfilePicture) {
+          setProfileImage(fetchedProfilePicture);
+        } else {
+          console.error('Fetched profile picture is null');
+        }
+      }
+    };
+
+    getProfilePicture();
   }, [session]);
 
   const handleRefresh = async () => {
@@ -42,7 +60,7 @@ function Feed({ session }: FeedProps) {
 
       {/* Tweetbox */}
       <div>
-        <Tweetbox session={session} />
+        <Tweetbox session={session} profilePicture={profileImage}/>
       </div>
 
       {/* Feed */}
