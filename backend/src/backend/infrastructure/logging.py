@@ -30,6 +30,6 @@ class Logger:
             return f"[{record.levelname}] [{timestamp}] {record.getMessage()}"
 
     @staticmethod
-    def get__logger():
+    def get_logger():
         instance = Logger()
         return instance.__logger
