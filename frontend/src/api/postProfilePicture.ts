@@ -1,4 +1,6 @@
 export const postProfilePicture = async (sessionToken: string, image: string) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
   try {
     const fetchResponse = await fetch(image);
     const blob = await fetchResponse.blob();
@@ -6,7 +8,7 @@ export const postProfilePicture = async (sessionToken: string, image: string) =>
     const formData = new FormData();
     formData.append('image', blob, 'profile_picture.jpg');
 
-    const response = await fetch('http://127.0.0.1:5000/user/profile_picture', {
+    const response = await fetch(`${apiUrl}user/profile_picture`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${sessionToken}`,

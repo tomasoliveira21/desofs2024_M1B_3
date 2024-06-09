@@ -1,8 +1,10 @@
 import { toast } from "react-toastify";
 
 export const postTweet = async (sessionToken: string, tweetContent: string) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
   try {
-    const response = await fetch("http://127.0.0.1:5000/tweet", {
+    const response = await fetch(`${apiUrl}tweet`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,6 +1,8 @@
 export const fetchUsers = async (sessionToken: string) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
     try {
-      const response = await fetch('http://127.0.0.1:5000/user/all', {
+      const response = await fetch(`${apiUrl}user/all`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

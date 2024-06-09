@@ -3,11 +3,9 @@ services:
     container_name: backend
     image: socialnet-backend:development
     build:
-      platforms:
-        - linux/amd64
-        - linux/arm64
       context: ./backend
       dockerfile: Dockerfile.development
+      no_cache: true
     ports:
       - 5000:5000
     volumes:
@@ -18,10 +16,8 @@ services:
     container_name: frontend
     image: socialnet-frontend:development
     build:
-      platforms:
-        - linux/amd64
-        - linux/arm64
       context: ./frontend
       dockerfile: Dockerfile
+      no_cache: true
     ports:
       - 3000:3000
