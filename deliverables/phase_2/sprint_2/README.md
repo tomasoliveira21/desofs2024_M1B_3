@@ -103,6 +103,7 @@
     - [Error Handling](#error-handling)
       - [Key Features](#key-features-14)
       - [How It Works](#how-it-works-13)
+    - [Pipeline](#pipeline-1)
 
 
 ## Objective
@@ -1360,3 +1361,6 @@ Effective error handling is crucial for providing a smooth and user-friendly exp
 - **Error Handling in API Calls**: All API calls are wrapped in try-catch blocks to catch any errors that occur during data fetching or posting. When an error is caught, an error toast is displayed to the user.
 - **Success Handling**: Similarly, when an action is successfully completed, such as a successful API call, a success toast is displayed to inform the user.
 - **Toast Configuration**: The `react-toastify` library is configured to display toasts at the bottom-right corner of the screen, with options for auto-close and draggable interactions to enhance user experience.
+
+### Pipeline
+In this phase of our project, we also integrated the Zed Attack Proxy (ZAP) from the Open Web Application Security Project (OWASP) into our pipeline. This addition aims to enhance the security of our application by identifying vulnerabilities and security issues early in the development process.
