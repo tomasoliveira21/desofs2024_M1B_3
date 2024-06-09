@@ -1,3 +1,11 @@
+# [1.12.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.11.0...v1.12.0) (2024-06-09)
+
+
+### Features
+
+* add asvs results and file ([32d23cf](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/32d23cf1bc3d5b62b8c4426f309f2cae4b78320b))
+* add asvs results and file ([a66c4fc](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/a66c4fcb5a54c6f3bb9a9cd0cba7e7076ff91fb6))
+
 # [1.11.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.10.1...v1.11.0) (2024-06-09)
 
 
