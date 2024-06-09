@@ -597,6 +597,48 @@ This RBAC class is then added as a dependency on each method with the minimum ne
 
 ### Logging and Error Handling
 
+The logger class is designed in the Singleton pattern and has a custom format that we defined. It is initially set to INFO but will warn of errors, high and critical:
+
+```python
+class Logger:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Logger, cls).__new__(cls)
+            cls._instance.__initialize_logger()
+        return cls._instance
+
+    def __initialize_logger(self):
+        self._logger = logging.getLogger("socialnet")
+        if not self._logger.hasHandlers():
+            self._logger.setLevel(logging.INFO)
+            ch = logging.StreamHandler()
+            ch.setFormatter(self.CustomFormatter())
+            self._logger.addHandler(ch)
+
+    class CustomFormatter(logging.Formatter):
+        def format(self, record):
+            lisbon_tz = pytz.timezone("Europe/Lisbon")
+            timestamp = datetime.datetime.now(lisbon_tz).strftime(
+                "%Y-%m-%d %H:%M:%S %Z"
+            )
+            return f"[{record.levelname}] [{timestamp}] {record.getMessage()}"
+
+    @staticmethod
+    def get_logger():
+        instance = Logger()
+        return instance._logger
+```
+
+We have created custom exceptions present on [`exceptions.py`](../../../backend/src/backend/application/exceptions.py) and we are using these exceptions in our code so that we can know the context where something fails:
+
+```python
+except Exception as e:
+    self.__logger.error(f"[{request.state.credentials['sub']}] {e}")
+    raise InvalidSupabaseResponse("Could not get tweets at this moment.")
+```
+
 ### Security
 
 #### Single-Read Objects
