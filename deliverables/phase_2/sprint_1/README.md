@@ -2,21 +2,23 @@
 
 ## Table of Contents
 
-- [Objective](#objective)
-- [Pipeline Design](#pipeline-design)
-  - [Frontend](#frontend)
-  - [Backend](#backend)
-- [Application Development](#application-development)
-  - [Authorization Architecture](#authorization-architecture)
-  - [Frontend Development](#frontend-1)
-  - [Backend Development](#backend-1)
-- [Tests](#tests)
-- [Deployment](#deployment)
-- [Future Work/Improvements](#future-workimprovements)
-  - [Secrets Management](#secrets-management)
-  - [MVC - Model View Controller (Backend)](#mvc---model-view-controller-backend)
-  - [Logging system](#logging-system)
-- [ASVS Results](#asvs-results)
+- [Phase 2 - Sprint 1](#phase-2---sprint-1)
+  - [Table of Contents](#table-of-contents)
+  - [Objective](#objective)
+  - [Pipeline Design](#pipeline-design)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+  - [Aplication Development](#aplication-development)
+    - [Authorization Architecture](#authorization-architecture)
+    - [Frontend](#frontend-1)
+    - [Backend](#backend-1)
+  - [Tests](#tests)
+  - [Deployment](#deployment)
+  - [Future Work/Improvements](#future-workimprovements)
+    - [Secrets Management](#secrets-management)
+    - [MVC - Model View Controller (Backend)](#mvc---model-view-controller-backend)
+    - [Logging system](#logging-system)
+  - [ASVS Results](#asvs-results)
 
 ## Objective
 

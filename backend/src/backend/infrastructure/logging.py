@@ -5,21 +5,21 @@ import pytz
 
 
 class Logger:
-    _instance = None
+    __instance = None
 
     def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(Logger, cls).__new__(cls)
-            cls._instance.__initialize_logger()
-        return cls._instance
+        if cls.__instance is None:
+            cls.__instance = super(Logger, cls).__new__(cls)
+            cls.__instance.__initialize__logger()
+        return cls.__instance
 
-    def __initialize_logger(self):
-        self._logger = logging.getLogger("socialnet")
-        if not self._logger.hasHandlers():
-            self._logger.setLevel(logging.INFO)
+    def __initialize__logger(self):
+        self.__logger = logging.getLogger("socialnet")
+        if not self.__logger.hasHandlers():
+            self.__logger.setLevel(logging.INFO)
             ch = logging.StreamHandler()
             ch.setFormatter(self.CustomFormatter())
-            self._logger.addHandler(ch)
+            self.__logger.addHandler(ch)
 
     class CustomFormatter(logging.Formatter):
         def format(self, record):
@@ -32,4 +32,4 @@ class Logger:
     @staticmethod
     def get_logger():
         instance = Logger()
-        return instance._logger
+        return instance.__logger

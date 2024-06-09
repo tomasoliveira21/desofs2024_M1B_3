@@ -54,6 +54,50 @@
 * UserInfo tests ([d6335ba](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/d6335ba263ec479abc7093a62e647436b210fe57))
 * Widgets tests ([1925c32](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/1925c32400521619a70fed1442f3b907175c5375))
 
+# [1.8.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.7.0...v1.8.0) (2024-06-08)
+
+
+### Bug Fixes
+
+* add meethod to unblock tests and invalidate session ([59d3bf7](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/59d3bf79304405ee5e76c5d41597ca313255ace2))
+* add meethod to unblock tests and invalidate session ([be86951](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/be86951f4240b6fcfd5f405152d1e102f36ddc85))
+* add missing return declaration ([8fbfb67](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/8fbfb678671a534ba38928535c82041aabfe2fb4))
+* auth, rbac, refactor exceptions and move everything to private attributes ([17c54fe](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/17c54fe0df2a2d59abddad8f249c7f609e945a2e))
+* endpoints FE ([c25921c](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/c25921cc4ed3664e111047a471fcdaeaebe7b49b))
+* fix pyproject.toml, tests and exceptions ([1ecf245](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/1ecf2459b618d42cae4a87ccfd3079898390f6d2))
+* format ([5e5c842](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/5e5c84257a9400f0b3b235f81985ab0eec669c52))
+* profile picture ([2fb5d3c](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/2fb5d3c44011d4211f78c297e1b50e7d654f0a63))
+* rbac, add user dto, fix auth and add method to return user info ([b0d16ae](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/b0d16aebf62e0aece74e2af9a0b06493e789e9b8))
+* remove unnecessary redis config ([8ef0294](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/8ef02949a92ef0e6b73ecb284e6cdbf7682173de))
+* show trends ([c3c98ba](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/c3c98ba98bee536002a9c0e51cd030075ae6896b))
+* show trends [#57](https://github.com/tomasoliveira21/desofs2024_M1B_3/issues/57)  ([c3c481d](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/c3c481ddbf9c047c58a04b339ecdb42892112e37))
+
+
+### Features
+
+* add backend rbac ([2c4d816](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/2c4d8160de20bc743f7bc66a38271499b9710240))
+* add email-validator package ([de4591f](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/de4591fa75915f051ba7c7483886130248499e21))
+* add get user method ([cc2ce93](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/cc2ce93c65e4d090d769cb1318bf4b16b474a19e))
+* add logger, exceptions and logging; fix docker-compose ([723c47b](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/723c47b4c19209cb168b6cd8c877298c9cc9be66))
+* add method to get self tweets and user tweets ([8564bfe](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/8564bfe96e8ddb80ed46abadf114c786b0986a45))
+* add method to get user ([ecbc04d](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/ecbc04d06ed11695b31fcc22176bc7ce560a15d0))
+* add method to get user tweets and self tweets ([f2dcf38](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/f2dcf38d4c8b063cdb966f852a422e41734f365d))
+* Add profile picture and tweet image download ([5d9a775](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/5d9a775f63f9cace22263274aeda19203c72a9f5))
+* add profile pictures and tweet images ([b8dd071](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/b8dd0718c4a46cd0ad49b571c0e9f37d5bbc9173))
+* add python tz package ([855c7b3](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/855c7b3b09637f8b00269c504ac1a0d176848614))
+* add python-multipart for file upload ([8caaf66](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/8caaf66c10393703322fd154e36460219bf7fd8c))
+* add RBAC on backend routes ([940c383](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/940c3832743493a5131dc8679aa8e8077f9747d1))
+* add single read object to every service method ([d44122a](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/d44122aa775afb26a15f81ec458c2a66d262ed4c))
+* add upload and download tweet image and profile pictures ([5ba88e4](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/5ba88e4cde562557bde0110b086ed7cf48480d8e))
+* delete tweets ([d139b17](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/d139b17526d0d1777dfa1597d4ed015c293eaf13))
+* error handling stuff ([849bb1d](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/849bb1dc9b38535c11535d75f3a5850b2de538e3))
+* get and post profile pictures endpoints ([7354237](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/7354237a0fc49d5097f09079fd4638a2de67be6b))
+* rbac FE trends ([575a1ba](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/575a1babc8c0a06f576652d4f449efa5497ff4da))
+* rbac profile page fix name ([03da850](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/03da850d1485e2fc058100e072abb76f67b69892))
+* Responsive tweet ([618e861](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/618e861c69c6263a45d1099294b1fd0412f60c9e))
+* ultra refactor ([e3cf61b](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/e3cf61b6b32ece2c2816c086c1aeaeb86732554a))
+* update endpoints and FE pages ([f2355b4](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/f2355b45cfa30a4854e5df6c810631ae8f48f377))
+
 # [1.7.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.6.0...v1.7.0) (2024-06-05)
 
 
