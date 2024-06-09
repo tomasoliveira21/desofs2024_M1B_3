@@ -108,6 +108,16 @@ export default function Login() {
             {resetPassword ? "Back to Login" : "Forgot Password?"}
           </button>
         </div>
+        {!resetPassword && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => router.push('/register')}
+              className="text-blue-400 hover:underline"
+            >
+              Register
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
