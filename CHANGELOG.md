@@ -1,3 +1,10 @@
+## [1.12.2](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.12.1...v1.12.2) (2024-06-09)
+
+
+### Bug Fixes
+
+* README ([db7b528](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/db7b5280995581b2124843bd6c99249503c1f38a))
+
 ## [1.12.1](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.12.0...v1.12.1) (2024-06-09)
 
 
