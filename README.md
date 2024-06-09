@@ -1,10 +1,9 @@
-# desofs2024_M1B_3
-
-**Project:** SocialNet
+# Social Net - The social network of the moment
+![SocialNet](./frontend/public/SocialNetLogo_600x600.png)
 
 **Group:**
 - [Paulo Moreira 1180778](mailto:1180778@isep.ipp.pt)
-- [Tomás Afonso Soares De Oliveira 1230213](mailto:1230213@isep.ipp.pt)
+- [Tomás Oliveira 1230213](mailto:1230213@isep.ipp.pt)
 
 ## Index
 
