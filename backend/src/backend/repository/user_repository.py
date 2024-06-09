@@ -76,15 +76,31 @@ class UserRepository:
                 path = f"profile_pictures/{request.state.user.id}"
                 contents = image.file.read()
                 tmp_image.write(contents)
-                self.__client.storage.from_("socialnet").upload(
-                    path=path,
-                    file=tmp_image.name,
-                    file_options={"content-type": image.content_type}
-                    if image.content_type
-                    else None,
-                )
+                pfp_list = [
+                    f"profile_pictures/{pfp['name']}"
+                    for pfp in self.__client.storage.from_("socialnet").list(
+                        "profile_pictures"
+                    )
+                ]
+                if path not in pfp_list:
+                    self.__client.storage.from_("socialnet").upload(
+                        path=path,
+                        file=tmp_image.name,
+                        file_options={"content-type": image.content_type}
+                        if image.content_type
+                        else None,
+                    )
+                else:
+                    self.__client.storage.from_("socialnet").update(
+                        path=path,
+                        file=tmp_image.name,
+                        file_options={"content-type": image.content_type}
+                        if image.content_type
+                        else None,
+                    )
                 self.__client.auth.sign_out()
-            except Exception:
+            except Exception as e:
+                print(e)
                 raise InvalidSupabaseResponse("Error on uploading the image")
             finally:
                 image.file.close()
