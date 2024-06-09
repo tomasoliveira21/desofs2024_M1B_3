@@ -407,6 +407,23 @@ CREATE POLICY "Users can Upload Profile Pictures 1mkux3k_1" ON storage.objects F
 INSERT TO authenticated WITH CHECK (bucket_id = 'socialnet');
 ```
 
+In the Backend we are using Docker Containers to deploy the backend with no exposed Docker Volumes, so the storage is volatile. This is not a problem because the images are stored in Supabase and this also increases security as the Host OS is not accessible in case of an attack.
+
+We are also using Temporary Files within Python, [`Named Temporary Files`](https://docs.python.org/3/library/tempfile.html) that are not persisted and live inside the `/tmp` directory of the Container and are deleted whenever there is a restart or a re-deploy or the file is no longer accessed by a Python function:
+
+```python
+with NamedTemporaryFile(
+            delete=True,
+        ) as tmp_image:
+            try:
+                self.__client.auth.set_session(
+                    access_token=request.state.jwt, refresh_token=""
+                )
+                path = f"tweets/{uuid}"
+                contents = image.file.read()
+                tmp_image.write(contents)
+```
+
 ## Backend
 
 We have fully developed our backend using Python 3.11.
