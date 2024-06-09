@@ -1,3 +1,35 @@
+# [1.9.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.8.0...v1.9.0) (2024-06-09)
+
+
+### Bug Fixes
+
+* add extra path to workflow ([67f1b47](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/67f1b479db3b0880c840397c0d2a5e84e49e5b89))
+* add missing return statement ([989d539](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/989d539fe13908392be777a466317f5bf0b7958a))
+* comment not found ([31e0088](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/31e00880c34fbcbf7ce9468c4bb7bb984a79d31a))
+* make pipeline not throw error ([928cc54](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/928cc546a8c90fd6d6491a40dc09c3e91df23eae))
+* method order on routers ([095e7e1](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/095e7e1ecacf2db8b6c7878dbb4fb1c9cc60854e))
+* path to workflow file ([bb8e189](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/bb8e189d32d5c0d75abcb9d4b4f429d519f1e60f))
+* pipeline for backend and pyproject ([90695ad](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/90695ad6b18f0eba9bb5416ff6b65bea51d86868))
+* pipeline for backend and pyproject ([58a1346](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/58a1346fbeab8b1514507b823eac7d9345fa9584))
+* update comment on PR ([7ffdb98](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/7ffdb984ab7e0cec29a56854fc10819db66f0515))
+* update edit mode of coverage comment ([b3cc972](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/b3cc9727126f71beefa37167b1d9861ce8ddc6e9))
+
+
+### Features
+
+* add trivy for image scan ([5542000](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/5542000352687dcd8efce19f8c290f479735884c))
+* add trivy for image scan ([9834c15](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/9834c1515967e89d7e95c450187f17fa46ca6fc6))
+* Add ZAP ([760180c](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/760180c8167eb62a841adec9263d99ac9a7d1fc7))
+* Feed tests ([ae4c114](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/ae4c114a61a143be948a47a071e5961bd4453aaf))
+* fix profile page images ([a24c0dc](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/a24c0dc500c9d8d3f65c0f6e25d4954a355e388b))
+* refactor manage users page ([0d607b0](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/0d607b06daa73dc15a7ab8302bb02e2821d181ff))
+* Sidebar tests ([6029e51](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/6029e51a99b9def37ddfc368d98edc13e25d5d4d))
+* SidebarRow tests ([b6f14cc](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/b6f14cc319658c501f793d3be76fd70f02a72fbb))
+* TrendTable tests ([1cad380](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/1cad380c63f2df8e03bc22cc9f27f0241f43b409))
+* Tweet tests ([d27ce1c](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/d27ce1c395c41bc85bc3555720079f441ff82801))
+* UserInfo tests ([d6335ba](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/d6335ba263ec479abc7093a62e647436b210fe57))
+* Widgets tests ([1925c32](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/1925c32400521619a70fed1442f3b907175c5375))
+
 # [1.7.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.6.0...v1.7.0) (2024-06-05)
 
 
