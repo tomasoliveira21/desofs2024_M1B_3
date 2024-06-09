@@ -5,12 +5,13 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": ["@testing-library/jest-dom", "jest", "node"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "commonjs", // Modificado para 'commonjs' para funcionar bem com Jest
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
