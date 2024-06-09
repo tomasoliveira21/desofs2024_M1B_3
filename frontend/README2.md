@@ -2,6 +2,42 @@
 
 ## Table of Contents
 
+- [Frontend Goal](#frontend-goal)
+- [Supabase Initialization](#supabase-initialization)
+- [Frontend Middleware](#frontend-middleware)
+- [API Calls](#api-calls)
+  - [Fetching Tweets](#fetching-tweets)
+  - [Fetching Tweets by User](#fetching-tweets-by-user)
+  - [Posting a Tweet](#posting-a-tweet)
+  - [Deleting a Tweet](#deleting-a-tweet)
+  - [Fetching User Information](#fetching-user-information)
+  - [Fetching Multiple Users](#fetching-multiple-users)
+  - [Fetching Profile Picture](#fetching-profile-picture)
+  - [Posting Profile Picture](#posting-profile-picture)
+  - [Fetching Trends](#fetching-trends)
+- [Views](#views)
+  - [Login View](#login-view)
+  - [Reset Password View](#reset-password-view)
+  - [Homepage View](#homepage-view)
+  - [Profile View](#profile-view)
+  - [Trends View (Premium/Admin Users - only)](#trends-view-premiumadmin-users---only)
+  - [Admin View (Admin Users - only)](#admin-view-admin-users---only)
+- [Components](#components)
+  - [Feed Component](#feed-component)
+  - [Sidebar Component](#sidebar-component)
+  - [SidebarRow Component](#sidebarrow-component)
+  - [TrendTable Component](#trendtable-component)
+  - [Tweet Component](#tweet-component)
+  - [TweetBox Component](#tweetbox-component)
+  - [UserInfo Component](#userinfo-component)
+  - [Widgets Component](#widgets-component)
+- [Error Handling](#error-handling)
+  - [React-Toastify Integration](#react-toastify-integration)
+  - [Consistent Error Messaging](#consistent-error-messaging)
+  - [Success Notifications](#success-notifications)
+  - [How It Works](#how-it-works)
+
+
 ## Frontend Goal
 
 Our goal for the frontend of SocialNet is to create a highly interactive and visually appealing social networking platform inspired by Twitter. Utilizing the latest technologies such as Next.js, Tailwind CSS, Supabase, and React, we aim to deliver a seamless user experience with real-time interactions and responsive design. Our focus is on crafting an intuitive interface that encourages user engagement and fosters a vibrant online community. By leveraging the strengths of these modern tools, we strive to build a frontend that is not only functional but also scalable and maintainable, ensuring a robust and dynamic social networking experience.
