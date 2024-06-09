@@ -9,6 +9,7 @@ import { fetchTweetsByUser } from "@/api/fetchTweetsByUser";
 import TweetComponent from "../../../components/Tweet";
 import { fetchUser } from "@/api/fetchUser";
 import { fetchProfilePicture } from "@/api/fetchProfilePicture";
+import { postProfilePicture } from "@/api/postProfilePicture";
 
 export default function Profile() {
   const [session, setSession] = useState<Session | null>(null);
@@ -31,9 +32,7 @@ export default function Profile() {
   useEffect(() => {
     const getTweets = async () => {
       if (session) {
-        const fetchedTweets = await fetchTweetsByUser(
-          session.access_token
-        );
+        const fetchedTweets = await fetchTweetsByUser(session.access_token);
         setTweets(fetchedTweets);
       }
     };
@@ -44,9 +43,17 @@ export default function Profile() {
   const handleImageChange = (e: any) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = async (event) => {
         if (event.target?.result) {
-          setSelectedImage(event.target.result as string);
+          const newImage = event.target.result as string;
+          setSelectedImage(newImage);
+          try {
+            if (session) {
+              await postProfilePicture(session.access_token, newImage);
+            }
+          } catch (error) {
+            console.error("Failed to update profile picture:", error);
+          }
         }
       };
       reader.readAsDataURL(e.target.files[0]);

@@ -14,4 +14,9 @@ services:
       - ./backend/src/backend:/api/backend
       - ./backend/.env:/api/.env
 
-# TO-DO: add frontend container
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - 3000:3000
