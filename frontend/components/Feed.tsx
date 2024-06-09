@@ -15,7 +15,6 @@ function Feed({ session }: FeedProps) {
   const [tweets, setTweets] = useState<any[]>([]);
   const [profileImage, setProfileImage] = useState<any>();
 
-
   useEffect(() => {
     const getTweets = async () => {
       const fetchedTweets = await fetchTweets(session.access_token);
