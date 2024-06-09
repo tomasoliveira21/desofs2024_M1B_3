@@ -1,14 +1,11 @@
 export const deleteTweet = async (sessionToken: string, tweetUUID: string) => {
   try {
-    const response = await fetch("http://127.0.0.1:5000/tweet", {
+    const response = await fetch(`http://127.0.0.1:5000/tweet?uuid=${tweetUUID}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionToken}`,
       },
-      body: JSON.stringify({
-        uuid: tweetUUID,
-      }),
     });
 
     if (!response.ok) {

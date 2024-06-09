@@ -18,8 +18,6 @@ export default function Profile() {
   );
   const [userData, setUserData] = useState<any>();
 
-  console.log('jwt token: ', session?.access_token); 
-
   useEffect(() => {
     async function getSession() {
       const {
@@ -70,7 +68,6 @@ export default function Profile() {
     const getProfilePicture = async () => {
       if (session) {
         const fetchedProfilePicture = await fetchProfilePicture(session.access_token);
-        console.log('Fetched profile picture URL:', fetchedProfilePicture); // Log da URL
         if (fetchedProfilePicture) {
           setSelectedImage(fetchedProfilePicture);
         } else {
@@ -103,7 +100,7 @@ export default function Profile() {
           />
           <div className="w-full mt-4">
             {tweets.map((tweet) => (
-              <TweetComponent key={tweet.id} tweet={tweet} userInfo={userData}/>
+              <TweetComponent key={tweet.id} tweet={tweet} userInfo={userData} profilePicture={selectedImage}/>
             ))}
           </div>
         </div>

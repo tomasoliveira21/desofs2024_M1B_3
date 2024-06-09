@@ -12,10 +12,8 @@ export const fetchProfilePicture = async (sessionToken: string) => {
       throw new Error('Network response was not ok');
     }
 
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    console.log('Fetched profile picture URL:', url); // Log da URL gerada
-    return url;
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
     return null;
