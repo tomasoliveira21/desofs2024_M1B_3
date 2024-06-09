@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.10.0...v1.10.1) (2024-06-09)
+
+
+### Bug Fixes
+
+* dockerfile FE ([45135d8](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/45135d89e043d7ed23bfab673915908cbc9d2cc2))
+
 # [1.10.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.9.0...v1.10.0) (2024-06-09)
 
 
