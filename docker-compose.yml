@@ -16,7 +16,12 @@ services:
 
   frontend:
     container_name: frontend
+    image: socialnet-frontend:development
     build:
+      platforms:
+        - linux/amd64
+        - linux/arm64
       context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
