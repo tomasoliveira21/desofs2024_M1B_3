@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.12.0...v1.12.1) (2024-06-09)
+
+
+### Bug Fixes
+
+* refactor calls to API ([ebef0dc](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/ebef0dc1f36b2561d5773bae2be0a181f030666c))
+
 # [1.12.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.11.0...v1.12.0) (2024-06-09)
 
 
