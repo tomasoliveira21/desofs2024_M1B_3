@@ -1,3 +1,21 @@
+# [1.11.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.10.1...v1.11.0) (2024-06-09)
+
+
+### Bug Fixes
+
+* changelog ([1a0b324](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/1a0b324fe668d0e830acbc30ae685724b2d9b443))
+* logging method ([f7bd04d](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/f7bd04d9d53706d30f1d957b70ae4b59acc6475a))
+
+
+### Features
+
+* add frontend docs ([cd6ab23](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/cd6ab235aaa46844c9397a021387b08d43c1d1ee))
+* add RBAC config ([4e192aa](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/4e192aa45fe55f04f1d957b6bd37f55e6f295b74))
+* add reference to storage ([c508c10](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/c508c102e26c7a6e47c5528559d3802f6aedac1e))
+* design system FE ([c08f0c4](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/c08f0c400aac53335196af496963ac9bcdb52574))
+* Update docker-compose.yml to include multi-platform support for frontend image; add README and fix some readmes ([35d324d](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/35d324d85d06ade3bc9125c7548a78de97840e89))
+* ZAP docs ([cef6329](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/cef6329f8df51f05dc78c06b280e17b526adc2aa))
+
 ## [1.10.1](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.10.0...v1.10.1) (2024-06-09)
 
 
