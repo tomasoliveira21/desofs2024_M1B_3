@@ -687,3 +687,11 @@ def get_client() -> Client:
     instance = SupabaseSingleton()
     return instance.__client
 ```
+
+### Pipeline
+
+We have performed improvements regarding the last pipeline:
+
+- We have seggregated the build and deploy the backend
+- Improved the comment regarding the code coverage of the tests to prevent duplicate comments
+- Added an action to run Trivy, an Open-Source tool that analyzes Docker Images
