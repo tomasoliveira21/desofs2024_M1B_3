@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.12.2...v1.13.0) (2024-06-09)
+
+
+### Features
+
+* register page + verification page ([e92fbae](https://github.com/tomasoliveira21/desofs2024_M1B_3/commit/e92fbae96cc550d20ade459e552a762ce58154cc))
+
 ## [1.12.2](https://github.com/tomasoliveira21/desofs2024_M1B_3/compare/v1.12.1...v1.12.2) (2024-06-09)
 
 
