@@ -39,66 +39,70 @@
       - [Fetching Profile Picture](#fetching-profile-picture)
       - [Posting Profile Picture](#posting-profile-picture)
       - [Fetching Trends](#fetching-trends)
+    - [Atomic Design System](#atomic-design-system)
+      - [Key Concepts](#key-concepts)
+      - [Benefits of Using Atomic Design](#benefits-of-using-atomic-design)
+      - [Implementation in SocialNet](#implementation-in-socialnet)      
     - [Views](#views)
       - [Login View](#login-view)
-        - [Key Features:](#key-features)
-        - [Code Overview:](#code-overview)
+        - [Key Features](#key-features)
+        - [Code Overview](#code-overview)
       - [Reset Password View](#reset-password-view)
-        - [Key Features:](#key-features-1)
-        - [How It Works:](#how-it-works)
-        - [User Flow:](#user-flow)
+        - [Key Features](#key-features-1)
+        - [How It Works](#how-it-works)
+        - [User Flow](#user-flow)
       - [Homepage View](#homepage-view)
-        - [Key Features:](#key-features-2)
-        - [How It Works:](#how-it-works-1)
-        - [User Flow:](#user-flow-1)
+        - [Key Features](#key-features-2)
+        - [How It Works](#how-it-works-1)
+        - [User Flow](#user-flow-1)
       - [Profile View](#profile-view)
-        - [Key Features:](#key-features-3)
-        - [How It Works:](#how-it-works-2)
-        - [User Flow:](#user-flow-2)
+        - [Key Features](#key-features-3)
+        - [How It Works](#how-it-works-2)
+        - [User Flow](#user-flow-2)
       - [Trends View (Premium/Admin Users - only)](#trends-view-premiumadmin-users---only)
-        - [Key Features:](#key-features-4)
-        - [How It Works:](#how-it-works-3)
-        - [User Flow:](#user-flow-3)
+        - [Key Features](#key-features-4)
+        - [How It Works](#how-it-works-3)
+        - [User Flow](#user-flow-3)
       - [Admin View (Admin Users - only)](#admin-view-admin-users---only)
-        - [Key Features:](#key-features-5)
-        - [How It Works:](#how-it-works-4)
-        - [User Flow:](#user-flow-4)
+        - [Key Features](#key-features-5)
+        - [How It Works](#how-it-works-4)
+        - [User Flow](#user-flow-4)
     - [Components](#components)
       - [Feed Component](#feed-component)
-        - [Key Features:](#key-features-6)
-        - [How It Works:](#how-it-works-5)
+        - [Key Features](#key-features-6)
+        - [How It Works](#how-it-works-5)
       - [Sidebar Component](#sidebar-component)
-        - [Key Features:](#key-features-7)
-        - [How It Works:](#how-it-works-6)
-        - [User Flow:](#user-flow-5)
+        - [Key Features](#key-features-7)
+        - [How It Works](#how-it-works-6)
+        - [User Flow](#user-flow-5)
       - [SidebarRow Component](#sidebarrow-component)
-        - [Key Features:](#key-features-8)
-        - [How It Works:](#how-it-works-7)
-        - [Code Overview:](#code-overview-1)
-        - [Usage:](#usage)
+        - [Key Features](#key-features-8)
+        - [How It Works](#how-it-works-7)
+        - [Code Overview](#code-overview-1)
+        - [Usage](#usage)
       - [TrendTable Component](#trendtable-component)
-        - [Key Features:](#key-features-9)
-        - [How It Works:](#how-it-works-8)
-        - [Usage:](#usage-1)
+        - [Key Features](#key-features-9)
+        - [How It Works](#how-it-works-8)
+        - [Usage](#usage-1)
       - [Tweet Component](#tweet-component)
-        - [Key Features:](#key-features-10)
-        - [How It Works:](#how-it-works-9)
-        - [User Flow:](#user-flow-6)
+        - [Key Features](#key-features-10)
+        - [How It Works](#how-it-works-9)
+        - [User Flow](#user-flow-6)
       - [TweetBox Component](#tweetbox-component)
-        - [Key Features:](#key-features-11)
-        - [How It Works:](#how-it-works-10)
-        - [User Flow:](#user-flow-7)
+        - [Key Features](#key-features-11)
+        - [How It Works](#how-it-works-10)
+        - [User Flow](#user-flow-7)
       - [UserInfo Component](#userinfo-component)
-        - [Key Features:](#key-features-12)
-        - [How It Works:](#how-it-works-11)
-        - [User Flow:](#user-flow-8)
+        - [Key Features](#key-features-12)
+        - [How It Works](#how-it-works-11)
+        - [User Flow](#user-flow-8)
       - [Widgets Component](#widgets-component)
-        - [Key Features:](#key-features-13)
-        - [How It Works:](#how-it-works-12)
-        - [User Flow:](#user-flow-9)
+        - [Key Features](#key-features-13)
+        - [How It Works](#how-it-works-12)
+        - [User Flow](#user-flow-9)
     - [Error Handling](#error-handling)
-      - [Key Features:](#key-features-14)
-      - [How It Works:](#how-it-works-13)
+      - [Key Features](#key-features-14)
+      - [How It Works](#how-it-works-13)
 
 
 ## Objective
@@ -867,6 +871,36 @@ The `postProfilePicture.ts` file includes the function to upload and update a us
 #### Fetching Trends
 
 The `fetchTrends.ts` file provides the functionality to fetch the latest trending topics. This is used to display current popular topics and hashtags on the platform.
+
+
+### Atomic Design System
+
+The Atomic Design System is a methodology for creating design systems with a clear hierarchy and modular structure. It was introduced by Brad Frost and is based on the concept of breaking down a user interface into its fundamental building blocks. This approach ensures consistency, reusability, and scalability in the design and development process.
+
+#### Key Concepts
+
+1. **Atoms**: The basic building blocks of the design system. These are the smallest components, such as buttons, input fields, labels, and icons. Atoms are not typically useful on their own but are essential for constructing more complex components.
+
+2. **Molecules**: Combinations of atoms that form simple UI components. For example, a form label, input field, and button can combine to create a search form molecule. Molecules are more functional than atoms and serve as the foundation for building more complex organisms.
+
+3. **Organisms**: Complex UI components that are composed of groups of molecules and/or atoms working together. Examples include headers, footers, and user profiles. Organisms define the structure and layout of the UI, combining various molecules to create meaningful sections of the application.
+
+4. **Templates**: Page-level objects that place components into a layout and articulate the design’s underlying content structure. Templates focus on the content structure and ensure that organisms and molecules fit well together within the layout.
+
+5. **Pages**: Specific instances of templates that show what a UI looks like with real content. Pages are used to test the effectiveness of the design system by applying real data and content, ensuring that the design works as intended in a real-world scenario.
+
+#### Benefits of Using Atomic Design
+
+- **Consistency**: By breaking down the UI into smaller components, the Atomic Design System ensures that the same design patterns and styles are applied consistently across the entire application.
+- **Reusability**: Components designed using the Atomic Design methodology are reusable, reducing redundancy and effort in the development process.
+- **Scalability**: The modular nature of the Atomic Design System makes it easier to scale the design system as the application grows. New components can be created by combining existing atoms, molecules, and organisms.
+- **Collaboration**: The clear structure and terminology of the Atomic Design System improve communication and collaboration between designers and developers, ensuring a shared understanding of the design process.
+
+#### Implementation in SocialNet
+
+In the SocialNet frontend, we have adopted the Atomic Design System to structure our components. This ensures a clear hierarchy and reusability of components, contributing to the overall functionality and user experience of the application. Each component serves a specific purpose, from basic atoms like buttons and input fields to complex organisms like the sidebar and feed.
+
+By using the Atomic Design System, we ensure that our design and development processes are efficient, consistent, and scalable, ultimately providing a robust and dynamic social networking experience for our users.
 
 
 ### Views
