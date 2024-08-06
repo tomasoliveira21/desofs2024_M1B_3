@@ -55,7 +55,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.4.38",
     "semantic-release": "^21.0.7",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.7",
     "ts-jest": "^29.1.4",
     "typescript": "^5"
   },
