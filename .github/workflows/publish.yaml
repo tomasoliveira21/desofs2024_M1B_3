@@ -25,48 +25,49 @@ jobs:
         run: npm install
         working-directory: ./frontend
 
-  publish:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
-      packages: write # to publish npm package
-
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [quality]
-    steps: 
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.9.0'
-
-      - name: Install dependencies
-        run: npm ci
-        working-directory: ./frontend
-
-      - name: Run Semantic Release
-        run: npx semantic-release
-        working-directory: ./frontend
-        env: 
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push Changes
-        working-directory: ./frontend
-        run: |
-          # Verificar se os arquivos existem antes de adicioná-los
-          if [ -f "../CHANGELOG.md" ] && [ -f "package.json" ]; then
-            git config --global user.name 'github-actions[bot]'
-            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-            git add ../CHANGELOG.md package.json
-            git commit -m "chore(release): CHANGELOG UPDATE 🚀"
-            git push
-          else
-            echo "CHANGELOG.md or package.json not found!"
-          fi
+# ⚠️ Note: The code block below should be uncommented if the project codebase is used in the future
+#   publish:
+#     runs-on: ubuntu-latest
+# 
+#     permissions:
+#       contents: write # to be able to publish a GitHub release
+#       issues: write # to be able to comment on released issues
+#       pull-requests: write # to be able to comment on released pull requests
+#       id-token: write # to enable use of OIDC for npm provenance
+#       packages: write # to publish npm package
+# 
+#     if: ${{ github.ref == 'refs/heads/main' }}
+#     needs: [quality]
+#     steps: 
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+# 
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '20.9.0'
+# 
+#       - name: Install dependencies
+#         run: npm ci
+#         working-directory: ./frontend
+# 
+#       - name: Run Semantic Release
+#         run: npx semantic-release
+#         working-directory: ./frontend
+#         env: 
+#           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# 
+#       - name: Push Changes
+#         working-directory: ./frontend
+#         run: |
+#           # Verificar se os arquivos existem antes de adicioná-los
+#           if [ -f "../CHANGELOG.md" ] && [ -f "package.json" ]; then
+#             git config --global user.name 'github-actions[bot]'
+#             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+#             git add ../CHANGELOG.md package.json
+#             git commit -m "chore(release): CHANGELOG UPDATE 🚀"
+#             git push
+#           else
+#             echo "CHANGELOG.md or package.json not found!"
+#           fi
